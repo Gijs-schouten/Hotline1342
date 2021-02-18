@@ -4,20 +4,20 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace BaseProject
+namespace PadZex
 {
-    public class Input
+    public static class Input
     {
-        public Vector2 mousePosition { get; private set; }
+        public static Vector2 mousePosition { get; private set; }
 
-        public Vector2 getMousePosition()
+        public static Vector2 GetMousePosition()
         {
             //Returns the position of the mouse as a Vector2
             mousePosition = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
             return mousePosition;
         }
 
-        public bool getKeyState(Keys key)
+        public static bool KeyPressed(Keys key)
         {
             //Returns if the specified keyboard key is pressed
             KeyboardState state = Keyboard.GetState();
@@ -26,14 +26,14 @@ namespace BaseProject
             else return false;
         }
 
-        public bool getMouseButtonLeft()
+        public static bool MouseLeftPressed()
         {
             //Returns if the left mousebutton is pressed
             if (Mouse.GetState().LeftButton == ButtonState.Pressed) return true;
             else return false;
         }
 
-        public bool getMouseButtonRight()
+        public static bool MouseRightPressed()
         {
             //Returns if the right mousebutton is pressed
             if (Mouse.GetState().RightButton == ButtonState.Pressed) return true;

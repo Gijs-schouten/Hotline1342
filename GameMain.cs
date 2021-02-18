@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Text;
+using System.Collections.Generic;
 
 namespace PadZex
 {
@@ -8,7 +11,6 @@ namespace PadZex
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-
         public GameMain()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -19,7 +21,6 @@ namespace PadZex
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -34,7 +35,7 @@ namespace PadZex
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            if (Input.KeyPressed(Keys.A)) Console.WriteLine("Pressed A");
             // TODO: Add your update logic here
 
             base.Update(gameTime);
