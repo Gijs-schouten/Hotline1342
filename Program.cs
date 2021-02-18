@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BaseProject
+namespace PadZex
 {
     public static class Program
     {
