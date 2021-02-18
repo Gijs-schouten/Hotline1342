@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BaseProject.Scripts.Weapons
+namespace PadZex.Scripts.Weapons
 {
-    class Sword
+    class Sword : Weapon
     {
+        public Sword() 
+        {
+            WeaponDamage = 10;
+            WeaponSpeed = 3;
+            
+        }
     }
 }
