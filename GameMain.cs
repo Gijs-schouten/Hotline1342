@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PadZex.Scripts.Weapons;
 
 namespace PadZex
 {
@@ -24,6 +25,7 @@ namespace PadZex
             testScene = new Scene(Content);
             testScene.SetAsMainScene();
             testScene.AddEntity(new Player());
+            testScene.AddEntity(new Sword());
 
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;

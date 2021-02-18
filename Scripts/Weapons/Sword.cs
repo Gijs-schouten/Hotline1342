@@ -4,13 +4,13 @@ using System.Text;
 
 namespace PadZex.Scripts.Weapons
 {
-    class Sword : Weapon
+    public class Sword : Weapon
     {
         public Sword() 
         {
             WeaponDamage = 10;
             WeaponSpeed = 3;
-            
+            SpriteLocation = "sprites/weapons/sword";
         }
     }
 }
