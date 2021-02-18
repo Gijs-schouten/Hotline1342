@@ -8,6 +8,11 @@ using System.Text;
 
 namespace PadZex
 {
+	/// <summary>
+	///  Temporary test class for the player. Remove when an actual good player is implemented.
+	///  WASD : Move
+	///  E : Delete self
+	/// </summary>
 	public class Player : Entity
 	{
 		private Texture2D playerSprite;
@@ -45,6 +50,11 @@ namespace PadZex
 			else if(keyBoardState.IsKeyDown(Keys.S))
 			{
 				Position.Y += speed * time.deltaTime;
+			}
+
+			if(keyBoardState.IsKeyDown(Keys.E))
+			{
+				Entity.DeleteEntity(this);
 			}
 		}
 	}

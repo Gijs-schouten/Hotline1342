@@ -7,7 +7,10 @@ using Microsoft.Xna.Framework.Content;
 
 namespace PadZex
 {
-	public abstract partial class Entity
+	/// <summary>
+	/// Base functionality for any entity that is drawn on screen.
+	/// </summary>
+	public abstract class Entity
 	{
 		public Vector2 Position = Vector2.Zero;
 		public Vector2 Origin = default;
@@ -15,15 +18,30 @@ namespace PadZex
 		public float Scale = 1.0f;
 		public int Depth = 0;
 
-		public IEnumerable<string> Tags { get => tags; }
+		public IEnumerable<string> Tags => tags; 
 		private List<string> tags = new List<string>();
 
 		public abstract void Initialize(ContentManager content);
 		public abstract void Update(Time time);
 		public abstract void Draw(SpriteBatch spriteBatch, Time time);
 
+		/// <summary>
+		/// Look for an entity in the Active scene and return it
+		/// </summary>
+		/// <param name="tag">Tag to look for</param>
+		/// <returns>an Entity in the scene. Null if not found.</returns>
 		public static Entity FindEntity(string tag) => Scene.MainScene?.FindEntity(tag);
 
+		/// <summary>
+		/// Deletes an entity the next frame in the active scene.
+		/// </summary>
+		/// <param name="entity">Entity to delete.</param>
+		public static void DeleteEntity(Entity entity) => Scene.MainScene?.DeleteEntity(entity);
+
+		/// <summary>
+		/// Create an entity and apply tags on it.
+		/// </summary>
+		/// <param name="tags">Tags to apply on the entity.</param>
 		public Entity(params string[] tags)
 		{
 			this.tags.AddRange(tags);
@@ -31,6 +49,9 @@ namespace PadZex
 
 		public Entity() { }
 
+		/// <summary>
+		/// Draw the texture to the screen with the entities attributes.
+		/// </summary>
 		public void Draw(SpriteBatch spriteBatch, Texture2D texture)
 		{
 			spriteBatch.Draw( texture, Position, null,
