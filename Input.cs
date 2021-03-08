@@ -1,43 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace PadZex
 {
     public static class Input
     {
-        public static Vector2 mousePosition { get; private set; }
+        private static KeyboardState currentState;
+        private static KeyboardState oldState;
 
-        public static Vector2 GetMousePosition()
+        public static Vector2 MousePosition => new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+        public static bool MouseLeftPressed => Mouse.GetState().LeftButton == ButtonState.Pressed;
+        public static bool MouseRightPressed => Mouse.GetState().RightButton == ButtonState.Pressed;
+
+        public static void UpdateInput()
         {
-            //Returns the position of the mouse as a Vector2
-            mousePosition = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-            return mousePosition;
+            currentState = Keyboard.GetState();
+            oldState = currentState;
         }
 
-        public static bool KeyPressed(Keys key)
-        {
-            //Returns if the specified keyboard key is pressed
-            KeyboardState state = Keyboard.GetState();
-
-            if (state.IsKeyDown(key)) return true;
-            else return false;
-        }
-
-        public static bool MouseLeftPressed()
-        {
-            //Returns if the left mousebutton is pressed
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed) return true;
-            else return false;
-        }
-
-        public static bool MouseRightPressed()
-        {
-            //Returns if the right mousebutton is pressed
-            if (Mouse.GetState().RightButton == ButtonState.Pressed) return true;
-            else return false;
-        }
+        /// <summary>
+        /// Returns if the specified keyboard key is pressed
+        /// </summary>
+        /// <param name="key">Key to check if it's pressed</param>
+        /// <returns>Whether the key is pressed or not</returns>
+        public static bool KeyPressed(Keys key) => oldState.IsKeyDown(key);
     }
 }

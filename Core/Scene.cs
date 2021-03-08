@@ -73,9 +73,4 @@ namespace PadZex
 		/// <param name="entity"></param>
 		public void DeleteEntity(Entity entity) => entityGulag.Add(entity);
 	}
-	public struct Time
-	{
-		public float deltaTime;
-		public float timeSinceStart;
-	}
 }
