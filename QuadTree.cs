@@ -20,7 +20,7 @@ namespace BaseProject
 
 	public abstract class Shape
 	{
-		public static bool CircleWithRectangle(Circle circle, Rectangle aabb)
+		/*public static bool CircleWithRectangle(Circle circle, Rectangle aabb)
 		{
 
 		}
@@ -28,7 +28,7 @@ namespace BaseProject
 		public static bool RectangleWithRectangle(Rectangle rect1, Rectangle rect2)
 		{
 
-		}
+		}*/
 
 		public static bool CircleWithCircle(Circle circle1, Circle circle2)
 		{
