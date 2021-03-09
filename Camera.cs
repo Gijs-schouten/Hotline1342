@@ -1,13 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PadZex
 {
-    class Camera
+    public class Camera
     {
+
         private Matrix transform;
         public Matrix Transform
         {
@@ -52,15 +55,26 @@ namespace PadZex
         public Camera(Viewport newViewport)
         {
             viewport = newViewport;
+            
         }
 
         public void Update(Vector2 position)
         {
-            centre = new Vector2(position.X, position.Y);
-            transform = Matrix.CreateTranslation(new Vector3(-centre.X, -centre.Y, 0)) *
-                                                Matrix.CreateRotationZ(Rotation) *
-                                                Matrix.CreateScale(new Vector3(Zoom, Zoom, 0)) *
-                                                Matrix.CreateTranslation(new Vector3(viewport.Width / 2, viewport.Height / 2, 0));
+            if (Input.KeyPressed(Keys.W))
+                Zoom += 0.01f;
+            else if (Input.KeyPressed(Keys.S))
+                Zoom -= 0.01f;
+
+            if (Input.KeyPressed(Keys.A))
+                Rotation += 0.01f;
+            else if (Input.KeyPressed(Keys.D))
+                Rotation -= 0.01f;
+
+            centre = position;
+            transform = Matrix.CreateTranslation(new Vector3(position, 0)) *
+                                                 Matrix.CreateRotationZ(Rotation) *
+                                                 Matrix.CreateScale(new Vector3(Zoom, Zoom, 0)) *
+                                                 Matrix.CreateTranslation(new Vector3(viewport.Width / 2, viewport.Height / 2, 0));
         }
     }
 }
