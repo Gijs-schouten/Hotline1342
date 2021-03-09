@@ -26,8 +26,9 @@ namespace PadZex
             testScene.SetAsMainScene();
             testScene.AddEntity(new Player());
             testScene.AddEntity(new Sword());
+            testScene.AddEntity(new Dagger());
 
-            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferWidth = 1080;
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
             
