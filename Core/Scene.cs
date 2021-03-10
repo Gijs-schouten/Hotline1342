@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using PadZex.Collision;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,18 +18,37 @@ namespace PadZex
 		protected List<Entity> entities;
 		protected List<Entity> entityGulag;
 		private ContentManager contentManager;
+		private QuadTree quadTree;
 
 		public Scene(ContentManager contentManager)
 		{
 			entities = new List<Entity>();
 			entityGulag = new List<Entity>();
+			quadTree = new QuadTree();
 			this.contentManager = contentManager;
 		}
 
-		public void AddEntity(Entity entity)
+		/// <summary>
+		/// Add an entity to the scene and initialize it
+		/// </summary>
+		public Entity AddEntity(Entity entity)
 		{
 			entities.Add(entity);
 			entity.Initialize(contentManager);
+			Shape shape = entity.InitializeShape();
+			if(shape != null)
+			{
+				quadTree.AddShape(shape);
+			}
+			return entity;
+		}
+
+		/// <summary>
+		/// Initialize is called when the scene activates.
+		/// </summary>
+		public virtual void Initialize()
+		{
+
 		}
 
 		public virtual void Draw(SpriteBatch spriteBatch, Time time)
@@ -53,6 +73,8 @@ namespace PadZex
 			{
 				entity.Update(time);
 			}
+
+			quadTree.UpdateCollision();
 		}
 
 		/// <summary>

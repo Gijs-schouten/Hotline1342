@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Text;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Content;
 
 namespace PadZex
 {
@@ -11,6 +12,9 @@ namespace PadZex
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+
+        Scene testScene;
+
         public GameMain()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -29,6 +33,10 @@ namespace PadZex
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            testScene = new Scene(Content);
+            testScene.SetAsMainScene();
+            testScene.AddEntity(new Player());
+            testScene.AddEntity(new SquareEntity());
         }
 
         protected override void Update(GameTime gameTime)
@@ -36,7 +44,12 @@ namespace PadZex
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             if (Input.KeyPressed(Keys.A)) Console.WriteLine("Pressed A");
-            // TODO: Add your update logic here
+            
+            Time time = new Time();
+            time.deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            time.timeSinceStart = (float)gameTime.TotalGameTime.TotalMilliseconds;
+
+            testScene.Update(time);
 
             base.Update(gameTime);
         }
@@ -45,7 +58,13 @@ namespace PadZex
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            Time time = new Time();
+            time.deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            time.timeSinceStart = (float)gameTime.TotalGameTime.TotalMilliseconds;
+
+            spriteBatch.Begin();
+            Scene.MainScene.Draw(spriteBatch, time);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

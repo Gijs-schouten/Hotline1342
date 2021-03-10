@@ -19,6 +19,8 @@ namespace PadZex
 		public int Depth = 0;
 
 		public IEnumerable<string> Tags => tags; 
+		public Collision.Shape Shape { get; private set; }
+		
 		private List<string> tags = new List<string>();
 
 		public abstract void Initialize(ContentManager content);
@@ -59,11 +61,19 @@ namespace PadZex
 				Scale, SpriteEffects.None, Depth);
 		}
 
+		public virtual Collision.Shape InitializeShape() { return null; }
+
+		/// <summary>
+		/// Add a tag to the Entity
+		/// </summary>
 		public void AddTag(string tag)
 		{
 			tags.Add(tag);
 		}
 
+		/// <summary>
+		/// Remove an existing tag from the entity.
+		/// </summary>
 		public void RemoveTag(string tag)
 		{
 			tags.Remove(tag);

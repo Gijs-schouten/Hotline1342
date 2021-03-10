@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PadZex.Collision;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,6 +18,7 @@ namespace PadZex
 	public class Player : Entity
 	{
 		private Texture2D playerSprite;
+		private Color color = Color.White;
 
 		public override void Initialize(ContentManager content)
 		{
@@ -24,7 +27,7 @@ namespace PadZex
 
 		public override void Draw(SpriteBatch spriteBatch, Time time)
 		{
-			Draw(spriteBatch, playerSprite);
+			spriteBatch.Draw(playerSprite, Position, null, color, Angle, Origin, Scale, SpriteEffects.None, Depth);
 		}
 
 		public override void Update(Time time)
@@ -56,6 +59,24 @@ namespace PadZex
 			{
 				Entity.DeleteEntity(this);
 			}
+		}
+
+		public override Shape InitializeShape()
+		{
+			var shape = new Collision.Rectangle(this, Vector2.Zero, new Vector2(playerSprite.Width, playerSprite.Height));
+			shape.ShapeEnteredEvent += OnShapeEnteredEvent;
+			shape.ShapeExitedEvent += OnShapeExitedEvent;
+			return shape;
+		}
+
+		private void OnShapeExitedEvent(Entity shape)
+		{
+			color = Color.Red;
+		}
+
+		private void OnShapeEnteredEvent(Entity shape)
+		{
+			color = Color.White;
 		}
 	}
 }
