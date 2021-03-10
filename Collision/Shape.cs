@@ -71,11 +71,11 @@ namespace PadZex.Collision
 		{
 			bool collided = Collided(shape);
 
-			if(collided)
+			if (collided && !collidedShapes.Contains(shape))
 			{
 				ShapeCollided(shape);
 			}
-			else if(collidedShapes.Contains(shape))
+			else if(!collided && collidedShapes.Contains(shape))
 			{
 				ShapeExited(shape);
 			}

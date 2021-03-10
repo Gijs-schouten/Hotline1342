@@ -19,8 +19,8 @@ namespace PadZex.Collision
 			set => Center.Y = value;
 		}
 
-		public float WorldX => X + Radius / 2 + Owner.Position.X; 
-		public float WorldY => Y + Radius / 2 + Owner.Position.Y; 
+		public float WorldX => X + Radius + Owner.Position.X; 
+		public float WorldY => Y + Radius + Owner.Position.Y; 
 
 		public Vector2 Center;
 		public float Radius;

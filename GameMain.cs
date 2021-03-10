@@ -26,6 +26,10 @@ namespace PadZex
         {
             // TODO: Add your initialization logic here
             base.Initialize();
+
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.ApplyChanges();
         }
 
         protected override void LoadContent()
@@ -46,8 +50,8 @@ namespace PadZex
             if (Input.KeyPressed(Keys.A)) Console.WriteLine("Pressed A");
             
             Time time = new Time();
-            time.deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            time.timeSinceStart = (float)gameTime.TotalGameTime.TotalMilliseconds;
+            time.deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            time.timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds;
 
             testScene.Update(time);
 
@@ -59,8 +63,8 @@ namespace PadZex
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             Time time = new Time();
-            time.deltaTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            time.timeSinceStart = (float)gameTime.TotalGameTime.TotalMilliseconds;
+            time.deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            time.timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds;
 
             spriteBatch.Begin();
             Scene.MainScene.Draw(spriteBatch, time);

@@ -37,6 +37,13 @@ namespace PadZex.Collision
 			cell.AddShape(shape);
 		}
 
+		public void RemoveShape(Shape shape)
+		{
+			// TODO : Remove the shape from the correct cell
+			Cell cell = GetCell(shape);
+			cell.RemoveShape(shape);
+		}
+
 		private Cell GetCell(Shape shape)
 		{
 			return cells[0];

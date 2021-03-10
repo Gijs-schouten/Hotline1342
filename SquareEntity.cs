@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using PadZex.Collision;
 using System;
@@ -29,7 +30,7 @@ namespace PadZex
 
 		public override Shape InitializeShape()
 		{
-			var rectangle = new Rectangle(this, 0, 0, texture.Width, texture.Height);
+			var rectangle = new Circle(this, Vector2.Zero, texture.Width / 2);
 			return rectangle;
 		}
 	}

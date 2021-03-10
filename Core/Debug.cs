@@ -2,9 +2,9 @@
 
 namespace PadZex.Core
 {
-	public class Debug
+	public static class Debug
 	{
-		public void Log(string line) => System.Diagnostics.Debug.WriteLine(line);
-		public void Log(object line) => System.Diagnostics.Debug.WriteLine(line);
+		public static void Log(string line) => System.Diagnostics.Debug.WriteLine(line);
+		public static void Log(object line) => System.Diagnostics.Debug.WriteLine(line);
 	}
 }

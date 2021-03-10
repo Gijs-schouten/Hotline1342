@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace PadZex.Collision
@@ -20,9 +21,14 @@ namespace PadZex.Collision
 				objects = new List<Shape>();
 			}
 
-			public void AddShape(Shape shape)
+			internal void AddShape(Shape shape)
 			{
 				objects.Add(shape);
+			}
+
+			internal void RemoveShape(Shape shape)
+			{
+				objects.Remove(shape);
 			}
 		}
 	}
