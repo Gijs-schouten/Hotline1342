@@ -15,8 +15,7 @@ namespace PadZex
 
         Player player;
         private Scene testScene;
-        Camera camera;
-
+        
         public GameMain()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -33,7 +32,7 @@ namespace PadZex
             testScene.SetAsMainScene();
             testScene.AddEntity(new Player());
             testScene.AddEntity(new Sword());
-            camera = new Camera(GraphicsDevice.Viewport);
+            testScene.Camera = new Camera(GraphicsDevice.Viewport);
 
             base.Initialize();
         }
@@ -48,8 +47,15 @@ namespace PadZex
         protected override void Update(GameTime gameTime)
         {
             Input.UpdateInput();
+            if (Input.KeyPressed(Keys.W))
+                Scene.MainScene.Camera.Zoom += 0.01f;
+            else if (Input.KeyPressed(Keys.S))
+                Scene.MainScene.Camera.Zoom -= 0.01f;
+            if (Input.KeyPressed(Keys.A))
+                Scene.MainScene.Camera.Rotation += 0.01f;
+            else if (Input.KeyPressed(Keys.D))
+                Scene.MainScene.Camera.Rotation -= 0.01f;
 
-            camera.Update(player.Position);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             if (Input.KeyPressed(Keys.A)) Console.WriteLine("Pressed A");
@@ -71,7 +77,7 @@ namespace PadZex
             spriteBatch.Begin(SpriteSortMode.Deferred,
                               BlendState.AlphaBlend,
                               null, null, null, null,
-                              camera.Transform);
+                              Scene.MainScene.Camera.Transform);
             Scene.MainScene.Draw(spriteBatch, time);
             spriteBatch.End();
             base.Draw(gameTime);

@@ -1,16 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PadZex
 {
-    public class Camera
+    public class Camera : Entity
     {
-
         private Matrix transform;
         public Matrix Transform
         {
@@ -55,26 +53,28 @@ namespace PadZex
         public Camera(Viewport newViewport)
         {
             viewport = newViewport;
-            
+
         }
 
-        public void Update(Vector2 position)
+
+        public override void Initialize(ContentManager content)
         {
-            if (Input.KeyPressed(Keys.W))
-                Zoom += 0.01f;
-            else if (Input.KeyPressed(Keys.S))
-                Zoom -= 0.01f;
+            AddTag("camera");
+        }
 
-            if (Input.KeyPressed(Keys.A))
-                Rotation += 0.01f;
-            else if (Input.KeyPressed(Keys.D))
-                Rotation -= 0.01f;
+        public override void Update(Time time)
+        {
 
-            centre = position;
-            transform = Matrix.CreateTranslation(new Vector3(position, 0)) *
-                                                 Matrix.CreateRotationZ(Rotation) *
-                                                 Matrix.CreateScale(new Vector3(Zoom, Zoom, 0)) *
-                                                 Matrix.CreateTranslation(new Vector3(viewport.Width / 2, viewport.Height / 2, 0));
+            centre = new Vector2(Position.X, Position.Y);
+            transform = Matrix.CreateTranslation(new Vector3(-centre.X, -centre.Y, 0)) *
+                                                Matrix.CreateRotationZ(Rotation) *
+                                                Matrix.CreateScale(new Vector3(Zoom, Zoom, 0)) *
+                                                Matrix.CreateTranslation(new Vector3(viewport.Width / 2, viewport.Height / 2, 0));
+        }
+
+        public override void Draw(SpriteBatch spriteBatch, Time time)
+        {
+
         }
     }
 }

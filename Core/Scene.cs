@@ -18,6 +18,7 @@ namespace PadZex
 		protected List<Entity> entityGulag;
 		private ContentManager contentManager;
 
+		public Camera Camera { get; set; }
 		public Scene(ContentManager contentManager)
 		{
 			entities = new List<Entity>();
