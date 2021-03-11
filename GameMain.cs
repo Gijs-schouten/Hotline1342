@@ -55,10 +55,11 @@ namespace PadZex
                 Scene.MainScene.Camera.Rotation += 0.01f;
             else if (Input.KeyPressed(Keys.D))
                 Scene.MainScene.Camera.Rotation -= 0.01f;
+            Scene.MainScene.Camera.Update(player.Position);
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            if (Input.KeyPressed(Keys.A)) Console.WriteLine("Pressed A");
+            
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -73,6 +74,7 @@ namespace PadZex
                 deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds,
                 timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds
             };
+            
             // TODO: Add your drawing code here
             spriteBatch.Begin(SpriteSortMode.Deferred,
                               BlendState.AlphaBlend,

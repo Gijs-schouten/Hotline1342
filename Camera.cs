@@ -62,7 +62,7 @@ namespace PadZex
             AddTag("camera");
         }
 
-        public override void Update(Time time)
+        public void Update(Vector2 Position)
         {
 
             centre = new Vector2(Position.X, Position.Y);
@@ -72,6 +72,10 @@ namespace PadZex
                                                 Matrix.CreateTranslation(new Vector3(viewport.Width / 2, viewport.Height / 2, 0));
         }
 
+        public override void Update(Time time)
+        {
+            
+        }
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {
 
