@@ -10,7 +10,7 @@ namespace PadZex.Scripts.Weapons
         public Dagger()
         {
             WeaponDamage = 6;
-            WeaponSpeed = 4;
+            WeaponSpeed = 3;
             RotationSpeed = 0;
             Scale = 0.2f;
             Rotating = false;

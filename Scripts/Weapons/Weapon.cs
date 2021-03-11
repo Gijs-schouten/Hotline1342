@@ -38,6 +38,14 @@ namespace PadZex.Scripts.Weapons
 
         }
 
+        public override Shape InitializeShape()
+        {
+            var shape = new Collision.Rectangle(this, Vector2.Zero, new Vector2(playerSprite.Width, playerSprite.Height));
+            shape.ShapeEnteredEvent += OnShapeEnteredEvent;
+            return shape;
+        }
+
+
         public void ThrowWeapon()
         {
             velocity = 1;
@@ -106,7 +114,7 @@ namespace PadZex.Scripts.Weapons
 
         private void Collide()
         {
-            HitsObject(WeaponDamage);
+            
         }
 
     }

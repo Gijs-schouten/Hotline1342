@@ -17,7 +17,7 @@ namespace PadZex.Scripts.Weapons
             Offset = new Vector2(180,30);
             AddTag("Sword");
             SpriteLocation = "sprites/weapons/sword";
-            PickUp();
+            //PickUp();
         }
     }
 }
