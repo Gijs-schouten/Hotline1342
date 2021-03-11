@@ -9,33 +9,32 @@ namespace PadZex
 {
     public class Camera : Entity
     {
-        private Matrix transform;
         public Matrix Transform
         {
             get { return transform; }
         }
-
+        private Matrix transform;
+        
         private Vector2 centre;
         private Viewport viewport;
 
         private float zoom = 1;
-        private float rotation = 0;
 
         public float X
         {
-            get { return centre.X; }
-            set { centre.X = value; }
+            get => centre.X;
+            set => centre.X = value;
         }
 
         public float Y
         {
-            get { return centre.Y; }
-            set { centre.Y = value; }
+            get => centre.Y;
+            set => centre.Y = value;
         }
 
         public float Zoom
         {
-            get { return zoom; }
+            get => zoom;
             set
             {
                 zoom = value;
@@ -46,8 +45,8 @@ namespace PadZex
 
         public float Rotation
         {
-            get { return rotation; }
-            set { rotation = value; }
+            get => Angle;
+            set => Angle = value;
         }
 
         public Camera(Viewport newViewport)
