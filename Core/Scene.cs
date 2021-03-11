@@ -93,6 +93,14 @@ namespace PadZex
 		public Entity FindEntity(string tag) => entities.FirstOrDefault(x => x.Tags.Contains(tag));
 
 		/// <summary>
+		/// Find an Entity of a specific type in the main scene and return it
+		/// </summary>
+		/// <typeparam name="T">Must inherit <see cref="Entity"/>.</typeparam>
+		/// <param name="tag">Tag the entity needs</param>
+		/// <returns>An entity of Type <typeparamref name="T"/>, or null if not found.</returns>
+		public T FindEntity<T>(string tag) where T : Entity => entities.FirstOrDefault(x => x.Tags.Contains(tag) && x is T) as T;
+
+		/// <summary>
 		/// Mark an entity in the MainScene for death and delete it the next frame.
 		/// </summary>
 		/// <param name="entity"></param>
