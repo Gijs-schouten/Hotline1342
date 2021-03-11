@@ -1,14 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-<<<<<<< HEAD
 using PadZex.Scripts.Weapons;
-=======
 using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework.Content;
->>>>>>> 13a67b412eae54651dd12818477bf7ee671c9a19
 
 namespace PadZex
 {

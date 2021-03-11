@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BaseProject.Scripts.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PadZex.Collision;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -32,7 +34,8 @@ namespace PadZex.Scripts.Weapons
             Position = new Vector2(50, 50);
             Origin = new Vector2(weaponSprite.Width / 2, weaponSprite.Height / 2);
 
-            if (isFlipped) {
+            if (isFlipped)
+            {
                 FlipSprite();
             }
 
@@ -40,8 +43,8 @@ namespace PadZex.Scripts.Weapons
 
         public override Shape InitializeShape()
         {
-            var shape = new Collision.Rectangle(this, Vector2.Zero, new Vector2(playerSprite.Width, playerSprite.Height));
-            shape.ShapeEnteredEvent += OnShapeEnteredEvent;
+            var shape = new Collision.Circle(this, new Vector2(weaponSprite.Width / 2, weaponSprite.Height / 2), weaponSprite.Width / 2);
+            shape.ShapeEnteredEvent += Collide;
             return shape;
         }
 
@@ -68,7 +71,7 @@ namespace PadZex.Scripts.Weapons
             {
                 Position = player.Position + Offset;
             }
-            
+
             if (throwing)
             {
                 if (Rotating)
@@ -112,9 +115,9 @@ namespace PadZex.Scripts.Weapons
             throwing = false;
         }
 
-        private void Collide()
+        private void Collide(Entity entity)
         {
-            
+           (entity as IDamagable)?.Damage(this, WeaponDamage);
         }
 
     }

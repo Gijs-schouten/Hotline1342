@@ -17,9 +17,6 @@ namespace PadZex
         public float Angle = .0f;
         public float Scale = 1.0f;
         public int Depth = 0;
-
-        private SpriteEffects effect = SpriteEffects.None;
-
 		public IEnumerable<string> Tags => tags; 
 
 		/// <summary>
@@ -28,6 +25,8 @@ namespace PadZex
 		public Collision.Shape Shape { get; private set; }
 		
 		private List<string> tags = new List<string>();
+
+        private SpriteEffects effect = SpriteEffects.None;
 
         public abstract void Initialize(ContentManager content);
         public abstract void Update(Time time);
@@ -93,5 +92,10 @@ namespace PadZex
 		{
 			tags.Remove(tag);
 		}
+
+        public void FlipSprite()
+        {
+            effect = SpriteEffects.FlipHorizontally;
+        }
 	}
 }

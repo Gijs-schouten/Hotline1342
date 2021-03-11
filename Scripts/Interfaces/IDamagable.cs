@@ -1,11 +1,12 @@
-﻿using System;
+﻿using PadZex;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BaseProject.Scripts.Interfaces
 {
-    interface IDamagable
+    public interface IDamagable
     {
-        void Damage();
+        public void Damage(Entity entity, float damage = 0);
     }
 }
