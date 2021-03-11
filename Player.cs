@@ -23,6 +23,7 @@ namespace PadZex
 		public override void Initialize(ContentManager content)
 		{
 			playerSprite = content.Load<Texture2D>("sprites/player");
+			AddTag("Player");
 			Depth = 1;
 		}
 
