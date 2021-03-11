@@ -13,18 +13,21 @@ namespace PadZex
 	/// </summary>
 	public class Scene
 	{
+		/// <summary>
+		/// The scene that is currently set as "active" and updated and drawn
+		/// </summary>
 		public static Scene MainScene { get; private set; }
 
 		protected List<Entity> entities;
 		protected List<Entity> entityGulag;
 		private ContentManager contentManager;
-		private QuadTree quadTree;
+		private CollisionField quadTree;
 
 		public Scene(ContentManager contentManager)
 		{
 			entities = new List<Entity>();
 			entityGulag = new List<Entity>();
-			quadTree = new QuadTree();
+			quadTree = new CollisionField();
 			this.contentManager = contentManager;
 		}
 

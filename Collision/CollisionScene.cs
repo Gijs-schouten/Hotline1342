@@ -5,11 +5,15 @@ using System.Text;
 
 namespace PadZex.Collision
 {
-	public partial class QuadTree
+	/// <summary>
+	/// Handles all collisions that are added as shapes and
+	/// fires events when objects are hit.
+	/// </summary>
+	public partial class CollisionField
 	{
 		private List<Cell> cells;
 
-		public QuadTree()
+		public CollisionField()
 		{
 			cells = new List<Cell>();
 			cells.Add(new Cell());
@@ -30,16 +34,21 @@ namespace PadZex.Collision
 			}
 		}
 
+		/// <summary>
+		/// Add a shape to the cell as candidate to be tested against
+		/// </summary>
+		/// <param name="shape"></param>
 		public void AddShape(Shape shape)
 		{
-			// TODO : Add the shape to the correct cell. Currently adds it to the main cell.
 			Cell cell = GetCell(shape);
 			cell.AddShape(shape);
 		}
 
+		/// <summary>
+		/// Remove a shape from the cell
+		/// </summary>
 		public void RemoveShape(Shape shape)
 		{
-			// TODO : Remove the shape from the correct cell
 			Cell cell = GetCell(shape);
 			cell.RemoveShape(shape);
 		}

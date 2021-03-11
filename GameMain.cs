@@ -40,7 +40,6 @@ namespace PadZex
             testScene = new Scene(Content);
             testScene.SetAsMainScene();
             testScene.AddEntity(new Player());
-            testScene.AddEntity(new SquareEntity());
         }
 
         protected override void Update(GameTime gameTime)
@@ -53,7 +52,7 @@ namespace PadZex
             time.deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             time.timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds;
 
-            testScene.Update(time);
+            Scene.MainScene.Update(time);
 
             base.Update(gameTime);
         }

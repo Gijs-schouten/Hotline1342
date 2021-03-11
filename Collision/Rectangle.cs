@@ -3,7 +3,7 @@
 namespace PadZex.Collision
 {
 	/// <summary>
-	/// Rectangle shape for the <see cref="QuadTree"/>.
+	/// Rectangle shape for the <see cref="CollisionField"/>.
 	/// </summary>
 	public class Rectangle : Shape
 	{

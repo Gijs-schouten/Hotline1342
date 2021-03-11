@@ -19,6 +19,10 @@ namespace PadZex
 		public int Depth = 0;
 
 		public IEnumerable<string> Tags => tags; 
+
+		/// <summary>
+		/// Shape assigned to this Entity. Can be null.
+		/// </summary>
 		public Collision.Shape Shape { get; private set; }
 		
 		private List<string> tags = new List<string>();
@@ -38,7 +42,10 @@ namespace PadZex
 		/// Deletes an entity the next frame in the active scene.
 		/// </summary>
 		/// <param name="entity">Entity to delete.</param>
-		public static void DeleteEntity(Entity entity) => Scene.MainScene?.DeleteEntity(entity);
+		public static void DeleteEntity(Entity entity)
+		{
+			Scene.MainScene?.DeleteEntity(entity);
+		}
 
 		/// <summary>
 		/// Create an entity and apply tags on it.
@@ -61,6 +68,12 @@ namespace PadZex
 				Scale, SpriteEffects.None, Depth);
 		}
 
+		/// <summary>
+		/// Extend this to add a shape to this entity.
+		/// Return it so it's added to the collision field properly.
+		/// </summary>
+		/// <returns>a newly created shape or null. 
+		/// A <see cref="Scene"/> will add this to its collision field</returns>
 		public virtual Collision.Shape InitializeShape() { return null; }
 
 		/// <summary>

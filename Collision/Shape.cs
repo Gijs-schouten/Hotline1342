@@ -67,7 +67,11 @@ namespace PadZex.Collision
 			_ => throw new NotImplementedException()
 		};
 
-		public void CheckCollision(Shape shape)
+		/// <summary>
+		/// Collision of another shape against this shape and invokes events accordingly.
+		/// </summary>
+		/// <param name="shape">Shape to test against</param>
+		internal void CheckCollision(Shape shape)
 		{
 			bool collided = Collided(shape);
 
@@ -80,7 +84,5 @@ namespace PadZex.Collision
 				ShapeExited(shape);
 			}
 		}
-
-		
 	}
 }
