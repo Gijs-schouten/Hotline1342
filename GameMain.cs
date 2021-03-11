@@ -46,8 +46,9 @@ namespace PadZex
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            if (Input.KeyPressed(Keys.A)) Console.WriteLine("Pressed A");
-            
+            if (Input.KeyPressed(Keys.A))
+                Console.WriteLine("Pressed A");
+
             Time time = new Time();
             time.deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             time.timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds;
