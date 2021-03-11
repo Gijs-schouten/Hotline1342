@@ -1,7 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+<<<<<<< HEAD
 using PadZex.Scripts.Weapons;
+=======
+using System;
+using System.Text;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework.Content;
+>>>>>>> 13a67b412eae54651dd12818477bf7ee671c9a19
 
 namespace PadZex
 {
@@ -10,7 +17,7 @@ namespace PadZex
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private Scene testScene;
+        Scene testScene;
 
         public GameMain()
         {
@@ -21,37 +28,38 @@ namespace PadZex
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             testScene = new Scene(Content);
             testScene.SetAsMainScene();
             testScene.AddEntity(new Player());
             testScene.AddEntity(new Sword());
             testScene.AddEntity(new Dagger());
             testScene.AddEntity(new Potion());
+            base.Initialize();
 
             graphics.PreferredBackBufferWidth = 1080;
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
-            
-            base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // TODO: use this.Content to load your game content here
+            testScene = new Scene(Content);
+            testScene.SetAsMainScene();
+            testScene.AddEntity(new Player());
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // TODO: Add your update logic here
-            var time = new Time
-            {
-                deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds,
-                timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds
-            };
+            if (Input.KeyPressed(Keys.A)) Console.WriteLine("Pressed A");
+            
+            Time time = new Time();
+            time.deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            time.timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds;
 
             Scene.MainScene.Update(time);
 
@@ -60,25 +68,17 @@ namespace PadZex
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
-			var time = new Time
-            {
-                deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds,
-                timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds
-            };
+            Time time = new Time();
+            time.deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            time.timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds;
 
-            spriteBatch.Begin(SpriteSortMode.BackToFront);
+            spriteBatch.Begin();
             Scene.MainScene.Draw(spriteBatch, time);
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
     }
-
-    public struct Time
-	{
-        public float deltaTime;
-        public float timeSinceStart;
-	}
 }
