@@ -64,7 +64,7 @@ namespace PadZex
 
 			var time = new Time
             {
-                deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds,
+				deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds,
                 timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds
             };
 
@@ -75,10 +75,4 @@ namespace PadZex
             base.Draw(gameTime);
         }
     }
-
-    public struct Time
-	{
-        public float deltaTime;
-        public float timeSinceStart;
-	}
 }

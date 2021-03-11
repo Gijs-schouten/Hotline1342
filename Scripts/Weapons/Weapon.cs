@@ -43,7 +43,7 @@ namespace PadZex.Scripts.Weapons
 
         public override Shape InitializeShape()
         {
-            var shape = new Collision.Circle(this, new Vector2(weaponSprite.Width / 2, weaponSprite.Height / 2), weaponSprite.Width / 2);
+            var shape = new Collision.Circle(this, Vector2.Zero, weaponSprite.Width / 2);
             shape.ShapeEnteredEvent += Collide;
             return shape;
         }
