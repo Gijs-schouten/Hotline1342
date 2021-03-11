@@ -16,12 +16,12 @@ namespace PadZex.Collision
 
             if (circle.WorldX < rect.WorldX)
                 testX = rect.WorldX;
-            else if (circle.WorldX > rect.WorldX + rect.Width)
-                testX = rect.WorldX + rect.Width;
+            else if (circle.WorldX > rect.WorldX + rect.WorldWidth)
+                testX = rect.WorldX + rect.WorldWidth;
             if (circle.WorldY < rect.WorldY)
                 testY = rect.WorldY;
-            else if (circle.WorldY > rect.WorldY + rect.Height)
-                testY = rect.WorldY + rect.Height;
+            else if (circle.WorldY > rect.WorldY + rect.WorldHeight)
+                testY = rect.WorldY + rect.WorldHeight;
 
             float distX = circle.WorldX - testX;
             float distY = circle.WorldY - testY;
@@ -32,10 +32,10 @@ namespace PadZex.Collision
 
         public static bool RectangleWithRectangle(Rectangle rect1, Rectangle rect2)
         {
-            return rect1.WorldX < rect2.WorldX + rect2.Width
-                && rect1.WorldX + rect1.Width > rect2.WorldX
-                && rect1.WorldY < rect2.WorldY + rect2.Height
-                && rect1.WorldY + rect2.Height > rect2.WorldY;
+            return rect1.WorldX < rect2.WorldX + rect2.WorldWidth
+                && rect1.WorldX + rect1.WorldWidth > rect2.WorldX
+                && rect1.WorldY < rect2.WorldY + rect2.WorldHeight
+                && rect1.WorldY + rect2.WorldHeight > rect2.WorldY;
         }
 
         public static bool CircleWithCircle(Circle circle1, Circle circle2)

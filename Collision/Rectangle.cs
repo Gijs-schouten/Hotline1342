@@ -33,7 +33,10 @@ namespace PadZex.Collision
 
         public float WorldX => X + Owner.Position.X;
         public float WorldY => Y + Owner.Position.Y;
+        public float WorldWidth => Width * Owner.Scale;
+        public float WorldHeight => Height * Owner.Scale;
         public Vector2 WorldPosition => Position + Owner.Position;
+        public Vector2 WorldSize => new Vector2(WorldWidth, WorldHeight);
 
         public Vector2 Position;
         public Vector2 Size;
