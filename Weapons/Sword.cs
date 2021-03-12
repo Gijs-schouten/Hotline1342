@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PadZex.Scripts.Weapons
+namespace PadZex.Weapons
 {
     public class Sword : Weapon
     {
