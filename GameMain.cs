@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Text;
-using System.Collections.Generic;
+using PadZex.Weapons;
 
 namespace PadZex
 {
@@ -11,6 +9,9 @@ namespace PadZex
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+
+        private Scene testScene;
+
         public GameMain()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -21,31 +22,55 @@ namespace PadZex
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            testScene = new Scene(Content);
+            testScene.SetAsMainScene();
+            testScene.AddEntity(new Player());
+            testScene.AddEntity(new Sword());
+            testScene.AddEntity(new Dagger());
+            testScene.AddEntity(new Potion());
+
+            graphics.PreferredBackBufferWidth = 1080;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.ApplyChanges();
+            
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            if (Input.KeyPressed(Keys.A)) Console.WriteLine("Pressed A");
+
             // TODO: Add your update logic here
+            var time = new Time
+            {
+                deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds,
+                timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds
+            };
+
+            Scene.MainScene.Update(time);
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
+			var time = new Time
+            {
+				deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds,
+                timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds
+            };
+
+            spriteBatch.Begin(SpriteSortMode.BackToFront);
+            Scene.MainScene.Draw(spriteBatch, time);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
