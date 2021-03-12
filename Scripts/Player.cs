@@ -11,7 +11,7 @@ using System.Text;
 namespace PadZex
 {
 	/// <summary>
-	///  Temporary test class for the player. Remove when an actual good player is implemented.
+	///  Player with static sprite and hp bar. 
 	///  WASD : Move
 	///  E : Delete self
 	/// </summary>
@@ -20,9 +20,15 @@ namespace PadZex
 		private Texture2D playerSprite;
 		private Color color = Color.White;
 
+		Health health;
+		HealthBar healthbar;
+
 		public override void Initialize(ContentManager content)
 		{
 			playerSprite = content.Load<Texture2D>("sprites/player");
+			health = new Health(100, 100);
+			healthbar = new HealthBar(content.Load<Texture2D>("sprites/HealthBar")); 
+			
 			AddTag("Player");
 			Depth = 1;
 		}
@@ -30,6 +36,7 @@ namespace PadZex
 		public override void Draw(SpriteBatch spriteBatch, Time time)
 		{
 			spriteBatch.Draw(playerSprite, Position, null, color, Angle, Origin, Scale, SpriteEffects.None, Depth);
+			healthbar.Draw(spriteBatch, Position, health.GetHealth);
 		}
 
 		public override void Update(Time time)
@@ -39,7 +46,7 @@ namespace PadZex
 
 			float speed = 300.0f;
 
-			if(keyBoardState.IsKeyDown(Keys.A))
+			if (keyBoardState.IsKeyDown(Keys.A) ) 
 			{
 				Position.X -= speed * time.deltaTime;
 			}
@@ -81,6 +88,8 @@ namespace PadZex
 		{
 			color = Color.Red;
 			Debug.Log("entered");
+
+			health.GetHit(5);
 		}
 	}
 }
