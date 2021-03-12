@@ -4,31 +4,31 @@ using System.Collections.Generic;
 
 namespace PadZex.Collision
 {
-	public partial class CollisionField
-	{
-		/// <summary>
-		/// A cell holds different kinds of objects that are in a scene.
-		/// </summary>
-		private class Cell
-		{
-			public IReadOnlyList<Shape> Objects => objects;
+    public partial class CollisionField
+    {
+        /// <summary>
+        /// A cell holds different kinds of objects that are in a scene.
+        /// </summary>
+        private class Cell
+        {
+            public IReadOnlyList<Shape> Objects => objects;
 
-			private List<Shape> objects;
+            private List<Shape> objects;
 
-			public Cell()
-			{
-				objects = new List<Shape>();
-			}
+            public Cell()
+            {
+                objects = new List<Shape>();
+            }
 
-			internal void AddShape(Shape shape)
-			{
-				objects.Add(shape);
-			}
+            internal void AddShape(Shape shape)
+            {
+                objects.Add(shape);
+            }
 
-			internal void RemoveShape(Shape shape)
-			{
-				objects.Remove(shape);
-			}
-		}
-	}
+            internal void RemoveShape(Shape shape)
+            {
+                objects.Remove(shape);
+            }
+        }
+    }
 }

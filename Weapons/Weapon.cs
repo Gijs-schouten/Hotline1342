@@ -1,14 +1,12 @@
-﻿using BaseProject.Scripts.Interfaces;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PadZex.Interfaces;
 using PadZex.Collision;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace PadZex.Scripts.Weapons
+namespace PadZex.Weapons
 {
     public class Weapon : Entity
     {
