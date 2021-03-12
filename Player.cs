@@ -20,11 +20,12 @@ namespace PadZex
         private Texture2D playerSprite;
         private Color color = Color.White;
 
-        public override void Initialize(ContentManager content)
-        {
-            playerSprite = content.Load<Texture2D>("sprites/player");
-            Depth = 1;
-        }
+		public override void Initialize(ContentManager content)
+		{
+			playerSprite = content.Load<Texture2D>("sprites/player");
+			AddTag("Player");
+			Depth = 1;
+		}
 
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {

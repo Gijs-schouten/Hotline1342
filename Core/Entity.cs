@@ -17,37 +17,28 @@ namespace PadZex
         public float Angle = .0f;
         public float Scale = 1.0f;
         public int Depth = 0;
-
-        public IEnumerable<string> Tags => tags;
+		public IEnumerable<string> Tags => tags; 
 
         /// <summary>
         /// Shape assigned to this Entity. Can be null.
         /// </summary>
         public Collision.Shape Shape { get; private set; }
 
+        private SpriteEffects effect = SpriteEffects.None;
         private List<string> tags = new List<string>();
 
         public abstract void Initialize(ContentManager content);
         public abstract void Update(Time time);
         public abstract void Draw(SpriteBatch spriteBatch, Time time);
 
+
+        /// <summary>
         /// <summary>
         /// Look for an entity in the Active scene and return it
         /// </summary>
         /// <param name="tag">Tag to look for</param>
         /// <returns>an Entity in the scene. Null if not found.</returns>
         public static Entity FindEntity(string tag) => Scene.MainScene?.FindEntity(tag);
-
-        /// <summary>
-        /// Deletes an entity the next frame in the active scene.
-        /// </summary>
-        /// <param name="entity">Entity to delete.</param>
-        public static void DeleteEntity(Entity entity)
-        {
-            Scene.MainScene?.DeleteEntity(entity);
-        }
-
-        /// <summary>
         /// Create an entity and apply tags on it.
         /// </summary>
         /// <param name="tags">Tags to apply on the entity.</param>
@@ -65,7 +56,14 @@ namespace PadZex
         {
             spriteBatch.Draw(texture, Position, null,
                 Color.White, Angle, Origin,
-                Scale, SpriteEffects.None, Depth);
+                Scale, effect, Depth);
+        }
+        /// Deletes an entity the next frame in the active scene.
+        /// </summary>
+        /// <param name="entity">Entity to delete.</param>
+        public static void DeleteEntity(Entity entity)
+        {
+            Scene.MainScene?.DeleteEntity(entity);
         }
 
         /// <summary>
@@ -75,6 +73,11 @@ namespace PadZex
         /// <returns>a newly created shape or null. 
         /// A <see cref="Scene"/> will add this to its collision field</returns>
         public virtual Collision.Shape InitializeShape() { return null; }
+
+        public void FlipSprite()
+        {
+            effect = SpriteEffects.FlipHorizontally;
+        }
 
         /// <summary>
         /// Add a tag to the Entity
