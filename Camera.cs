@@ -9,27 +9,28 @@ namespace PadZex
 {
     public class Camera : Entity
     {
+        
         public Matrix Transform
         {
             get { return transform; }
         }
         private Matrix transform;
         
-        private Vector2 centre;
         private Viewport viewport;
 
         private float zoom = 1;
+        private Entity target;
 
         public float X
         {
-            get => centre.X;
-            set => centre.X = value;
+            get => Position.X;
+            set => Position.X = value;
         }
 
         public float Y
         {
-            get => centre.Y;
-            set => centre.Y = value;
+            get => Position.Y;
+            set => Position.Y = value;
         }
 
         public float Zoom
@@ -55,6 +56,10 @@ namespace PadZex
 
         }
 
+        public void SelectTarget(String targetString)
+        {
+            target = FindEntity(targetString);
+        }
 
         public override void Initialize(ContentManager content)
         {
@@ -63,10 +68,8 @@ namespace PadZex
 
         public override void Update(Time time)
         {
-            Entity player = FindEntity("Player");
-            Position = new Vector2(0, 0);
-            centre = new Vector2(player.Position.X, player.Position.Y);
-            transform = Matrix.CreateTranslation(new Vector3(-centre.X, -centre.Y, 0)) *
+            Position = new Vector2(target.Position.X, target.Position.Y);
+            transform = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
                                                 Matrix.CreateRotationZ(Rotation) *
                                                 Matrix.CreateScale(new Vector3(Zoom, Zoom, 0)) *
                                                 Matrix.CreateTranslation(new Vector3(viewport.Width / 2, viewport.Height / 2, 0));

@@ -35,8 +35,8 @@ namespace PadZex
             testScene.AddEntity(new Player());
             testScene.AddEntity(new Sword());
             testScene.AddEntity(new Camera(GraphicsDevice.Viewport));
-            
 
+            camera.SelectTarget("Player");
             base.Initialize();
         }
 
