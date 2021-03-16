@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Text;
 using System.Collections.Generic;
-using PadZex.Scripts.Weapons;
+using PadZex.Weapons;
 
 namespace PadZex
 {
@@ -34,6 +34,13 @@ namespace PadZex
             testScene.SetAsMainScene();
             testScene.AddEntity(new Player());
             testScene.AddEntity(new Sword());
+            //testScene.AddEntity(new Dagger());
+            //testScene.AddEntity(new Potion());
+
+            graphics.PreferredBackBufferWidth = 1080;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.ApplyChanges();
+            
             testScene.AddEntity(new Camera(GraphicsDevice.Viewport));
 
             camera.SelectTarget("Player");
@@ -43,26 +50,25 @@ namespace PadZex
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            PadZex.Collision.Shape.LoadTextures(Content);
         }
 
         protected override void Update(GameTime gameTime)
         {
             Input.UpdateInput();
-            if (Input.KeyPressed(Keys.W))
-                camera.Zoom += 0.01f;
-            else if (Input.KeyPressed(Keys.S))
-                camera.Zoom -= 0.01f;
-            if (Input.KeyPressed(Keys.A))
-                camera.Rotation += 0.01f;
-            else if (Input.KeyPressed(Keys.D))
-                camera.Rotation -= 0.01f;
+            
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            
+
             // TODO: Add your update logic here
+            var time = new Time
+            {
+                deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds,
+                timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds
+            };
+
+            Scene.MainScene.Update(time);
 
             base.Update(gameTime);
         }
