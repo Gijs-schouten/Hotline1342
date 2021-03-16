@@ -20,11 +20,14 @@ namespace PadZex.Scripts.Weapons
         public bool isFlipped { get; set; }
         public Vector2 Offset { get; set; }
 
-        private Vector2 direction;
-        private bool throwing, pickedUp, collidingWithPlayer = false;
+		public bool throwing;
+		public float velocity = 0;
+
+		private Vector2 direction;
+		private bool pickedUp, collidingWithPlayer = false;
         private Texture2D weaponSprite;
         private Entity player;
-        private float velocity = 0;
+        
         public event Action<float> HitsObject;
 
         public override void Initialize(ContentManager content)
