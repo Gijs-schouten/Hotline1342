@@ -34,7 +34,6 @@ namespace PadZex
 
         public override void Update(Time time)
         {
-            Debug.Log(Position.X);
             KeyboardState keyBoardState = Keyboard.GetState();
 
             float speed = 300.0f;
@@ -63,7 +62,7 @@ namespace PadZex
             }
         }
 
-        public override Shape InitializeShape()
+        public override Shape CreateShape()
         {
             var shape = new Collision.Rectangle(this, Vector2.Zero, new Vector2(playerSprite.Width, playerSprite.Height));
             shape.ShapeEnteredEvent += OnShapeEnteredEvent;
