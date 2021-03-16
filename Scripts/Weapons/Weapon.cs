@@ -10,8 +10,14 @@ using System.Text;
 
 namespace PadZex.Scripts.Weapons
 {
+	/// <summary>
+	/// Base class for all weapons used by the player
+	/// </summary>
     public class Weapon : Entity
     {
+		/// <summary>
+		/// Weapon settings set in the sub classes
+		/// </summary>
         public float WeaponDamage { get; set; }
         public float WeaponSpeed { get; set; }
         public float RotationSpeed { get; set; }
@@ -28,7 +34,6 @@ namespace PadZex.Scripts.Weapons
         private Texture2D weaponSprite;
         private Entity player;
         
-        public event Action<float> HitsObject;
 
         public override void Initialize(ContentManager content)
         {
@@ -52,6 +57,9 @@ namespace PadZex.Scripts.Weapons
             return shape;
         }
 
+		/// <summary>
+		/// Funtion to throw your weapon to the mouse position
+		/// </summary>
 		public void ThrowWeapon()
         {
             velocity = 1;
@@ -59,7 +67,8 @@ namespace PadZex.Scripts.Weapons
             Vector2 mousePos = new Vector2(state.X, state.Y);
             direction = mousePos - Position;
             throwing = true;
-        }
+			pickedUp = false;
+		}
 
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {
@@ -70,11 +79,13 @@ namespace PadZex.Scripts.Weapons
         {
             KeyboardState state = Keyboard.GetState();
 
+			//Weapon is attached to player if picked up
             if (!throwing && pickedUp)
             {
                 Position = player.Position + Offset;
             }
 
+			//If set, rotates the weapon and moves it to the destination
             if (throwing)
             {
                 if (Rotating)
@@ -94,30 +105,44 @@ namespace PadZex.Scripts.Weapons
 
             }
 
+			//Throws the weapon
             if (state.IsKeyDown(Keys.Space) && pickedUp)
             {
                 ThrowWeapon();
-                throwing = true;
-                pickedUp = false;
+                
             }
 
+			//Picks op weapon if colliding with 'F'
             if (state.IsKeyDown(Keys.F) && collidingWithPlayer)
             {
                 PickUp();
             }
         }
 
-        private float VectorToAngle(Vector2 vector)
+		/// <summary>
+		/// Converts a vector to angle used for throwing the weapon in a straight line
+		/// </summary>
+		/// <param name="vector"></param>
+		/// <returns></returns>
+		private float VectorToAngle(Vector2 vector)
         {
             return (float)Math.Atan2(vector.Y, vector.X);
         }
 
-        public void PickUp()
+		/// <summary>
+		/// Picks up the weapon
+		/// </summary>
+		public void PickUp()
         {
             pickedUp = true;
             throwing = false;
         }
 
+		/// <summary>
+		/// Triggers on collision enter event
+		/// Damages any IDamagable and tracks if player makes collison for PickUp()
+		/// </summary>
+		/// <param name="entity"></param>
         private void CollisionEnter(Entity entity)
         {
 			(entity as IDamagable)?.Damage(this, WeaponDamage);
@@ -126,6 +151,11 @@ namespace PadZex.Scripts.Weapons
 
 		}
 
+		/// <summary>
+		/// Triggers on colision exit event
+		/// Sets player collision to false
+		/// </summary>
+		/// <param name="entity"></param>
 		private void CollisionExit(Entity entity)
 		{
 			if (entity is Player) collidingWithPlayer = false;
