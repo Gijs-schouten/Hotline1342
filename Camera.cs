@@ -68,11 +68,14 @@ namespace PadZex
 
         public override void Update(Time time)
         {
-            Position = new Vector2(target.Position.X, target.Position.Y);
-            transform = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
-                                                Matrix.CreateRotationZ(Rotation) *
-                                                Matrix.CreateScale(new Vector3(Zoom, Zoom, 0)) *
-                                                Matrix.CreateTranslation(new Vector3(viewport.Width / 2, viewport.Height / 2, 0));
+            if (target != null)
+            {
+                Position = new Vector2(target.Position.X, target.Position.Y);
+                transform = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
+                                                    Matrix.CreateRotationZ(Rotation) *
+                                                    Matrix.CreateScale(new Vector3(Zoom, Zoom, 0)) *
+                                                    Matrix.CreateTranslation(new Vector3(viewport.Width / 2, viewport.Height / 2, 0));
+            }
         }
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {
