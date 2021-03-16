@@ -61,19 +61,15 @@ namespace PadZex
             AddTag("camera");
         }
 
-        public void Update(Vector2 Position)
+        public override void Update(Time time)
         {
-
-            centre = new Vector2(Position.X, Position.Y);
+            Entity player = FindEntity("Player");
+            Position = new Vector2(0, 0);
+            centre = new Vector2(player.Position.X, player.Position.Y);
             transform = Matrix.CreateTranslation(new Vector3(-centre.X, -centre.Y, 0)) *
                                                 Matrix.CreateRotationZ(Rotation) *
                                                 Matrix.CreateScale(new Vector3(Zoom, Zoom, 0)) *
                                                 Matrix.CreateTranslation(new Vector3(viewport.Width / 2, viewport.Height / 2, 0));
-        }
-
-        public override void Update(Time time)
-        {
-            
         }
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {
