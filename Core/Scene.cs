@@ -23,6 +23,7 @@ namespace PadZex
         private ContentManager contentManager;
         private CollisionField quadTree;
 
+		public Camera Camera { get; set; }
         public Scene(ContentManager contentManager)
         {
             entities = new List<Entity>();

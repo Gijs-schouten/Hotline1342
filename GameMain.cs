@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Text;
+using System.Collections.Generic;
 using PadZex.Weapons;
 
 namespace PadZex
@@ -10,8 +13,10 @@ namespace PadZex
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
+        Player player;
+        Camera camera;
         private Scene testScene;
-
+        
         public GameMain()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -19,8 +24,11 @@ namespace PadZex
             IsMouseVisible = true;
         }
 
+
         protected override void Initialize()
         {
+            player = new Player();
+            camera = new Camera(GraphicsDevice.Viewport);
             // TODO: Add your initialization logic here
             testScene = new Scene(Content);
             testScene.SetAsMainScene();
@@ -33,6 +41,9 @@ namespace PadZex
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
             
+            testScene.AddEntity(new Camera(GraphicsDevice.Viewport));
+
+            camera.SelectTarget("Player");
             base.Initialize();
         }
 
@@ -44,6 +55,9 @@ namespace PadZex
 
         protected override void Update(GameTime gameTime)
         {
+            Input.UpdateInput();
+            
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -63,17 +77,20 @@ namespace PadZex
         {
             GraphicsDevice.Clear(Color.Black);
 
-			var time = new Time
+            var time = new Time
             {
-				deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds,
+                deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds,
                 timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds
             };
-
-            spriteBatch.Begin(SpriteSortMode.BackToFront);
+            camera.Update(time);
+            // TODO: Add your drawing code here
+            spriteBatch.Begin(SpriteSortMode.Deferred,
+                              BlendState.AlphaBlend,
+                              null, null, null, null,
+                              camera.Transform);
             Scene.MainScene.Draw(spriteBatch, time);
             spriteBatch.End();
-
             base.Draw(gameTime);
-        }
+        }   
     }
 }
