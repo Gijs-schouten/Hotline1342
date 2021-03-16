@@ -21,7 +21,7 @@ namespace PadZex.Scripts.Weapons
         public Vector2 Offset { get; set; }
 
         private Vector2 direction;
-        private bool throwing, pickedUp = false;
+        private bool throwing, pickedUp, collidingWithPlayer = false;
         private Texture2D weaponSprite;
         private Entity player;
         private float velocity = 0;
@@ -43,13 +43,13 @@ namespace PadZex.Scripts.Weapons
 
         public override Shape InitializeShape()
         {
-            var shape = new Collision.Circle(this, Vector2.Zero, weaponSprite.Width / 2);
-            shape.ShapeEnteredEvent += Collide;
+            var shape = new Collision.Circle(this, Vector2.Zero, weaponSprite.Width * Scale / 2);
+            shape.ShapeEnteredEvent += CollisionEnter;
+			shape.ShapeExitedEvent += CollisionExit;
             return shape;
         }
 
-
-        public void ThrowWeapon()
+		public void ThrowWeapon()
         {
             velocity = 1;
             MouseState state = Mouse.GetState();
@@ -98,13 +98,13 @@ namespace PadZex.Scripts.Weapons
                 pickedUp = false;
             }
 
-            if (state.IsKeyDown(Keys.F) && !pickedUp)
+            if (state.IsKeyDown(Keys.F) && collidingWithPlayer)
             {
                 PickUp();
             }
         }
 
-        float VectorToAngle(Vector2 vector)
+        private float VectorToAngle(Vector2 vector)
         {
             return (float)Math.Atan2(vector.Y, vector.X);
         }
@@ -115,10 +115,18 @@ namespace PadZex.Scripts.Weapons
             throwing = false;
         }
 
-        private void Collide(Entity entity)
+        private void CollisionEnter(Entity entity)
         {
-           (entity as IDamagable)?.Damage(this, WeaponDamage);
-        }
+			(entity as IDamagable)?.Damage(this, WeaponDamage);
 
-    }
+			if (entity is Player) collidingWithPlayer = true;
+
+		}
+
+		private void CollisionExit(Entity entity)
+		{
+			if (entity is Player) collidingWithPlayer = false;
+		}
+
+	}
 }
