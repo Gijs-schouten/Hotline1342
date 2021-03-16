@@ -92,6 +92,9 @@ namespace PadZex.Collision
             }
         }
 
+        /// <summary>
+        /// Loads the debug textures
+        /// </summary>
         public static void LoadTextures(ContentManager contentManager)
         {
             circleTexture = contentManager.Load<Texture2D>("sprites/collision/circle");
@@ -100,8 +103,6 @@ namespace PadZex.Collision
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Debug.Log("he");
-
             if (this is Rectangle re)
             {
                 float width = rectangleTexture.Width / re.Width;
@@ -112,7 +113,6 @@ namespace PadZex.Collision
             else if (this is Circle cir)
             {
                 float size = circleTexture.Width / cir.Radius * 2;
-                Debug.Log(size);
                 spriteBatch.Draw(circleTexture, new Vector2(cir.WorldX-circleTexture.Width*size/2, cir.WorldY-circleTexture.Height*size/2), null, new Color(1f, 1f, 1f, 0.3f), 0, Vector2.Zero, new Vector2(size), SpriteEffects.None, 0);
             }
         }
