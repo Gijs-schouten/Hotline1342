@@ -72,7 +72,7 @@ namespace PadZex
         /// </summary>
         /// <returns>a newly created shape or null. 
         /// A <see cref="Scene"/> will add this to its collision field</returns>
-        public virtual Collision.Shape InitializeShape() { return null; }
+        public virtual Collision.Shape CreateShape() { return null; }
 
         public void FlipSprite()
         {
@@ -93,6 +93,12 @@ namespace PadZex
         public void RemoveTag(string tag)
         {
             tags.Remove(tag);
+        }
+
+        public PadZex.Collision.Shape InitializeShape()
+        {
+            Shape = CreateShape();
+            return Shape;
         }
     }
 }

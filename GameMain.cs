@@ -26,8 +26,8 @@ namespace PadZex
             testScene.SetAsMainScene();
             testScene.AddEntity(new Player());
             testScene.AddEntity(new Sword());
-            testScene.AddEntity(new Dagger());
-            testScene.AddEntity(new Potion());
+            //testScene.AddEntity(new Dagger());
+            //testScene.AddEntity(new Potion());
 
             graphics.PreferredBackBufferWidth = 1080;
             graphics.PreferredBackBufferHeight = 720;
@@ -39,6 +39,7 @@ namespace PadZex
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            PadZex.Collision.Shape.LoadTextures(Content);
         }
 
         protected override void Update(GameTime gameTime)

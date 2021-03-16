@@ -39,9 +39,9 @@ namespace PadZex.Weapons
 
         }
 
-        public override Shape InitializeShape()
+        public override Shape CreateShape()
         {
-            var shape = new Collision.Circle(this, Vector2.Zero, weaponSprite.Width / 2);
+            var shape = new Collision.Circle(this, -Origin, weaponSprite.Width / 2);
             shape.ShapeEnteredEvent += Collide;
             return shape;
         }

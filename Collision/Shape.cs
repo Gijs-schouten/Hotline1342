@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using PadZex.Core;
+using System;
 using System.Collections.Generic;
 
 namespace PadZex.Collision
@@ -12,6 +16,9 @@ namespace PadZex.Collision
     /// </summary>
     public abstract class Shape
     {
+        private static Texture2D circleTexture;
+        private static Texture2D rectangleTexture;
+
         public delegate void ShapeCollisionDelegate(PadZex.Entity shape);
 
         /// <summary>
@@ -82,6 +89,31 @@ namespace PadZex.Collision
             else if (!collided && collidedShapes.Contains(shape))
             {
                 ShapeExited(shape);
+            }
+        }
+
+        /// <summary>
+        /// Loads the debug textures
+        /// </summary>
+        public static void LoadTextures(ContentManager contentManager)
+        {
+            circleTexture = contentManager.Load<Texture2D>("sprites/collision/circle");
+            rectangleTexture = contentManager.Load<Texture2D>("sprites/collision/rectangle");
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (this is Rectangle re)
+            {
+                float width = rectangleTexture.Width / re.Width;
+                float height = rectangleTexture.Height / re.Height;
+                Vector2 rectScale = new Vector2(width, height);
+                spriteBatch.Draw(rectangleTexture, re.WorldPosition, null, new Color(1f, 1f, 1f, 0.3f), 0, Vector2.Zero, rectScale, SpriteEffects.None, 0);
+            }
+            else if (this is Circle cir)
+            {
+                float size = circleTexture.Width / cir.Radius * 2;
+                spriteBatch.Draw(circleTexture, new Vector2(cir.WorldX-circleTexture.Width*size/2, cir.WorldY-circleTexture.Height*size/2), null, new Color(1f, 1f, 1f, 0.3f), 0, Vector2.Zero, new Vector2(size), SpriteEffects.None, 0);
             }
         }
     }
