@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BaseProject.Scripts.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,22 +14,24 @@ namespace PadZex
 	/// <summary>
 	///  Player with static sprite and hp bar. 
 	///  WASD : Move
-	///  E : Delete self
 	/// </summary>
 	public class Player : Entity
 	{
 		private Texture2D playerSprite;
 		private Color color = Color.White;
 
-		Health health;
-		HealthBar healthbar;
+		private Health health;
+		private HealthBar healthbar;
 
+		//Vector2 move;
+
+		private float speed; 
 		public override void Initialize(ContentManager content)
 		{
 			playerSprite = content.Load<Texture2D>("sprites/player");
 			health = new Health(100, 100);
-			healthbar = new HealthBar(content.Load<Texture2D>("sprites/HealthBar")); 
-			
+			healthbar = new HealthBar(content.Load<Texture2D>("sprites/HealthBar"));
+			speed = 0; 
 			AddTag("Player");
 			Depth = 1;
 		}
@@ -37,37 +40,30 @@ namespace PadZex
 		{
 			spriteBatch.Draw(playerSprite, Position, null, color, Angle, Origin, Scale, SpriteEffects.None, Depth);
 			healthbar.Draw(spriteBatch, Position, health.GetHealth);
-		}
 
+			Input.UpdateInput();
+		}
+		// Normalizering en acceleration speler 
 		public override void Update(Time time)
 		{
-			Debug.Log(Position.X);
-			KeyboardState keyBoardState = Keyboard.GetState();
+			float horizontal = -Convert.ToSingle(Input.KeyPressed(Keys.A)) + Convert.ToSingle(Input.KeyPressed(Keys.D));
+			float vertical = -Convert.ToSingle(Input.KeyPressed(Keys.W)) + Convert.ToSingle(Input.KeyPressed(Keys.S));
 
-			float speed = 300.0f;
-
-			if (keyBoardState.IsKeyDown(Keys.A) ) 
-			{
-				Position.X -= speed * time.deltaTime;
+			Vector2 move = new Vector2(horizontal, vertical);
+			
+			if(move != new Vector2(0,0))
+            {
+				speed += .4f;
+				move = Vector2.Normalize(move);
 			}
-			else if(keyBoardState.IsKeyDown(Keys.D))
+            else 
 			{
-				Position.X += speed * time.deltaTime;
+				speed = 0f;
 			}
-
-			if(keyBoardState.IsKeyDown(Keys.W))
-			{
-				Position.Y -= speed * time.deltaTime;
-			}
-			else if(keyBoardState.IsKeyDown(Keys.S))
-			{
-				Position.Y += speed * time.deltaTime;
-			}
-
-			if(keyBoardState.IsKeyDown(Keys.E))
-			{
-				Entity.DeleteEntity(this);
-			}
+			
+			speed = Math.Clamp(speed, 0, 10);
+			Debug.Log(speed);
+			Position += move * speed;
 		}
 
 		public override Shape InitializeShape()
@@ -91,5 +87,6 @@ namespace PadZex
 
 			health.GetHit(5);
 		}
-	}
+
+    }
 }
