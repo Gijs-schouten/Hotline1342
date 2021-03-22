@@ -5,6 +5,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using PadZex.Weapons;
+using System;
 
 namespace PadZex
 {
@@ -27,6 +28,7 @@ namespace PadZex
 
         protected override void Initialize()
         {
+            var randomEnemyCount = new Random();
             player = new Player();
             camera = new Camera(GraphicsDevice.Viewport);
             // TODO: Add your initialization logic here
@@ -34,8 +36,13 @@ namespace PadZex
             testScene.SetAsMainScene();
             testScene.AddEntity(new Player());
             testScene.AddEntity(new Sword());
-            //testScene.AddEntity(new Dagger());
-            //testScene.AddEntity(new Potion());
+            testScene.AddEntity(new Dagger());
+            testScene.AddEntity(new Potion());
+            for (int i = 0; i < randomEnemyCount.Next(5,10); i++) 
+            {
+                testScene.AddEntity(new Enemy());
+            }
+            
 
             graphics.PreferredBackBufferWidth = 1080;
             graphics.PreferredBackBufferHeight = 720;
@@ -71,6 +78,7 @@ namespace PadZex
             Scene.MainScene.Update(time);
 
             base.Update(gameTime);
+            
         }
 
         protected override void Draw(GameTime gameTime)
