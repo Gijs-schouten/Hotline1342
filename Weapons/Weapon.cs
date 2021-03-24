@@ -1,14 +1,12 @@
-﻿using BaseProject.Scripts.Interfaces;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PadZex.Interfaces;
 using PadZex.Collision;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace PadZex.Scripts.Weapons
+namespace PadZex.Weapons
 {
 	/// <summary>
 	/// Base class for all weapons used by the player
@@ -49,7 +47,7 @@ namespace PadZex.Scripts.Weapons
 
         }
 
-        public override Shape InitializeShape()
+        public override Shape CreateShape()
         {
             var shape = new Collision.Circle(this, Vector2.Zero, weaponSprite.Width * Scale / 2);
             shape.ShapeEnteredEvent += CollisionEnter;

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PadZex.Scripts.Weapons
+namespace PadZex.Weapons
 {
 	class Potion : Weapon
 	{
@@ -31,6 +31,12 @@ namespace PadZex.Scripts.Weapons
 			else if (throwing && velocity < 0.5f && velocity > 0)
 			{
 				Scale -= time.deltaTime;
+			}
+
+			//test ass
+			if (throwing && velocity <= 0) {
+				var shape = new Collision.Circle(this, Vector2.Zero,  300);
+			
 			}
 		}
 	}

@@ -1,88 +1,122 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using PadZex.Core;
+using System;
 using System.Collections.Generic;
 
 namespace PadZex.Collision
 {
-	/// <summary>
-	/// <para>	/// Base shape class to be used with the QuadTree.
-	/// Extend this class to make a new shape type.
-	/// </para>
-	///
-	/// See: <see cref="Rectangle"/> & <see cref="Circle"/>
-	/// </summary>
-	public abstract class Shape
-	{
-		public delegate void ShapeCollisionDelegate(PadZex.Entity shape);
+    /// <summary>
+    /// <para>	/// Base shape class to be used with the QuadTree.
+    /// Extend this class to make a new shape type.
+    /// </para>
+    ///
+    /// See: <see cref="Rectangle"/> & <see cref="Circle"/>
+    /// </summary>
+    public abstract class Shape
+    {
+        private static Texture2D circleTexture;
+        private static Texture2D rectangleTexture;
 
-		/// <summary>
-		/// Event fired when a shape enters this shape.
-		/// </summary>
-		public event ShapeCollisionDelegate ShapeEnteredEvent;
+        public delegate void ShapeCollisionDelegate(PadZex.Entity shape);
 
-		/// <summary>
-		/// Event fired when a shape exits this shape and was previously in it.
-		/// </summary>
-		public event ShapeCollisionDelegate ShapeExitedEvent;
+        /// <summary>
+        /// Event fired when a shape enters this shape.
+        /// </summary>
+        public event ShapeCollisionDelegate ShapeEnteredEvent;
 
-		/// <summary>
-		/// The entity that owns this shape.
-		/// </summary>
-		public PadZex.Entity Owner { get; }
+        /// <summary>
+        /// Event fired when a shape exits this shape and was previously in it.
+        /// </summary>
+        public event ShapeCollisionDelegate ShapeExitedEvent;
 
-		/// <summary>
-		/// The shapes that this shape is currently collided with.
-		/// </summary>
-		public IReadOnlyList<Shape> CollidedShapes => collidedShapes;
+        /// <summary>
+        /// The entity that owns this shape.
+        /// </summary>
+        public PadZex.Entity Owner { get; }
 
-		private List<Shape> collidedShapes;
+        /// <summary>
+        /// The shapes that this shape is currently collided with.
+        /// </summary>
+        public IReadOnlyList<Shape> CollidedShapes => collidedShapes;
 
-		protected Shape(PadZex.Entity owner)
-		{
-			this.Owner = owner;
-			collidedShapes = new List<Shape>();
-		}
+        private List<Shape> collidedShapes;
 
-		public abstract bool CollideWithRect(Rectangle rect);
-		public abstract bool CollideWithCircle(Circle circle);
+        protected Shape(PadZex.Entity owner)
+        {
+            this.Owner = owner;
+            collidedShapes = new List<Shape>();
+        }
 
-		private void InvokeEnterCollision(PadZex.Entity entity) => ShapeEnteredEvent?.Invoke(entity);
-		private void InvokeExitCollision(PadZex.Entity entity) => ShapeExitedEvent?.Invoke(entity);
+        public abstract bool CollideWithRect(Rectangle rect);
+        public abstract bool CollideWithCircle(Circle circle);
 
-		private void ShapeCollided(Shape shape)
-		{
-			collidedShapes.Add(shape);
-			InvokeEnterCollision(shape.Owner);
-		}
+        private void InvokeEnterCollision(PadZex.Entity entity) => ShapeEnteredEvent?.Invoke(entity);
+        private void InvokeExitCollision(PadZex.Entity entity) => ShapeExitedEvent?.Invoke(entity);
 
-		private void ShapeExited(Shape shape)
-		{
-			collidedShapes.Remove(shape);
-			InvokeExitCollision(shape.Owner);
-		}
+        private void ShapeCollided(Shape shape)
+        {
+            collidedShapes.Add(shape);
+            InvokeEnterCollision(shape.Owner);
+        }
 
-		private bool Collided(Shape shape) => shape switch
-		{
-			Rectangle rect => CollideWithRect(rect),
-			Circle circle => CollideWithCircle(circle),
-			_ => throw new NotImplementedException()
-		};
+        private void ShapeExited(Shape shape)
+        {
+            collidedShapes.Remove(shape);
+            InvokeExitCollision(shape.Owner);
+        }
 
-		/// <summary>
-		/// Collision of another shape against this shape and invokes events accordingly.
-		/// </summary>
-		/// <param name="shape">Shape to test against</param>
-		internal void CheckCollision(Shape shape)
-		{
-			bool collided = Collided(shape);
+        private bool Collided(Shape shape) => shape switch
+        {
+            Rectangle rect => CollideWithRect(rect),
+            Circle circle => CollideWithCircle(circle),
+            _ => throw new NotImplementedException()
+        };
 
-			if (collided && !collidedShapes.Contains(shape))
-			{
-				ShapeCollided(shape);
-			}
-			else if(!collided && collidedShapes.Contains(shape))
-			{
-				ShapeExited(shape);
-			}
-		}
-	}
+        /// <summary>
+        /// Collision of another shape against this shape and invokes events accordingly.
+        /// </summary>
+        /// <param name="shape">Shape to test against</param>
+        internal void CheckCollision(Shape shape)
+        {
+            bool collided = Collided(shape);
+
+            if (collided && !collidedShapes.Contains(shape))
+            {
+                ShapeCollided(shape);
+            }
+            else if (!collided && collidedShapes.Contains(shape))
+            {
+                ShapeExited(shape);
+            }
+        }
+
+        public bool IsColliding(Shape shape) => Collided(shape);
+
+        /// <summary>
+        /// Loads the debug textures
+        /// </summary>
+        public static void LoadTextures(ContentManager contentManager)
+        {
+            circleTexture = contentManager.Load<Texture2D>("sprites/collision/circle");
+            rectangleTexture = contentManager.Load<Texture2D>("sprites/collision/rectangle");
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (this is Rectangle re)
+            {
+                float width = rectangleTexture.Width / re.Width;
+                float height = rectangleTexture.Height / re.Height;
+                Vector2 rectScale = new Vector2(width, height);
+                spriteBatch.Draw(rectangleTexture, re.WorldPosition, null, new Color(1f, 1f, 1f, 0.3f), 0, Vector2.Zero, rectScale, SpriteEffects.None, 0);
+            }
+            else if (this is Circle cir)
+            {
+                float size = circleTexture.Width / cir.Radius * 2;
+                spriteBatch.Draw(circleTexture, new Vector2(cir.WorldX-circleTexture.Width*size/2, cir.WorldY-circleTexture.Height*size/2), null, new Color(1f, 1f, 1f, 0.3f), 0, Vector2.Zero, new Vector2(size), SpriteEffects.None, 0);
+            }
+        }
+    }
 }
