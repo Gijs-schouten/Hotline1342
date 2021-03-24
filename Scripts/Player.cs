@@ -37,27 +37,28 @@ namespace PadZex
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, Time time)
-		{
-			spriteBatch.Draw(playerSprite, Position, null, color, Angle, Origin, Scale, SpriteEffects.None, Depth);
-			healthbar.Draw(spriteBatch, Position, health.GetHealth);
+		{ 
+			Draw(spriteBatch, playerSprite);
+			//healthbar.Draw(spriteBatch, Position, health.GetHealth);
 
-			Input.UpdateInput();
-		}
-		// Normalizering en acceleration speler 
+			
+		} 
+		// Normalizering en acceleration Player
+		// Gebruik gemaakt van het input systeem 
 		public override void Update(Time time)
-		{
+		{ 
 			float horizontal = -Convert.ToSingle(Input.KeyPressed(Keys.A)) + Convert.ToSingle(Input.KeyPressed(Keys.D));
 			float vertical = -Convert.ToSingle(Input.KeyPressed(Keys.W)) + Convert.ToSingle(Input.KeyPressed(Keys.S));
 
 			Vector2 move = new Vector2(horizontal, vertical);
 			
 			if(move != new Vector2(0,0))
-            {
+            { 
 				speed += .4f;
 				move = Vector2.Normalize(move);
-			}
+			} 
             else 
-			{
+			{ 
 				speed = 0f;
 			}
 			
@@ -72,16 +73,25 @@ namespace PadZex
 			shape.ShapeEnteredEvent += OnShapeEnteredEvent;
 			shape.ShapeExitedEvent += OnShapeExitedEvent;
 			return shape;
-		}
+		} 
 
 		private void OnShapeExitedEvent(Entity shape)
-		{
+		{ 
 			color = Color.White;
 			Debug.Log("exited");
-		}
+		} 
+		//public Collision.Shape IntializeShape(Player player) 
+		//{ 
+		//	var shape = new Collision.Circle(this, Vector2.Zero, 2);  
+		//	return shape;
+		//} 
+		// private void Damage(Entity entity, float damage = 0)
+		//{ 
+		//	Entity.DeleteEntity(this);
+	// 	}  
 
 		private void OnShapeEnteredEvent(Entity shape)
-		{
+		{ 
 			color = Color.Red;
 			Debug.Log("entered");
 
