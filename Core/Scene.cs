@@ -106,5 +106,17 @@ namespace PadZex
         /// </summary>
         /// <param name="entity"></param>
         public void DeleteEntity(Entity entity) => entityGulag.Add(entity);
+
+        /// <summary>
+        /// Tests for collision against a shape in the quad tree.
+        /// </summary>
+        /// <returns>returns whether collided and the shape it collided with if true.</returns>
+        public (bool, Shape) TestCollision(Shape shape) => quadTree.TestCollision(shape);
+
+        /// <summary>
+        /// Tests for collision against a shape in the quad tree.
+        /// </summary>
+        /// <returns>returns whether collided and the shapes it collided with if true.</returns>
+        public (bool, IEnumerable<Shape>) TestAllCollision(Shape shape) => quadTree.TestAllCollision(shape);
     }
 }
