@@ -15,6 +15,7 @@ namespace PadZex
 
         Player player;
         Camera camera;
+        List<Door> doors = new List<Door>();
         private Scene testScene;
         
         public GameMain()
@@ -34,6 +35,7 @@ namespace PadZex
             testScene.SetAsMainScene();
             testScene.AddEntity(new Player());
             testScene.AddEntity(new Sword());
+            testScene.AddEntity(new Door(0));
             //testScene.AddEntity(new Dagger());
             //testScene.AddEntity(new Potion());
 
