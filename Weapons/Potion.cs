@@ -1,12 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using PadZex.Collision;
+using PadZex.Scripts.Particle;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace PadZex.Weapons
 {
 	class Potion : Weapon
 	{
+		private int particleAmount = 100;
+		private bool exploded;
 		public Potion()
 		{
 			WeaponDamage = 5;
@@ -23,6 +29,7 @@ namespace PadZex.Weapons
 		public override void Update(Time time)
 		{
 			base.Update(time);
+			KeyboardState state = Keyboard.GetState();
 
 			if (throwing && velocity > 0.5f)
 			{
@@ -33,11 +40,26 @@ namespace PadZex.Weapons
 				Scale -= time.deltaTime;
 			}
 
-			//test ass
-			if (throwing && velocity <= 0) {
-				var shape = new Collision.Circle(this, Vector2.Zero,  300);
-			
+			if (throwing && velocity <= 0 && !exploded)
+			{
+				Explode();
 			}
+		}
+
+		private void Explode()
+		{
+			Debug.WriteLine("explode");
+			Scene.MainScene.TestCollision(new Circle(this, Vector2.Zero, 200));
+
+			var particles = new PotionParticle[particleAmount];
+
+			for (int i = 0; i < particleAmount; i++)
+			{
+				particles[i] = new PotionParticle(Position);
+				Scene.MainScene.AddEntity(particles[i]);
+			}
+
+			exploded = true;
 		}
 	}
 }

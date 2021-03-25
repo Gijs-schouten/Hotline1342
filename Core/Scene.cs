@@ -20,6 +20,7 @@ namespace PadZex
 
         protected List<Entity> entities;
         protected List<Entity> entityGulag;
+		protected List<Entity> addedEntities;
         private ContentManager contentManager;
         private CollisionField quadTree;
 
@@ -28,24 +29,36 @@ namespace PadZex
         {
             entities = new List<Entity>();
             entityGulag = new List<Entity>();
+			addedEntities = new List<Entity>();
             quadTree = new CollisionField();
             this.contentManager = contentManager;
         }
 
         /// <summary>
-        /// Add an entity to the scene and initialize it
+        /// Add an entity to the addedEntities List
         /// </summary>
-        public Entity AddEntity(Entity entity)
+        public void AddEntity(Entity entity)
         {
-            entities.Add(entity);
-            entity.Initialize(contentManager);
-            Shape shape = entity.InitializeShape();
-            if (shape != null)
-            {
-                quadTree.AddShape(shape);
-            }
-            return entity;
+			addedEntities.Add(entity);
         }
+
+		/// <summary>
+		/// Initializes new entities and adds them to the ennties List
+		/// </summary>
+		public void InitEntities() {
+			for (int i = 0; i < addedEntities.Count; i++) {
+				entities.Add(addedEntities[i]);
+				addedEntities[i].Initialize(contentManager);
+				Shape shape = addedEntities[i].InitializeShape();
+
+				if (shape != null)
+				{
+					quadTree.AddShape(shape);
+				}
+			}
+
+			addedEntities.Clear();
+		}
 
         /// <summary>
         /// Initialize is called when the scene activates.
@@ -77,6 +90,11 @@ namespace PadZex
             {
                 entity.Update(time);
             }
+
+			if (addedEntities.Any()) {
+				InitEntities();
+			}
+			
 
             quadTree.UpdateCollision();
         }

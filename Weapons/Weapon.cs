@@ -64,6 +64,7 @@ namespace PadZex.Weapons
             MouseState state = Mouse.GetState();
             Vector2 mousePos = new Vector2(state.X, state.Y);
             direction = mousePos - Position;
+			//direction.Normalize();
             throwing = true;
 			pickedUp = false;
 		}
