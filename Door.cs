@@ -26,9 +26,9 @@ namespace PadZex
         {
             AddTag("Door");
             doorState = startState;
-            doorStateSprites[0] = content.Load<Texture2D>("sprites/door/doorState1");
-            doorStateSprites[1] = content.Load<Texture2D>("sprites/door/doorState2");
-            doorStateSprites[2] = content.Load<Texture2D>("sprites/door/doorState3");          
+            doorStateSprites[0] = content.Load<Texture2D>("sprites/door/doorState1"); //Doorstate left/right closed
+            doorStateSprites[1] = content.Load<Texture2D>("sprites/door/doorState2"); //Doorstate in between (currently not in use)
+            doorStateSprites[2] = content.Load<Texture2D>("sprites/door/doorState3"); //Doorstate down/up closed
             Position.X = 500; //For testing purposes, such that the player doesn't spawn on top of the door
             opening = startState == 0;
             Scale = 2;
@@ -51,20 +51,32 @@ namespace PadZex
             shape.ShapeEnteredEvent += OnShapeEnteredEvent;
             return shape;
         }
+
         private void OnShapeEnteredEvent(Entity shape)
         {
-            if (opening)
+            //Old way of opening, has interaction regardless of where the player is compared to the door (below/above it vs. left/right of it)
+          /*if (opening)
             {
-                if (doorState < 2) doorState++;
+                if (doorState < 2) doorState+=2;
                 if (doorState == 2) opening = false;
             }
-            else
+            else 
             {
-                if (doorState > 0) doorState--;
+                if (doorState > 0) doorState-=2;
                 if (doorState == 0) opening = true;
+            }*/
+            
+            //Only changes doorstate if the player is on the right side of the door
+            if((shape.Position.X < Position.X || shape.Position.X > Position.X + doorStateSprites[0].Width) && !opening) 
+            { 
+                doorState -= 2;
+                opening = true;
+            } 
+            else if ((shape.Position.Y < Position.Y || shape.Position.Y > Position.Y + doorStateSprites[2].Height) && opening)
+            {
+                doorState += 2;
+                opening = false;
             }
-
-            Console.WriteLine("entered");
         }
 
         public void Damage(Entity entity, float damage = 10)
