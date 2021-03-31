@@ -1,5 +1,5 @@
-﻿EntityType.PlayerSpawn FFFFFF
-EntityType.EnemySpawn FF0000
-EntityType.Door
-EntityType.RandomWeapon
-EntityType.LevelEnd
+﻿EntityType.PlayerSpawn ffffff
+EntityType.EnemySpawn ff0000
+EntityType.Door ff7f27
+EntityType.RandomWeapon 0000ff
+EntityType.LevelEnd a349a4
