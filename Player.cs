@@ -4,9 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PadZex.Collision;
 using PadZex.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PadZex
 {
@@ -24,7 +21,7 @@ namespace PadZex
 		{
 			playerSprite = content.Load<Texture2D>("sprites/player");
 			AddTag("Player");
-			Depth = 1;
+			Depth = 5;
 		}
 
         public override void Draw(SpriteBatch spriteBatch, Time time)
@@ -36,7 +33,7 @@ namespace PadZex
         {
             KeyboardState keyBoardState = Keyboard.GetState();
 
-            float speed = 300.0f;
+            float speed = 1500.0f;
 
             if (keyBoardState.IsKeyDown(Keys.A))
             {

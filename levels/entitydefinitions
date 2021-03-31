@@ -1,0 +1,5 @@
+﻿EntityType.PlayerSpawn FFFFFF
+EntityType.EnemySpawn FF0000
+EntityType.Door
+EntityType.RandomWeapon
+EntityType.LevelEnd

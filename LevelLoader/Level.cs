@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PadZex.LevelLoader
 {
@@ -14,6 +15,18 @@ namespace PadZex.LevelLoader
         {
             this.Tiles = tiles;
             this.Entities = entities;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Level level &&
+                   EqualityComparer<IEnumerable<Tile>>.Default.Equals(Tiles, level.Tiles) &&
+                   EqualityComparer<IEnumerable<Entity>>.Default.Equals(Entities, level.Entities);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Tiles, Entities);
         }
     }
 }

@@ -3,12 +3,22 @@
     public enum FloorType
     {
         Grass,
-        Stone
+        Stone,
+        Forest
     }
 
     public enum WallType
     {
         Forest,
         Stone
+    }
+
+    public enum EntityType
+    {
+        PlayerSpawn,
+        EnemySpawn,
+        Door,
+        RandomWeapon,
+        LevelEnd,
     }
 }

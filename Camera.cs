@@ -18,7 +18,7 @@ namespace PadZex
         
         private Viewport viewport;
 
-        private float zoom = 1;
+        private float zoom = 0.5f;
         private Entity target;
 
         public float X
