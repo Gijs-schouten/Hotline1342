@@ -8,7 +8,7 @@ namespace PadZex.LevelLoader
     /// </summary>
     public static class JSONLevelLoader
     {
-        public static IEnumerable<Entity> LoadLevelData(string levelName)
+        public static IEnumerable<LevelEntity> LoadLevelData(string levelName)
         {
             throw new NotImplementedException();
         }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
-namespace PadZex
+namespace PadZex.Core
 {
     /// <summary>
     /// Base functionality for any entity that is drawn on screen.

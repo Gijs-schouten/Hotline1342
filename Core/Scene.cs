@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PadZex
+namespace PadZex.Core
 {
     /// <summary>
     /// This contains the base functionality a scene needs to function.

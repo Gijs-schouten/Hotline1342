@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PadZex.Interfaces;
 using PadZex.Collision;
+using PadZex.Core;
 using System;
 
 namespace PadZex.Weapons

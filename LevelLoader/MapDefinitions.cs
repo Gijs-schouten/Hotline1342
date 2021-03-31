@@ -15,16 +15,19 @@ namespace PadZex.LevelLoader
     internal static class MapDefinitions
     {
         private const string DEFINITION_FILE = "tiledefinitions";
+        private const string ENTITY_DEFINITION_FILE = "entitydefinitions";
 
         private static readonly Type[] tileTypes = new Type[] {
-            typeof(FloorType), typeof(WallType)
+            typeof(FloorType), typeof(WallType), typeof(EntityType)
         };
 
         internal static IReadOnlyDictionary<Color, TileDefinition<FloorType>> FloorTileDefinition => floorTileDefinitions;
         internal static IReadOnlyDictionary<Color, TileDefinition<WallType>> WallTileDefinition => wallTileDefinitions;
+        internal static IReadOnlyDictionary<Color, EntityType> EntityTypeDefinitions => entityDefinitions;
 
         private static Dictionary<Color, TileDefinition<FloorType>> floorTileDefinitions;
         private static Dictionary<Color, TileDefinition<WallType>> wallTileDefinitions;
+        private static Dictionary<Color, EntityType> entityDefinitions;
 
         /// <summary>
         /// Get a specific, and generic, tile definition
@@ -39,16 +42,29 @@ namespace PadZex.LevelLoader
             return null;
         }
 
+        internal static EntityType? GetEntityDefinition(Color color)
+        {
+            if (EntityTypeDefinitions.TryGetValue(color, out EntityType entityType)) return entityType;
+            return null;
+        }
+
         internal static void LoadTiles()
         {
             floorTileDefinitions = new Dictionary<Color, TileDefinition<FloorType>>();
-            wallTileDefinitions = new Dictionary<Color, TileDefinition<WallType>>();
+            wallTileDefinitions = new();
+            entityDefinitions = new();
 
             string[] definitions = File.ReadAllLines(Path.Combine(LevelLoader.LEVEL_PATH, DEFINITION_FILE));
+            string[] entityDefs = File.ReadAllLines(Path.Combine(LevelLoader.LEVEL_PATH, ENTITY_DEFINITION_FILE));
 
             foreach(string definition in definitions)
             {
                 LoadDefinition(definition);
+            }
+
+            foreach(string entityDefinition in entityDefs)
+            {
+                LoadEntityDefinition(entityDefinition);
             }
         }
 
@@ -69,6 +85,16 @@ namespace PadZex.LevelLoader
             AddDefinition(enumType, enumValue, color, path, files);
         }
 
+        private static void LoadEntityDefinition(string entityDefinition)
+        {
+            string[] split = entityDefinition.Split(" ");
+
+            (Type enumType, int enumValue) = GetDefinitionType(split[0]);
+            Color color = ColorUtils.FromHex(split[1]);
+
+            AddEntityDefinition(color, (EntityType)enumValue);
+        }
+
         private static void AddDefinition(Type enumType, int enumValue, Color color, string path, string[] files)
         {
             if(enumType == typeof(FloorType))
@@ -81,6 +107,11 @@ namespace PadZex.LevelLoader
                 var wallTypeDefinition = new TileDefinition<WallType>(path, files, (WallType)enumValue);
                 wallTileDefinitions.Add(color, wallTypeDefinition);
             }
+        }
+
+        private static void AddEntityDefinition(Color color, EntityType entityType)
+        {
+            entityDefinitions.Add(color, entityType);
         }
 
         /// <summary>

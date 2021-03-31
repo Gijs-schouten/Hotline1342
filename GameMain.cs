@@ -5,6 +5,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using PadZex.Weapons;
+using PadZex.Core;
 
 namespace PadZex
 {

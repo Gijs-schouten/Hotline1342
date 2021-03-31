@@ -13,23 +13,35 @@ namespace PadZex.LevelLoader
     {
         public const string LEVEL_PATH = "./levels/";
         public const string PNG_POSTFIX = ".png";
-        public const string ENTTITIES_POSTFIX = "_entities";
+        public const string ENTITIES_POSTFIX = "_entities";
 
         private static Dictionary<string, Texture2D> tileAssets; 
 
         public static Level LoadLevel(GraphicsDevice graphicsDevice, string fileName)
         {
-            string path = Path.Combine(LEVEL_PATH, fileName);
+            string path = Path.Combine(LEVEL_PATH, fileName, PNG_POSTFIX);
+            string entityPath = Path.Combine(LEVEL_PATH, fileName, ENTITIES_POSTFIX, PNG_POSTFIX);
+            Texture2D levelTexture;
+            Texture2D entityTexture;
 
-            using StreamReader streamReader = new StreamReader(path);
-            Texture2D levelTexture = Texture2D.FromStream(graphicsDevice, streamReader.BaseStream);
+            using (StreamReader streamReader = new StreamReader(path))
+            {
+                levelTexture = Texture2D.FromStream(graphicsDevice, streamReader.BaseStream);
+            }
+
+            using(StreamReader streamReader = new StreamReader(entityPath))
+            {
+                entityTexture = Texture2D.FromStream(graphicsDevice, streamReader.BaseStream);
+            }
+
             var tiles = ReadLevelTexture(levelTexture);
-            return new Level(tiles, null);
+            var entities = ReadLevelEntityTexture(entityTexture);
+            return new Level(tiles, entities);
         }
 
         private static IEnumerable<Tile> ReadLevelTexture(Texture2D levelTexture)
         {
-            List<Tile> tiles = new List<Tile>();
+            List<Tile> tiles = new();
             Color[] raw = new Color[levelTexture.Width * levelTexture.Height];
             levelTexture.GetData(raw);
 
@@ -64,6 +76,25 @@ namespace PadZex.LevelLoader
             }
 
             return tiles;
+        }
+
+        private static IEnumerable<LevelEntity> ReadLevelEntityTexture(Texture2D entityTexture)
+        {
+            List<LevelEntity> entities = new();
+            Color[] raw = new Color[entityTexture.Width * entityTexture.Height];
+
+            for (int i = 0; i < raw.Length; i++)
+            {
+                int x = i % entityTexture.Width;
+                int y = i / entityTexture.Height;
+
+                // skip if the alpha is 0...
+                if (raw[i].A == 0) continue;
+
+                EntityType? entityType = MapDefinitions.GetEntityDefinition(raw[i]);
+            }
+
+            return entities;
         }
 
         /// <summary>

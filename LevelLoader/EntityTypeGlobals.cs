@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PadZex.LevelLoader
 {
-    internal static class EntityDefinitions
+    internal static class EntityTypeGlobals
     {
         internal static Dictionary<EntityType, Type> EntityTypes = new Dictionary<EntityType, Type>()
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 using PadZex.LevelLoader;
+using PadZex.Core;
 
 namespace PadZex.Scenes
 {

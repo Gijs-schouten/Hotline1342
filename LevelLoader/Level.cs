@@ -3,30 +3,5 @@ using System.Collections.Generic;
 
 namespace PadZex.LevelLoader
 {
-    /// <summary>
-    /// Contains all tiles in the level
-    /// </summary>
-    public struct Level
-    {
-        public IEnumerable<Tile> Tiles { get; private set; }
-        public IEnumerable<Entity> Entities { get; private set; } 
-
-        public Level(IEnumerable<Tile> tiles, IEnumerable<Entity> entities)
-        {
-            this.Tiles = tiles;
-            this.Entities = entities;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is Level level &&
-                   EqualityComparer<IEnumerable<Tile>>.Default.Equals(Tiles, level.Tiles) &&
-                   EqualityComparer<IEnumerable<Entity>>.Default.Equals(Entities, level.Entities);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Tiles, Entities);
-        }
-    }
+    public record Level(IEnumerable<Tile> Tiles, IEnumerable<LevelEntity> Entities);
 }
