@@ -29,7 +29,6 @@ namespace PadZex
             doorStateSprites[0] = content.Load<Texture2D>("sprites/door/doorState1"); //Doorstate left/right closed
             doorStateSprites[1] = content.Load<Texture2D>("sprites/door/doorState2"); //Doorstate in between (currently not in use)
             doorStateSprites[2] = content.Load<Texture2D>("sprites/door/doorState3"); //Doorstate down/up closed
-            Position.X = 500; //For testing purposes, such that the player doesn't spawn on top of the door
             opening = startState == 0;
             Scale = 2;
 
