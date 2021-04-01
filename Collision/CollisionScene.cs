@@ -53,6 +53,34 @@ namespace PadZex.Collision
             cell.RemoveShape(shape);
         }
 
+        public (bool, Shape) TestCollision(Shape shape)
+        {
+            foreach (var other in cells[0].Objects)
+            {
+                if(other.IsColliding(shape))
+                {
+                    return (true, other);
+                }
+            }
+
+            return (false, null);
+        }
+
+        public  (bool, IEnumerable<Shape>) TestAllCollision(Shape shape)
+        {
+            var entities = new List<Shape>();
+
+            foreach (var other in cells[0].Objects)
+            {
+                if(other.IsColliding(shape))
+                {
+                    entities.Add(other);
+                }
+            }
+
+            return (entities.Count > 0, entities);
+        }
+
         private Cell GetCell(Shape shape)
         {
             return cells[0];

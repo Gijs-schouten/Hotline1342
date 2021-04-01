@@ -30,16 +30,15 @@ namespace PadZex
         protected override void Initialize()
         {
             var randomEnemyCount = new Random();
-            player = new Player();
             camera = new Camera(GraphicsDevice.Viewport);
             // TODO: Add your initialization logic here
             testScene = new Scene(Content);
             testScene.SetAsMainScene();
-            testScene.AddEntity(new Player());
-            testScene.AddEntity(new Sword());
-            testScene.AddEntity(new Door(0));
-            testScene.AddEntity(new Dagger());
-            testScene.AddEntity(new Potion());
+
+            testScene.AddEntityImmediate(new Player());
+            testScene.AddEntity(camera);
+            camera.SelectTarget("Player");
+
             for (int i = 0; i < randomEnemyCount.Next(5,10); i++) 
             {
                 testScene.AddEntity(new Enemy());
@@ -49,9 +48,6 @@ namespace PadZex
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
             
-            testScene.AddEntity(new Camera(GraphicsDevice.Viewport));
-
-            camera.SelectTarget("Player");
             base.Initialize();
         }
 
