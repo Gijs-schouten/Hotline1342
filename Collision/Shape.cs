@@ -112,7 +112,7 @@ namespace PadZex.Collision
             }
             else if (this is Circle cir)
             {
-                float size = circleTexture.Width / cir.Radius * 2;
+                float size = cir.Radius / circleTexture.Width * 2;
                 spriteBatch.Draw(circleTexture, new Vector2(cir.WorldX-circleTexture.Width*size/2, cir.WorldY-circleTexture.Height*size/2), null, new Color(1f, 1f, 1f, 0.3f), 0, Vector2.Zero, new Vector2(size), SpriteEffects.None, 0);
             }
         }

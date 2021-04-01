@@ -5,6 +5,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using PadZex.Weapons;
+using System;
 using PadZex.Core;
 
 namespace PadZex
@@ -42,6 +43,8 @@ namespace PadZex
 
             graphics.PreferredBackBufferWidth = 1080;
             graphics.PreferredBackBufferHeight = 720;
+            IsFixedTimeStep = false;
+            graphics.SynchronizeWithVerticalRetrace = false;
             graphics.ApplyChanges();
             
             base.Initialize();
@@ -75,6 +78,7 @@ namespace PadZex
             Scene.MainScene.Update(time);
 
             base.Update(gameTime);
+            
         }
 
         protected override void Draw(GameTime gameTime)

@@ -22,11 +22,13 @@ namespace PadZex
 			playerSprite = content.Load<Texture2D>("sprites/player");
 			AddTag("Player");
 			Depth = 5;
+            Scale = 1f / (float)playerSprite.Width * 200f;
+            Debug.Log(Scale);
 		}
 
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {
-            spriteBatch.Draw(playerSprite, Position, null, color, Angle, Origin, Scale, SpriteEffects.None, Depth);
+            Draw(spriteBatch, playerSprite);
         }
 
         public override void Update(Time time)

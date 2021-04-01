@@ -30,8 +30,8 @@ namespace PadZex.Weapons
         {
             weaponSprite = content.Load<Texture2D>(SpriteLocation);
             player = FindEntity("Player");
-            Position = new Vector2(50, 50);
             Origin = new Vector2(weaponSprite.Width / 2, weaponSprite.Height / 2);
+            Depth = 10;
 
             if (isFlipped)
             {
@@ -42,7 +42,7 @@ namespace PadZex.Weapons
 
         public override Shape CreateShape()
         {
-            var shape = new Collision.Circle(this, -Origin, weaponSprite.Width / 2);
+            var shape = new Collision.Circle(this, Vector2.Zero/*-Origin*/, weaponSprite.Width / 2 * Scale);
             shape.ShapeEnteredEvent += Collide;
             return shape;
         }
@@ -60,6 +60,7 @@ namespace PadZex.Weapons
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {
             Draw(spriteBatch, weaponSprite);
+            Shape?.Draw(spriteBatch);
         }
 
         public override void Update(Time time)
