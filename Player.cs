@@ -37,7 +37,6 @@ namespace PadZex
 		{
 			playerSprite = content.Load<Texture2D>("sprites/player");
 			health = new Health(100, 100);
-			healthbar = new HealthBar(content.Load<Texture2D>("sprites/HealthBar"));
 			speed = 0;
 			AddTag("Player");
 			Depth = 1;

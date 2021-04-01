@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
-/*
-namespace PadZex
 
+namespace PadZex { }
+/*
 { 
    public abstract class Sprite : Entity
     {
