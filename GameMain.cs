@@ -14,7 +14,9 @@ namespace PadZex
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private Camera camera;
+        Player player;
+        Camera camera;
+        List<Door> doors = new List<Door>();
         private Scene testScene;
         
         public GameMain()
@@ -41,7 +43,6 @@ namespace PadZex
             {
                 testScene.AddEntity(new Enemy());
             }
-            
 
             graphics.PreferredBackBufferWidth = 1080;
             graphics.PreferredBackBufferHeight = 720;
