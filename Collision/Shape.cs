@@ -19,7 +19,7 @@ namespace PadZex.Collision
         private static Texture2D circleTexture;
         private static Texture2D rectangleTexture;
 
-        public delegate void ShapeCollisionDelegate(PadZex.Entity shape);
+        public delegate void ShapeCollisionDelegate(PadZex.Core.Entity shape);
 
         /// <summary>
         /// Event fired when a shape enters this shape.
@@ -34,7 +34,7 @@ namespace PadZex.Collision
         /// <summary>
         /// The entity that owns this shape.
         /// </summary>
-        public PadZex.Entity Owner { get; }
+        public PadZex.Core.Entity Owner { get; }
 
         /// <summary>
         /// The shapes that this shape is currently collided with.
@@ -43,7 +43,7 @@ namespace PadZex.Collision
 
         private List<Shape> collidedShapes;
 
-        protected Shape(PadZex.Entity owner)
+        protected Shape(PadZex.Core.Entity owner)
         {
             this.Owner = owner;
             collidedShapes = new List<Shape>();
@@ -52,8 +52,8 @@ namespace PadZex.Collision
         public abstract bool CollideWithRect(Rectangle rect);
         public abstract bool CollideWithCircle(Circle circle);
 
-        private void InvokeEnterCollision(PadZex.Entity entity) => ShapeEnteredEvent?.Invoke(entity);
-        private void InvokeExitCollision(PadZex.Entity entity) => ShapeExitedEvent?.Invoke(entity);
+        private void InvokeEnterCollision(PadZex.Core.Entity entity) => ShapeEnteredEvent?.Invoke(entity);
+        private void InvokeExitCollision(PadZex.Core.Entity entity) => ShapeExitedEvent?.Invoke(entity);
 
         private void ShapeCollided(Shape shape)
         {
@@ -114,7 +114,7 @@ namespace PadZex.Collision
             }
             else if (this is Circle cir)
             {
-                float size = circleTexture.Width / cir.Radius * 2;
+                float size = cir.Radius / circleTexture.Width * 2;
                 spriteBatch.Draw(circleTexture, new Vector2(cir.WorldX-circleTexture.Width*size/2, cir.WorldY-circleTexture.Height*size/2), null, new Color(1f, 1f, 1f, 0.3f), 0, Vector2.Zero, new Vector2(size), SpriteEffects.None, 0);
             }
         }

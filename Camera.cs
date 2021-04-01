@@ -2,8 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using PadZex.Core;
 
 namespace PadZex
 {
@@ -18,7 +17,7 @@ namespace PadZex
         
         private Viewport viewport;
 
-        private float zoom = 1;
+        private float zoom = 0.5f;
         private Entity target;
 
         public float X

@@ -6,6 +6,7 @@ using System.Text;
 using System.Collections.Generic;
 using PadZex.Weapons;
 using System;
+using PadZex.Core;
 
 namespace PadZex
 {
@@ -14,8 +15,8 @@ namespace PadZex
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private Camera camera;
-        private Scene testScene;
+        Camera camera;
+        private Scenes.PlayScene playScene;
         
         public GameMain()
         {
@@ -27,24 +28,23 @@ namespace PadZex
 
         protected override void Initialize()
         {
-            var randomEnemyCount = new Random();
+            Core.CoreUtils.GraphicsDevice = GraphicsDevice;
+            LevelLoader.LevelLoader.LoadMapDefinitions();
+            
             camera = new Camera(GraphicsDevice.Viewport);
             // TODO: Add your initialization logic here
-            testScene = new Scene(Content);
-            testScene.SetAsMainScene();
-
-            testScene.AddEntityImmediate(new Player());
-            testScene.AddEntity(camera);
+            playScene = new Scenes.PlayScene(Content);
+            playScene.SetAsMainScene();
+            playScene.AddEntityImmediate(new Player());
+            playScene.AddEntity(new Sword());
+            playScene.AddEntity(camera);
             camera.SelectTarget("Player");
 
-            for (int i = 0; i < randomEnemyCount.Next(5,10); i++) 
-            {
-                testScene.AddEntity(new Enemy());
-            }
-            
 
             graphics.PreferredBackBufferWidth = 1080;
             graphics.PreferredBackBufferHeight = 720;
+            IsFixedTimeStep = false;
+            graphics.SynchronizeWithVerticalRetrace = false;
             graphics.ApplyChanges();
             
             base.Initialize();
@@ -53,7 +53,11 @@ namespace PadZex
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            PadZex.Collision.Shape.LoadTextures(Content);
+            Collision.Shape.LoadTextures(Content);
+            LevelLoader.LevelLoader.LoadAssets(Content);
+
+            var level = LevelLoader.LevelLoader.LoadLevel(GraphicsDevice, "level1");
+            playScene.LoadLevel(level);
         }
 
         protected override void Update(GameTime gameTime)
@@ -88,7 +92,7 @@ namespace PadZex
             };
             camera.Update(time);
             // TODO: Add your drawing code here
-            spriteBatch.Begin(SpriteSortMode.Deferred,
+            spriteBatch.Begin(SpriteSortMode.FrontToBack,
                               BlendState.AlphaBlend,
                               null, null, null, null,
                               camera.Transform);
