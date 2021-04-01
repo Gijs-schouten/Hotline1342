@@ -19,8 +19,8 @@ namespace PadZex.LevelLoader
 
         public static Level LoadLevel(GraphicsDevice graphicsDevice, string fileName)
         {
-            string path = Path.Combine(LEVEL_PATH, fileName, PNG_POSTFIX);
-            string entityPath = Path.Combine(LEVEL_PATH, fileName, ENTITIES_POSTFIX, PNG_POSTFIX);
+            string path = Path.Combine(LEVEL_PATH, fileName + PNG_POSTFIX);
+            string entityPath = Path.Combine(LEVEL_PATH, fileName + ENTITIES_POSTFIX + PNG_POSTFIX);
             Texture2D levelTexture;
             Texture2D entityTexture;
 
@@ -82,6 +82,7 @@ namespace PadZex.LevelLoader
         {
             List<LevelEntity> entities = new();
             Color[] raw = new Color[entityTexture.Width * entityTexture.Height];
+            entityTexture.GetData(raw);
 
             for (int i = 0; i < raw.Length; i++)
             {
@@ -89,9 +90,12 @@ namespace PadZex.LevelLoader
                 int y = i / entityTexture.Height;
 
                 // skip if the alpha is 0...
-                if (raw[i].A == 0) continue;
+                if (raw[i].R == 0 && raw[i].G == 0 && raw[i].B == 0) continue;
 
                 EntityType? entityType = MapDefinitions.GetEntityDefinition(raw[i]);
+
+                if (entityType.HasValue)
+                    entities.Add(new LevelEntity(EntityTypeGlobals.GetEntityType(entityType.Value), new Point(x, y)));
             }
 
             return entities;

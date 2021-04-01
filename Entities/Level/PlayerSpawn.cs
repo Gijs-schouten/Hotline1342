@@ -11,17 +11,18 @@ namespace PadZex.Entities.Level
     {
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {
-            throw new NotImplementedException();
+
         }
 
         public override void Initialize(ContentManager content)
         {
-            throw new NotImplementedException();
+            Debug.Log("hello");
+            FindEntity("Player").Position = Position;
         }
 
         public override void Update(Time time)
         {
-            throw new NotImplementedException();
+
         }
     }
 }

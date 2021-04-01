@@ -30,7 +30,7 @@ namespace PadZex.Core
         public abstract void Initialize(ContentManager content);
         public abstract void Update(Time time);
         public abstract void Draw(SpriteBatch spriteBatch, Time time);
-
+        public virtual void OnDestroy() { }
 
         /// <summary>
         /// <summary>

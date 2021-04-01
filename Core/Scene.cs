@@ -70,6 +70,7 @@ namespace PadZex.Core
             // delete all entities in the dirty list first.
             foreach (var entity in entityGulag)
             {
+                entity.OnDestroy();
                 entities.Remove(entity);
             }
 

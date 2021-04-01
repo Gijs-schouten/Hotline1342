@@ -53,7 +53,7 @@ namespace PadZex
             Collision.Shape.LoadTextures(Content);
             LevelLoader.LevelLoader.LoadAssets(Content);
 
-            var level = LevelLoader.LevelLoader.LoadLevel(GraphicsDevice, "level1.png");
+            var level = LevelLoader.LevelLoader.LoadLevel(GraphicsDevice, "level1");
             playScene.LoadLevel(level);
         }
 

@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Content;
 using PadZex.LevelLoader;
 using PadZex.Core;
+using System.Linq;
 
 namespace PadZex.Scenes
 {
@@ -11,7 +12,7 @@ namespace PadZex.Scenes
     {
         private Level loadedLevel;
 
-        private List<Entity> spawnedTiles;
+        private List<Entity> spawnedEntities;
 
         public PlayScene(ContentManager contentManager) : base(contentManager)
         {
@@ -20,13 +21,27 @@ namespace PadZex.Scenes
         public void LoadLevel(Level level)
         {
             loadedLevel = level;
-            spawnedTiles = new List<Entity>();
+            spawnedEntities = new List<Entity>();
+            int width = level.Tiles.First().Texture.Width;
 
             foreach (var tile in level.Tiles)
             {
                 var tileEntity = new Entities.Level.Tile(tile);
                 AddEntity(tileEntity);
-                spawnedTiles.Add(tileEntity);
+                spawnedEntities.Add(tileEntity);
+            }
+
+            foreach(var entityType in level.Entities)
+            {
+                var entityTypeInstance = Activator.CreateInstance(entityType.EntityType);
+                if (entityTypeInstance == null) continue;
+                Entity entity = (Entity)entityTypeInstance;
+                entity.Position = new Microsoft.Xna.Framework.Vector2(
+                    entityType.GridPosition.X * width, 
+                    entityType.GridPosition.Y * width);
+
+                spawnedEntities.Add(entity);
+                AddEntity(entity);
             }
         }
 
@@ -34,12 +49,12 @@ namespace PadZex.Scenes
 
         public void UnloadLevel()
         {
-            foreach(var entity in spawnedTiles)
+            foreach(var entity in spawnedEntities)
             {
                 DeleteEntity(entity);
             }
 
-            spawnedTiles.Clear();
+            spawnedEntities.Clear();
         }
     }
 }
