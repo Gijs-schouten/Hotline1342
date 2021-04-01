@@ -26,12 +26,14 @@ namespace PadZex
 
         private SpriteEffects effect = SpriteEffects.None;
         private List<string> tags = new List<string>();
+        private object Location;
 
         public abstract void Initialize(ContentManager content);
         public abstract void Update(Time time);
         public abstract void Draw(SpriteBatch spriteBatch, Time time);
 
-
+        
+     
         /// <summary>
         /// <summary>
         /// Look for an entity in the Active scene and return it
@@ -47,7 +49,7 @@ namespace PadZex
             this.tags.AddRange(tags);
         }
 
-        public Entity() { }
+        public Entity(Texture2D texture) { }
 
         /// <summary>
         /// Draw the texture to the screen with the entities attributes.

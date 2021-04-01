@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using PadZex.Scripts.Weapons;
+using PadZex.Weapons;
+using System.Collections.Generic;
 
 namespace PadZex
 {
@@ -9,6 +10,8 @@ namespace PadZex
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+
+      //  private List<Sprite> _sprites; 
 
         private Scene testScene;
 
@@ -24,7 +27,7 @@ namespace PadZex
             // TODO: Add your initialization logic here
             testScene = new Scene(Content);
             testScene.SetAsMainScene();
-            testScene.AddEntity(new Player());
+            testScene.AddEntity(new Player(Content.Load<Texture2D>("Sprites/Player"))); 
             testScene.AddEntity(new Sword());
             testScene.AddEntity(new Dagger());
             testScene.AddEntity(new Potion());
