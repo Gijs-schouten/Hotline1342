@@ -16,6 +16,7 @@ namespace PadZex.Core
         public Vector2 Origin = default;
         public float Angle = .0f;
         public float Scale = 1.0f;
+		public float Alpha = 1;
         public int Depth = 0;
 		public IEnumerable<string> Tags => tags; 
 
@@ -55,7 +56,7 @@ namespace PadZex.Core
         public void Draw(SpriteBatch spriteBatch, Texture2D texture)
         {
             spriteBatch.Draw(texture, Position, null,
-                Color.White, Angle, Origin,
+                Color.White * Alpha, Angle, Origin,
                 Scale, effect, Depth);
         }
         /// Deletes an entity the next frame in the active scene.

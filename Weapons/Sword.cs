@@ -10,14 +10,13 @@ namespace PadZex.Weapons
         public Sword() 
         {
             WeaponDamage = 10;
-            WeaponSpeed = 2;
+            WeaponSpeed = 1000;
             RotationSpeed = 35;
             Scale = 0.5f;
             Rotating = true;
             Offset = new Vector2(180,30);
             AddTag("Sword");
             SpriteLocation = "sprites/weapons/sword";
-            //PickUp();
         }
     }
 }

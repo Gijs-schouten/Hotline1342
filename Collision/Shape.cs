@@ -92,6 +92,8 @@ namespace PadZex.Collision
             }
         }
 
+        public bool IsColliding(Shape shape) => Collided(shape);
+
         /// <summary>
         /// Loads the debug textures
         /// </summary>
