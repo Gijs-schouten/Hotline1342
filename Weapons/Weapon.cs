@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using PadZex.Interfaces;
 using PadZex.Collision;
 using System;
+using System.Diagnostics;
 
 namespace PadZex.Weapons
 {
@@ -37,8 +38,7 @@ namespace PadZex.Weapons
 		{
 			weaponSprite = content.Load<Texture2D>(SpriteLocation);
 			player = FindEntity("Player");
-			Position = new Vector2(50, 50);
-			Origin = new Vector2(weaponSprite.Width * Scale / 2, weaponSprite.Height * Scale / 2);
+			Origin = new Vector2(weaponSprite.Width / 2, weaponSprite.Height / 2);
 
 			if (isFlipped)
 			{
@@ -60,12 +60,16 @@ namespace PadZex.Weapons
 		/// </summary>
 		public void ThrowWeapon()
 		{
+			player = FindEntity("Player");
 			velocity = 1;
 			MouseState state = Mouse.GetState();
 			Vector2 mousePos = new Vector2(state.X, state.Y);
-			direction = mousePos - Position - FindEntity("camera").Position;
+			direction = mousePos - Position + FindEntity("camera").Position;
+			Debug.WriteLine($"{direction} = ( {mousePos} - {Position} - {FindEntity("camera").Position} )");
+			Angle = VectorToAngle(direction);
 			direction.Normalize();
-			Angle = VectorToAngle(direction);					
+			//Angle = VectorToAngle(direction);
+			Debug.WriteLine($"{direction}   {Angle}");
 			throwing = true;
 			pickedUp = false;
 		}

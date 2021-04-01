@@ -14,10 +14,10 @@ namespace PadZex.Weapons
             RotationSpeed = 0;
             Scale = 0.2f;
             Rotating = false;
-            //Offset = new Vector2(100, 150);
+            Offset = new Vector2(100, 150);
             isFlipped = true;
+			AddTag("Dagger");
             SpriteLocation = "sprites/weapons/machete";
-            PickUp();
         }
     }
 }

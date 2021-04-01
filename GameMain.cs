@@ -34,9 +34,6 @@ namespace PadZex
             testScene.SetAsMainScene();
 
             testScene.AddEntityImmediate(new Player());
-            //testScene.AddEntity(new Sword());
-            testScene.AddEntity(new Dagger());
-            //testScene.AddEntity(new Potion());
             testScene.AddEntity(camera);
             camera.SelectTarget("Player");
 

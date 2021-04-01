@@ -16,14 +16,13 @@ namespace PadZex.Weapons
 		public Potion()
 		{
 			WeaponDamage = 5;
-			WeaponSpeed = 2.5f;
-			RotationSpeed = 0f;
+			WeaponSpeed = 1000f;
+			RotationSpeed = 15f;
 			Scale = 0.5f;
-			Rotating = false;
-			//Offset = new Vector2(180, 30);
+			Rotating = true;
+			Offset = new Vector2(180, 30);
 			AddTag("Potion");
 			SpriteLocation = "sprites/weapons/potion";
-			PickUp();
 		}
 
 		public override void Update(Time time)
