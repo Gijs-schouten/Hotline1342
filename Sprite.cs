@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.Text;
 /*
 namespace PadZex
-{
+
+{ 
    public abstract class Sprite : Entity
     {
         protected  Texture2D _texture;
@@ -73,5 +74,6 @@ namespace PadZex
 
         #endregion
     }
-}
-    */
+  }
+}  
+*/

@@ -103,7 +103,6 @@ namespace PadZex
 
 		private void OnShapeExitedEvent(Entity shape)
 		{
-			color = Color.White;
 			Debug.Log("exited");
 		}
 	

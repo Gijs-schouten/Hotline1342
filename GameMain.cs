@@ -8,10 +8,12 @@ namespace PadZex
 {
     public class GameMain : Game
     {
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-
-      //  private List<Sprite> _sprites; 
+        Player player;
+        Camera camera;
+        //  private List<Sprite> _sprites; 
 
         private Scene testScene;
 
@@ -24,6 +26,7 @@ namespace PadZex
 
         protected override void Initialize()
         {
+            camera = new Camera(GraphicsDevice.Viewport);
             // TODO: Add your initialization logic here
             testScene = new Scene(Content);
             testScene.SetAsMainScene();
@@ -34,7 +37,10 @@ namespace PadZex
             graphics.PreferredBackBufferWidth = 1080;
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
-            
+
+            testScene.AddEntity(new Camera(GraphicsDevice.Viewport));
+
+            camera.SelectTarget("Player");
             base.Initialize();
         }
 

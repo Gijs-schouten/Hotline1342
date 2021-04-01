@@ -23,7 +23,7 @@ public class Health
 
     public void GetHit(float damage)
     {
-        health =- damage;
+        health -= damage;
 
         if(health < 0)
         {
