@@ -16,7 +16,6 @@ namespace PadZex.Entities.Level
 
         public override void Initialize(ContentManager content)
         {
-            Debug.Log("hello");
             FindEntity("Player").Position = Position;
         }
 

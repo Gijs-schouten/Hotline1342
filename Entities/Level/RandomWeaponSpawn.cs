@@ -33,7 +33,6 @@ namespace PadZex.Entities.Level
             spawnedWeapon.Position.X += 265 / 2;
             spawnedWeapon.Position.Y += 265 / 2;
             spawnedWeapon.Angle = randomAngle;
-            Debug.Log($"{Position} {spawnedWeapon.Position}");
 
             Scene.MainScene.AddEntity(spawnedWeapon);
         }
