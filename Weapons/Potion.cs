@@ -11,16 +11,16 @@ namespace PadZex.Weapons
 {
 	class Potion : Weapon
 	{
-		private int particleAmount = 100;
+		private int particleAmount = 200;
 		private bool exploded;
 		public Potion()
 		{
 			WeaponDamage = 5;
 			WeaponSpeed = 2.5f;
-			RotationSpeed = 3;
+			RotationSpeed = 0f;
 			Scale = 0.5f;
-			Rotating = true;
-			Offset = new Vector2(180, 30);
+			Rotating = false;
+			//Offset = new Vector2(180, 30);
 			AddTag("Potion");
 			SpriteLocation = "sprites/weapons/potion";
 			PickUp();
@@ -48,7 +48,8 @@ namespace PadZex.Weapons
 
 		private void Explode()
 		{
-			Debug.WriteLine("explode");
+			Alpha = 0;
+
 			Scene.MainScene.TestCollision(new Circle(this, Vector2.Zero, 200));
 
 			var particles = new PotionParticle[particleAmount];

@@ -10,7 +10,7 @@ namespace PadZex.Weapons
         public Sword() 
         {
             WeaponDamage = 10;
-            WeaponSpeed = 2;
+            WeaponSpeed = 1000;
             RotationSpeed = 35;
             Scale = 0.5f;
             Rotating = true;

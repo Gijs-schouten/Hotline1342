@@ -42,8 +42,23 @@ namespace PadZex
 			addedEntities.Add(entity);
         }
 
+        /// <summary>
+        /// Immediately add an entity to the scene.
+        /// The scene can not be updating at the moment when adding.
+        ///</summary>
+        public void AddEntityImmediate(Entity entity)
+        {
+            entities.Add(entity);
+			entity.Initialize(contentManager);
+            Shape shape = entity.InitializeShape();
+            if(shape != null)
+            {
+				quadTree.AddShape(shape);
+            }
+        }
+
 		/// <summary>
-		/// Initializes new entities and adds them to the ennties List
+		/// Initializes new entities and adds them to the enties List
 		/// </summary>
 		public void InitEntities() {
 			for (int i = 0; i < addedEntities.Count; i++) {

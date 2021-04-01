@@ -27,7 +27,7 @@ namespace PadZex.Scripts.Particle
 		{
 			particleSprite = content.Load<Texture2D>("sprites/weapons/potion_effect");
 			Angle = r.Next(0, 1000);
-			particleSpeed = r.Next(50, 300);
+			particleSpeed = r.Next(200, 600);
 			Alpha = (float)r.NextDouble();
 			direction = new Vector2((float)Math.Cos(Angle), (float)Math.Sin(Angle));
 			Scale = 0.1f;
@@ -35,8 +35,8 @@ namespace PadZex.Scripts.Particle
 
 		public override void Update(Time time)
 		{
-			velocity -= time.deltaTime;
-			Alpha -= particleSpeed / 1000 * time.deltaTime;
+			if(velocity > 0) velocity -= time.deltaTime;
+			Alpha -= time.deltaTime;
 			Position += direction * particleSpeed * velocity * time.deltaTime;
 		}
 	}
