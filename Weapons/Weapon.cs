@@ -65,10 +65,8 @@ namespace PadZex.Weapons
 			MouseState state = Mouse.GetState();
 			Vector2 mousePos = new Vector2(state.X, state.Y);
 			direction = mousePos - Position + FindEntity("camera").Position;
-			Debug.WriteLine($"{direction} = ( {mousePos} - {Position} - {FindEntity("camera").Position} )");
 			Angle = VectorToAngle(direction);
 			direction.Normalize();
-			Debug.WriteLine($"{direction}   {Angle}");
 			throwing = true;
 			pickedUp = false;
 		}
