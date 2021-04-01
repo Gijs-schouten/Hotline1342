@@ -68,7 +68,6 @@ namespace PadZex.Weapons
 			Debug.WriteLine($"{direction} = ( {mousePos} - {Position} - {FindEntity("camera").Position} )");
 			Angle = VectorToAngle(direction);
 			direction.Normalize();
-			//Angle = VectorToAngle(direction);
 			Debug.WriteLine($"{direction}   {Angle}");
 			throwing = true;
 			pickedUp = false;
