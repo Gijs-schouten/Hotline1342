@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PadZex
+namespace PadZex.Core
 {
     /// <summary>
     /// This contains the base functionality a scene needs to function.
@@ -98,6 +98,9 @@ namespace PadZex
             // delete all entities in the dirty list first.
             foreach (var entity in entityGulag)
             {
+                if (!entities.Contains(entity)) continue;
+
+                entity.OnDestroy();
                 entities.Remove(entity);
             }
 

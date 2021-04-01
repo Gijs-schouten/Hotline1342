@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
-namespace PadZex
+namespace PadZex.Core
 {
     /// <summary>
     /// Base functionality for any entity that is drawn on screen.
@@ -31,7 +31,7 @@ namespace PadZex
         public abstract void Initialize(ContentManager content);
         public abstract void Update(Time time);
         public abstract void Draw(SpriteBatch spriteBatch, Time time);
-
+        public virtual void OnDestroy() { }
 
         /// <summary>
         /// <summary>

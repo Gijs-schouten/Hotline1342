@@ -2,10 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 using PadZex.Collision;
 using PadZex.Scripts.Particle;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+using PadZex.Core;
 
 namespace PadZex.Weapons
 {

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PadZex.Interfaces;
 using PadZex.Collision;
+using PadZex.Core;
 using System;
 using System.Diagnostics;
 
@@ -65,11 +66,9 @@ namespace PadZex.Weapons
 			MouseState state = Mouse.GetState();
 			Vector2 mousePos = new Vector2(state.X, state.Y);
 			direction = mousePos - Position + FindEntity("camera").Position;
-			Debug.WriteLine($"{direction} = ( {mousePos} - {Position} - {FindEntity("camera").Position} )");
 			Angle = VectorToAngle(direction);
 			direction.Normalize();
 			//Angle = VectorToAngle(direction);
-			Debug.WriteLine($"{direction}   {Angle}");
 			throwing = true;
 			pickedUp = false;
 		}

@@ -1,4 +1,4 @@
-﻿namespace PadZex
+﻿namespace PadZex.Core
 {
     /// <summary>
     /// 

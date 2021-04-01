@@ -4,9 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PadZex.Collision;
 using PadZex.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PadZex
 {
@@ -24,19 +21,21 @@ namespace PadZex
 		{
 			playerSprite = content.Load<Texture2D>("sprites/player");
 			AddTag("Player");
-			Depth = 1;
+			Depth = 5;
+            Scale = 1f / (float)playerSprite.Width * 200f;
+            Debug.Log(Scale);
 		}
 
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {
-            spriteBatch.Draw(playerSprite, Position, null, color, Angle, Origin, Scale, SpriteEffects.None, Depth);
+            Draw(spriteBatch, playerSprite);
         }
 
         public override void Update(Time time)
         {
             KeyboardState keyBoardState = Keyboard.GetState();
 
-            float speed = 300.0f;
+            float speed = 1500.0f;
 
             if (keyBoardState.IsKeyDown(Keys.A))
             {
@@ -73,13 +72,11 @@ namespace PadZex
         private void OnShapeExitedEvent(Entity shape)
         {
             color = Color.White;
-            Debug.Log("exited");
         }
 
         private void OnShapeEnteredEvent(Entity shape)
         {
             color = Color.Red;
-            Debug.Log("entered");
         }
     }
 }

@@ -25,7 +25,7 @@ namespace PadZex.Collision
         public Vector2 Center;
         public float Radius;
 
-        public Circle(PadZex.Entity owner, Vector2 center, float radius) : base(owner)
+        public Circle(PadZex.Core.Entity owner, Vector2 center, float radius) : base(owner)
         {
             Center = center;
             Radius = radius;
