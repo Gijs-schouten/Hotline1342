@@ -60,7 +60,6 @@ namespace PadZex.Weapons
 		/// </summary>
 		public void ThrowWeapon()
 		{
-			player = FindEntity("Player");
 			velocity = 1;
 			MouseState state = Mouse.GetState();
 			Vector2 mousePos = new Vector2(state.X, state.Y);
