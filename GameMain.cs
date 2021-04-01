@@ -16,6 +16,7 @@ namespace PadZex
 
         Player player;
         Camera camera;
+        List<Door> doors = new List<Door>();
         private Scene testScene;
         
         public GameMain()
@@ -36,13 +37,13 @@ namespace PadZex
             testScene.SetAsMainScene();
             testScene.AddEntity(new Player());
             testScene.AddEntity(new Sword());
+            testScene.AddEntity(new Door(0));
             testScene.AddEntity(new Dagger());
             testScene.AddEntity(new Potion());
             for (int i = 0; i < randomEnemyCount.Next(5,10); i++) 
             {
                 testScene.AddEntity(new Enemy());
             }
-            
 
             graphics.PreferredBackBufferWidth = 1080;
             graphics.PreferredBackBufferHeight = 720;
