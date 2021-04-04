@@ -42,13 +42,13 @@ namespace PadZex.Collision
         public Vector2 Position;
         public Vector2 Size;
 
-        public Rectangle(PadZex.Entity owner, Vector2 position, Vector2 size) : base(owner)
+        public Rectangle(PadZex.Core.Entity owner, Vector2 position, Vector2 size) : base(owner)
         {
             Position = position;
             Size = size;
         }
 
-        public Rectangle(PadZex.Entity owner, float x, float y, float width, float height)
+        public Rectangle(PadZex.Core.Entity owner, float x, float y, float width, float height)
             : this(owner, new Vector2(x, y), new Vector2(width, height))
         {
 

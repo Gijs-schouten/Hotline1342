@@ -11,10 +11,10 @@ using System.Text;
 namespace PadZex
 {
 	/// <summary>
-	///  Player with static sprite and hp bar. 
+	///  Player with static sprite and hp bar.
 	///  WASD : Move
 	/// </summary>
-	public class Player : Entity 
+	public class Player : Entity
 	{
 		private Texture2D playerSprite;
 		private Color color = Color.White;
@@ -27,7 +27,7 @@ namespace PadZex
 		//Vector2 move;
 		private float speed;
 		private Vector2 Velocity;
-		
+
         public Player(Texture2D texture) : base(texture)
         {
 
@@ -39,7 +39,9 @@ namespace PadZex
 			health = new Health(100, 100);
 			speed = 0;
 			AddTag("Player");
-			Depth = 1;
+			Depth = 5;
+            Scale = 1f / (float)playerSprite.Width * 200f;
+            Debug.Log(Scale);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, Time time)
@@ -48,7 +50,7 @@ namespace PadZex
 		}
 
 		// Normalizering en acceleration Player
-		// Gebruik van het input systeem 
+		// Gebruik van het input systeem
 		public override void Update(Time time)
 		{
 			/*
@@ -104,9 +106,9 @@ namespace PadZex
 		{
 			Debug.Log("exited");
 		}
-	
 
-		// Removes Player 
+
+		// Removes Player
 		//public void Damage(Entity entity, float damage)
 		//{
 		//	Entity.DeleteEntity(this);

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
-namespace PadZex
+namespace PadZex.Core
 {
     /// <summary>
     /// Base functionality for any entity that is drawn on screen.
@@ -16,8 +16,9 @@ namespace PadZex
         public Vector2 Origin = default;
         public float Angle = .0f;
         public float Scale = 1.0f;
+		public float Alpha = 1;
         public int Depth = 0;
-		public IEnumerable<string> Tags => tags; 
+		public IEnumerable<string> Tags => tags;
 
         /// <summary>
         /// Shape assigned to this Entity. Can be null.
@@ -26,14 +27,13 @@ namespace PadZex
 
         private SpriteEffects effect = SpriteEffects.None;
         private List<string> tags = new List<string>();
-        
+
 
         public abstract void Initialize(ContentManager content);
         public abstract void Update(Time time);
         public abstract void Draw(SpriteBatch spriteBatch, Time time);
+        public virtual void OnDestroy() { }
 
-        
-     
         /// <summary>
         /// <summary>
         /// Look for an entity in the Active scene and return it
@@ -48,7 +48,7 @@ namespace PadZex
         {
             this.tags.AddRange(tags);
         }
-        public Entity() { } 
+        public Entity() { }
         public Entity(Texture2D texture) { }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace PadZex
         public void Draw(SpriteBatch spriteBatch, Texture2D texture)
         {
             spriteBatch.Draw(texture, Position, null,
-                Color.White, Angle, Origin,
+                Color.White * Alpha, Angle, Origin,
                 Scale, effect, Depth);
         }
         /// Deletes an entity the next frame in the active scene.
@@ -72,7 +72,7 @@ namespace PadZex
         /// Extend this to add a shape to this entity.
         /// Return it so it's added to the collision field properly.
         /// </summary>
-        /// <returns>a newly created shape or null. 
+        /// <returns>a newly created shape or null.
         /// A <see cref="Scene"/> will add this to its collision field</returns>
         public virtual Collision.Shape CreateShape() { return null; }
 

@@ -2,6 +2,6 @@
 {
     public interface IDamagable
     {
-        public void Damage(Entity entity, float damage = 0);
+        public void Damage(Core.Entity entity, float damage = 0);
     }
 }
