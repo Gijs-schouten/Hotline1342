@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Text;
+using System.Linq;
 using System.Collections.Generic;
 using PadZex.Weapons;
-using System;
 using PadZex.Core;
 
 namespace PadZex
@@ -14,6 +14,8 @@ namespace PadZex
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        private int currentLevel;
+        bool fPressed = false;
 
         Camera camera;
         private Scenes.PlayScene playScene;
@@ -58,15 +60,38 @@ namespace PadZex
 
             var level = LevelLoader.LevelLoader.LoadLevel(GraphicsDevice, "level1");
             playScene.LoadLevel(level);
+            currentLevel = 1;
         }
 
+        protected void LoadNextLevel()
+        {
+            currentLevel++;
+            foreach (Entity entity in playScene.entities)
+            {
+                if(!entity.Tags.Contains("Player")) playScene.DeleteEntity(entity);
+            }
+            playScene.AddEntity(new Sword());
+            playScene.AddEntity(camera);
+            camera.SelectTarget("Player");
+
+            var level = LevelLoader.LevelLoader.LoadLevel(GraphicsDevice, "level"+currentLevel);
+            playScene.LoadLevel(level);
+        }
         protected override void Update(GameTime gameTime)
         {
             Input.UpdateInput();
             
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            if (Input.KeyPressed(Keys.F) && !fPressed) 
+            {
+                LoadNextLevel();
+                fPressed = true;
+            } else if (!Input.KeyPressed(Keys.E))
+            {
+                fPressed = false;
+            }
 
             // TODO: Add your update logic here
             var time = new Time

@@ -18,7 +18,7 @@ namespace PadZex.Core
         /// </summary>
         public static Scene MainScene { get; private set; }
 
-        protected List<Entity> entities;
+        public List<Entity> entities;
         protected List<Entity> entityGulag;
 		protected List<Entity> addedEntities;
         private ContentManager contentManager;
@@ -96,12 +96,13 @@ namespace PadZex.Core
         public virtual void Update(Time time)
         {
             // delete all entities in the dirty list first.
-            foreach (var entity in entityGulag)
+            for (int i = entityGulag.Count() - 1; i >= 0; i--)
+            //foreach (var entity in entityGulag)
             {
-                if (!entities.Contains(entity)) continue;
+                if (!entities.Contains(entityGulag[i])) continue;
 
-                entity.OnDestroy();
-                entities.Remove(entity);
+                entityGulag[i].OnDestroy();
+                entities.Remove(entityGulag[i]);
             }
 
             foreach (var entity in entities)

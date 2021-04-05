@@ -12,7 +12,7 @@ namespace PadZex.Scenes
     {
         private Level loadedLevel;
 
-        private List<Entity> spawnedEntities;
+        public List<Entity> spawnedEntities;
 
         public PlayScene(ContentManager contentManager) : base(contentManager)
         {
