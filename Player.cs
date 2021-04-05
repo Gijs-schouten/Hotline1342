@@ -8,40 +8,40 @@ using PadZex.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using PadZex.LevelLoader;
+using System.Linq;
+
 namespace PadZex
 {
 	/// <summary>
 	///  Player with static sprite and hp bar.
 	///  WASD : Move
 	/// </summary>
-	public class Player : Entity
+	public class Player : Entity ,IDamagable
 	{
 		private Texture2D playerSprite;
 		private Color color = Color.White;
 
 		private Health health;
-		private HealthBar healthbar;
 
-		private Vector2 playerPosition;
-		private int width = 50;
 		//Vector2 move;
 		private float speed;
-		private Vector2 Velocity;
 
-        public Player(Texture2D texture) : base(texture)
-        {
 
-        }
+		public Player()
+		{
 
-        public override void Initialize(ContentManager content)
+		}
+
+		public override void Initialize(ContentManager content)
 		{
 			playerSprite = content.Load<Texture2D>("sprites/player");
 			health = new Health(100, 100);
 			speed = 0;
 			AddTag("Player");
 			Depth = 5;
-            Scale = 1f / (float)playerSprite.Width * 200f;
-            Debug.Log(Scale);
+			Scale = 1f / (float)playerSprite.Width * 200f;
+			Debug.Log(Scale);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, Time time)
@@ -89,37 +89,37 @@ namespace PadZex
 			}
 
 			speed = Math.Clamp(speed, 0, 10);
-			Debug.Log(speed);
 			Position += move * speed;
 		}
-
-
+	
 		public override Shape CreateShape()
 		{
 			var shape = new Collision.Rectangle(this, Vector2.Zero, new Vector2(playerSprite.Width, playerSprite.Height));
-			shape.ShapeEnteredEvent += OnShapeEnteredEvent;
-			shape.ShapeExitedEvent += OnShapeExitedEvent;
+			shape.ShapeEnteredEvent += CollisionEnter;
+			shape.ShapeExitedEvent += CollisionExit;
 			return shape;
 		}
-
-		private void OnShapeExitedEvent(Entity shape)
+		
+		private void CollisionEnter(Entity shape)
 		{
-			Debug.Log("exited");
+			if(shape.Tags.Contains("wall"))
+			{
+			    speed = 0;
+			}
+			//Debug.Log(shape.Tags.First());
 		}
 
 
-		// Removes Player
-		//public void Damage(Entity entity, float damage)
-		//{
-		//	Entity.DeleteEntity(this);
-		//}
-
-		private void OnShapeEnteredEvent(Entity shape)
+		private void CollisionExit(Entity shape)
 		{
-			color = Color.Red;
-			Debug.Log("entered");
-
-			health.GetHit(5);
+			Debug.Log("exit");
 		}
-	}
+
+
+		public void Damage(Entity entity, float damage = 0)
+        {
+          //  Entity.DeleteEntity(this);
+        }
+    }
 }
+		

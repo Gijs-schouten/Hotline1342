@@ -6,7 +6,7 @@ using PadZex.Weapons;
 using System.Collections.Generic;
 using System;
 using PadZex.Core;
-
+using PadZex.Scenes;
 
 namespace PadZex
 {
@@ -15,11 +15,10 @@ namespace PadZex
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        Player player;
         Camera camera;
         //  private List<Sprite> _sprites;
 
-        private Scene testScene;
+        private PlayScene playScene;
 
         public GameMain()
         {
@@ -49,7 +48,7 @@ namespace PadZex
             graphics.SynchronizeWithVerticalRetrace = false;
             graphics.ApplyChanges();
 
-            testScene.AddEntity(new Camera(GraphicsDevice.Viewport));
+            playScene.AddEntity(new Camera(GraphicsDevice.Viewport));
 
             camera.SelectTarget("Player");
             base.Initialize();
