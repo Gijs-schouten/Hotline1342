@@ -52,7 +52,6 @@ namespace PadZex
         public Camera(Viewport newViewport)
         {
             viewport = newViewport;
-
         }
 
         public void SelectTarget(String targetString)

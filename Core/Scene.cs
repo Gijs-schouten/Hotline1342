@@ -18,7 +18,7 @@ namespace PadZex.Core
         /// </summary>
         public static Scene MainScene { get; private set; }
 
-        public List<Entity> entities;
+        protected List<Entity> entities;
         protected List<Entity> entityGulag;
 		protected List<Entity> addedEntities;
         private ContentManager contentManager;
