@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+/*
 public class HealthBar
 {
     private Texture2D healthBar;
@@ -22,3 +23,4 @@ public class HealthBar
         //}
     }
 }
+*/

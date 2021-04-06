@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+/*
 public class Health
 {
     private float maxHealth = 100;
@@ -31,3 +31,4 @@ public class Health
         }
     }
 }
+*/
