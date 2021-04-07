@@ -21,12 +21,7 @@ namespace PadZex
 	{
 		private Texture2D playerSprite;
 		private Color color = Color.White;
-
-		private Health health;
-
-		//Vector2 move;
 		private float speed;
-
 
 		public Player()
 		{
@@ -36,7 +31,7 @@ namespace PadZex
 		public override void Initialize(ContentManager content)
 		{
 			playerSprite = content.Load<Texture2D>("sprites/player");
-			health = new Health(100, 100);
+			//health = new Health(100, 100);
 			speed = 0;
 			AddTag("Player");
 			Depth = 5;
@@ -49,30 +44,8 @@ namespace PadZex
 			Draw(spriteBatch, playerSprite);
 		}
 
-		// Normalizering en acceleration Player
-		// Gebruik van het input systeem
 		public override void Update(Time time)
 		{
-			/*
-			foreach (var sprite in Sprites)
-			{
-				if (sprite == this)
-					continue;
-
-				if ((this.Velocity.X > 0 && this.IsTouchingLeft(sprite)) ||
-					(this.Velocity.X < 0 & this.IsTouchingRight(sprite)))
-					this.Velocity.X = 0;
-
-				if ((this.Velocity.Y > 0 && this.IsTouchingTop(sprite)) ||
-					(this.Velocity.Y < 0 & this.IsTouchingBottom(sprite)))
-					this.Velocity.Y = 0;
-			}
-
-			Position += Velocity;
-
-			Velocity = Vector2.Zero;
-			*/
-
 			float horizontal = -Convert.ToSingle(Input.KeyPressed(Keys.A)) + Convert.ToSingle(Input.KeyPressed(Keys.D));
 			float vertical = -Convert.ToSingle(Input.KeyPressed(Keys.W)) + Convert.ToSingle(Input.KeyPressed(Keys.S));
 
@@ -89,32 +62,50 @@ namespace PadZex
 			}
 
 			speed = Math.Clamp(speed, 0, 10);
-			Position += move * speed;
+			float xVelocity = move.X * speed;
+			float yVelocity = move.Y * speed;
+
+			Position.X += xVelocity;
+			CheckHorizontalCollision(xVelocity);
+
+			Position.Y += yVelocity;
+			CheckVerticalCollision(yVelocity);
 		}
+
+		private void CheckHorizontalCollision(float velocity)
+        {
+            (bool collided, IEnumerable<Shape> shapes) = Scene.MainScene.TestAllCollision(Shape);
+			if(collided)
+            {
+				var walls = shapes.Where(x  =>  x.Owner.Tags.Contains("wall")).Cast<Collision.Rectangle>();
+				var wall = walls.FirstOrDefault();
+				if  (wall == null) return;
+
+				if (velocity < 0) Position.X = wall.WorldX + wall.WorldWidth;
+				else Position.X = wall.WorldX - ((Collision.Rectangle)Shape).WorldWidth;
+
+            }
+        }
 	
+		private void CheckVerticalCollision(float velocity)
+        {
+            (bool collided, IEnumerable<Shape> shapes) = Scene.MainScene.TestAllCollision(Shape);
+			if(collided)
+            {
+				var walls = shapes.Where(x  =>  x.Owner.Tags.Contains("wall")).Cast<Collision.Rectangle>();
+				var wall = walls.FirstOrDefault();
+				if  (wall == null) return;
+
+				if (velocity < 0) Position.Y = wall.WorldY + wall.WorldHeight;
+				else Position.Y = wall.WorldY - ((Collision.Rectangle)Shape).WorldHeight;
+            }
+        }
+
 		public override Shape CreateShape()
 		{
 			var shape = new Collision.Rectangle(this, Vector2.Zero, new Vector2(playerSprite.Width, playerSprite.Height));
-			shape.ShapeEnteredEvent += CollisionEnter;
-			shape.ShapeExitedEvent += CollisionExit;
 			return shape;
 		}
-		
-		private void CollisionEnter(Entity shape)
-		{
-			if(shape.Tags.Contains("wall"))
-			{
-			    speed = 0;
-			}
-			//Debug.Log(shape.Tags.First());
-		}
-
-
-		private void CollisionExit(Entity shape)
-		{
-			Debug.Log("exit");
-		}
-
 
 		public void Damage(Entity entity, float damage = 0)
         {
