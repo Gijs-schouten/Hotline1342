@@ -18,7 +18,7 @@ namespace PadZex.Core
         public float Scale = 1.0f;
 		public float Alpha = 1;
         public int Depth = 0;
-		public IEnumerable<string> Tags => tags; 
+		public IEnumerable<string> Tags => tags;
 
         /// <summary>
         /// Shape assigned to this Entity. Can be null.
@@ -27,6 +27,7 @@ namespace PadZex.Core
 
         private SpriteEffects effect = SpriteEffects.None;
         private List<string> tags = new List<string>();
+
 
         public abstract void Initialize(ContentManager content);
         public abstract void Update(Time time);
@@ -47,8 +48,8 @@ namespace PadZex.Core
         {
             this.tags.AddRange(tags);
         }
-
         public Entity() { }
+        public Entity(Texture2D texture) { }
 
         /// <summary>
         /// Draw the texture to the screen with the entities attributes.
@@ -71,7 +72,7 @@ namespace PadZex.Core
         /// Extend this to add a shape to this entity.
         /// Return it so it's added to the collision field properly.
         /// </summary>
-        /// <returns>a newly created shape or null. 
+        /// <returns>a newly created shape or null.
         /// A <see cref="Scene"/> will add this to its collision field</returns>
         public virtual Collision.Shape CreateShape() { return null; }
 

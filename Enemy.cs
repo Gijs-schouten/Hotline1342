@@ -11,7 +11,7 @@ using PadZex.Collision;
 
 namespace PadZex
 {
-    class Enemy : Entity, IDamagable
+    public class Enemy : Entity, IDamagable
     {
         public Texture2D enemySprite;
         public Vector2 enemyVelocity;
@@ -66,7 +66,7 @@ namespace PadZex
 
         public void Damage(Entity entity, float damage = 0)
         {
-            Entity.DeleteEntity(this);
+         //   Entity.DeleteEntity(this);
         }
         
     }

@@ -7,17 +7,20 @@ using System.Linq;
 using System.Collections.Generic;
 using PadZex.Weapons;
 using PadZex.Core;
+using PadZex.Scenes;
 
 namespace PadZex
 {
     public class GameMain : Game
     {
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-
         Camera camera;
-        private Scenes.PlayScene playScene;
-        
+        //  private List<Sprite> _sprites;
+
+        private PlayScene playScene;
+
         public GameMain()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -25,12 +28,11 @@ namespace PadZex
             IsMouseVisible = true;
         }
 
-
         protected override void Initialize()
         {
             Core.CoreUtils.GraphicsDevice = GraphicsDevice;
             LevelLoader.LevelLoader.LoadMapDefinitions();
-            
+
             camera = new Camera(GraphicsDevice.Viewport);
             // TODO: Add your initialization logic here
             playScene = new Scenes.PlayScene(Content);
@@ -46,7 +48,10 @@ namespace PadZex
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = false;
             graphics.ApplyChanges();
-            
+
+            playScene.AddEntity(new Camera(GraphicsDevice.Viewport));
+
+            camera.SelectTarget("Player");
             base.Initialize();
         }
 
@@ -83,9 +88,9 @@ namespace PadZex
         {
             GraphicsDevice.Clear(Color.Black);
 
-            var time = new Time
+			var time = new Time
             {
-                deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds,
+				deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds,
                 timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds
             };
             camera.Update(time);
@@ -96,7 +101,8 @@ namespace PadZex
                               camera.Transform);
             Scene.MainScene.Draw(spriteBatch, time);
             spriteBatch.End();
+
             base.Draw(gameTime);
-        }   
+        }
     }
 }
