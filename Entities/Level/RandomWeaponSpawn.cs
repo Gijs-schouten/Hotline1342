@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using PadZex.Core;
 using PadZex.Weapons;
+using Microsoft.Xna.Framework;
 
 namespace PadZex.Entities.Level
 {
@@ -16,6 +17,12 @@ namespace PadZex.Entities.Level
         };
 
         private Weapon spawnedWeapon;
+        private int randomWeaponIndex;
+
+        public RandomWeaponSpawn(LevelLoader.Level level, Point gridPos)
+        {
+            randomWeaponIndex = CoreUtils.Random.Next(weaponTypes.Length);
+        }
 
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {
@@ -24,9 +31,8 @@ namespace PadZex.Entities.Level
 
         public override void Initialize(ContentManager content)
         {
-            int random = CoreUtils.Random.Next(weaponTypes.Length);
             float randomAngle = (float)CoreUtils.Random.NextDouble() * 100f - 50f;
-            Type weaponType = weaponTypes[random];
+            Type weaponType = weaponTypes[randomWeaponIndex];
 
             spawnedWeapon = (Weapon)Activator.CreateInstance(weaponType);
             spawnedWeapon.Position = Position;
