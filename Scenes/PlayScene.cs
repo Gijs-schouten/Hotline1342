@@ -33,7 +33,7 @@ namespace PadZex.Scenes
 
             foreach(var entityType in level.Entities)
             {
-                var entityTypeInstance = Activator.CreateInstance(entityType.EntityType);
+                var entityTypeInstance = Activator.CreateInstance(entityType.EntityType, level, entityType.GridPosition);
                 if (entityTypeInstance == null) continue;
                 Entity entity = (Entity)entityTypeInstance;
                 entity.Position = new Microsoft.Xna.Framework.Vector2(

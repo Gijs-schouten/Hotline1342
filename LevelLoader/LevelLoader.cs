@@ -36,7 +36,7 @@ namespace PadZex.LevelLoader
 
             var tiles = ReadLevelTexture(levelTexture);
             var entities = ReadLevelEntityTexture(entityTexture);
-            return new Level(tiles, entities);
+            return new Level(tiles, entities, new Point(levelTexture.Width, levelTexture.Height));
         }
 
         private static IEnumerable<Tile> ReadLevelTexture(Texture2D levelTexture)
