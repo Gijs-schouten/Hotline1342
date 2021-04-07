@@ -54,6 +54,7 @@ namespace PadZex
         {
             //Draws the enemy sprite.
             Draw(spriteBatch, enemySprite);
+            Shape?.Draw(spriteBatch);
         }
 
         public override Shape CreateShape()
