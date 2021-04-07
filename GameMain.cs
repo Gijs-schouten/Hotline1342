@@ -14,8 +14,6 @@ namespace PadZex
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        private int currentLevel;
-        bool fPressed = false;
 
         Camera camera;
         private Scenes.PlayScene playScene;
@@ -60,7 +58,6 @@ namespace PadZex
 
             var level = LevelLoader.LevelLoader.LoadLevel(GraphicsDevice, "level1");
             playScene.LoadLevel(level);
-            currentLevel = 1;
         }
 
         protected override void Update(GameTime gameTime)
