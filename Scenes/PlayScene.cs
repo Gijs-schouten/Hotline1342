@@ -14,6 +14,7 @@ namespace PadZex.Scenes
 
         private List<Entity> spawnedEntities;
 
+        private int currentLevel = 1;
         public PlayScene(ContentManager contentManager) : base(contentManager)
         {
         }
@@ -55,6 +56,18 @@ namespace PadZex.Scenes
             }
 
             spawnedEntities.Clear();
+        }
+
+        public void LoadNextLevel()
+        {
+            foreach (Entity entity in entities)
+            {
+                if (!(entity.Tags.Contains("Player") || entity.Tags.Contains("camera"))) DeleteEntity(entity);
+            }
+            currentLevel++;
+
+            var level = LevelLoader.LevelLoader.LoadLevel(Core.CoreUtils.GraphicsDevice, "level" + currentLevel);
+            LoadLevel(level);
         }
     }
 }

@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Text;
+using System.Linq;
 using System.Collections.Generic;
 using PadZex.Weapons;
-using System;
 using PadZex.Core;
 
 namespace PadZex
@@ -64,7 +64,6 @@ namespace PadZex
         {
             Input.UpdateInput();
             
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -77,8 +76,7 @@ namespace PadZex
 
             Scene.MainScene.Update(time);
 
-            base.Update(gameTime);
-            
+            base.Update(gameTime);           
         }
 
         protected override void Draw(GameTime gameTime)
