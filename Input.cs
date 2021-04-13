@@ -7,13 +7,15 @@ namespace PadZex
     {
         private static KeyboardState currentState;
         private static KeyboardState oldState;
+        private static MouseState mouseState;
 
-        public static Vector2 MousePosition => new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-        public static bool MouseLeftPressed => Mouse.GetState().LeftButton == ButtonState.Pressed;
-        public static bool MouseRightPressed => Mouse.GetState().RightButton == ButtonState.Pressed;
+        public static Point MousePosition => mouseState.Position;
+        public static bool MouseLeftPressed => mouseState.LeftButton == ButtonState.Pressed;
+        public static bool MouseRightPressed => mouseState.RightButton == ButtonState.Pressed;
 
         public static void UpdateInput()
         {
+            mouseState = Mouse.GetState();
             currentState = Keyboard.GetState();
             oldState = currentState;
         }

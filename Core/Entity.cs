@@ -41,6 +41,15 @@ namespace PadZex.Core
         /// <param name="tag">Tag to look for</param>
         /// <returns>an Entity in the scene. Null if not found.</returns>
         public static Entity FindEntity(string tag) => Scene.MainScene?.FindEntity(tag);
+
+        /// <summary>
+        /// <summary>
+        /// Look for an entity in the Active scene and return it
+        /// </summary>
+        /// <param name="tag">Tag to look for</param>
+        /// <returns>an Entity in the scene. Null if not found.</returns>
+        public static T FindEntity<T>(string tag) where T : Entity => Scene.MainScene?.FindEntity(tag) as T;
+
         /// Create an entity and apply tags on it.
         /// </summary>
         /// <param name="tags">Tags to apply on the entity.</param>
