@@ -49,6 +49,8 @@ namespace PadZex
             set => Angle = value;
         }
 
+        public Vector2 MousePosition => (Input.MousePosition.ToVector2() - new Vector2(GetOffset().X, GetOffset().Y)) / Zoom + Position;
+
         public Camera(Viewport newViewport)
         {
             viewport = newViewport;
@@ -61,7 +63,7 @@ namespace PadZex
 
         public override void Initialize(ContentManager content)
         {
-            AddTag("camera");
+            AddTag("Camera");
         }
 
         public override void Update(Time time)
@@ -70,8 +72,14 @@ namespace PadZex
             transform = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
                                                     Matrix.CreateRotationZ(Rotation) *
                                                     Matrix.CreateScale(new Vector3(Zoom, Zoom, 0)) *
-                                                    Matrix.CreateTranslation(new Vector3(viewport.Width / 2, viewport.Height / 2, 0));
+                                                    Matrix.CreateTranslation(GetOffset());
         }
+
+        private Vector3 GetOffset()
+        {
+            return new Vector3(viewport.Width / 2, viewport.Height / 2, 0);
+        }
+
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {
 

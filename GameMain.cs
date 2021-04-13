@@ -37,9 +37,9 @@ namespace PadZex
             // TODO: Add your initialization logic here
             playScene = new Scenes.PlayScene(Content);
             playScene.SetAsMainScene();
+            playScene.AddEntityImmediate(camera);
             playScene.AddEntityImmediate(new Player());
             playScene.AddEntity(new Sword());
-            playScene.AddEntity(camera);
             camera.SelectTarget("Player");
 
 
