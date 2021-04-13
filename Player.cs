@@ -36,12 +36,12 @@ namespace PadZex
 			AddTag("Player");
 			Depth = 5;
 			Scale = 1f / (float)playerSprite.Width * 200f;
-			Debug.Log(Scale);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, Time time)
 		{
 			Draw(spriteBatch, playerSprite);
+			Shape?.Draw(spriteBatch);
 		}
 
 		public override void Update(Time time)

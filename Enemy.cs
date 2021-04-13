@@ -59,14 +59,14 @@ namespace PadZex
 
         public override Shape CreateShape()
         {
-            var shape = new Collision.Circle(this, new Vector2(-enemySprite.Width / 2 * Scale, 0), (enemySprite.Width * Scale / 2));
+            var shape = new Collision.Circle(this, new Vector2(enemySprite.Width / 2 * Scale, enemySprite.Height / 2 * Scale), (enemySprite.Width / 2));
             
             return shape;
         }
 
         public void Damage(Entity entity, float damage = 0)
         {
-         //   Entity.DeleteEntity(this);
+            Entity.DeleteEntity(this);
         }
         
     }

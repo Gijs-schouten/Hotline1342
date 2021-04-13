@@ -50,7 +50,7 @@ namespace PadZex.Weapons
 
 		public override Shape CreateShape()
 		{
-			var shape = new Collision.Circle(this, Vector2.Zero, weaponSprite.Width * Scale / 2);
+			var shape = new Collision.Circle(this, Vector2.Zero, weaponSprite.Width / 2);
 			shape.ShapeEnteredEvent += CollisionEnter;
 			shape.ShapeExitedEvent += CollisionExit;
 			return shape;
@@ -75,6 +75,7 @@ namespace PadZex.Weapons
 		public override void Draw(SpriteBatch spriteBatch, Time time)
 		{
 			Draw(spriteBatch, weaponSprite);
+			Shape?.Draw(spriteBatch);
 		}
 
 		public override void Update(Time time)

@@ -27,7 +27,7 @@ namespace PadZex.Collision
             float distY = circle.WorldY - testY;
             float distance = distX * distX + distY * distY;
 
-            return distance <= circle.Radius * circle.Radius;
+            return distance <= circle.WorldRadius * circle.WorldRadius;
         }
 
         public static bool RectangleWithRectangle(Rectangle rect1, Rectangle rect2)
@@ -42,7 +42,7 @@ namespace PadZex.Collision
         {
             float x = circle2.WorldX - circle1.WorldX;
             float y = circle2.WorldY - circle2.WorldY;
-            float r = circle2.Radius - circle1.Radius;
+            float r = circle2.WorldRadius - circle1.WorldRadius;
 
             return x * x + y * y <= r * r;
         }
