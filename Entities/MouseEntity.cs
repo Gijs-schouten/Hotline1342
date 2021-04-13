@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using PadZex.Core;
 using System;
@@ -21,8 +22,9 @@ namespace PadZex.Entities
 
         public override void Initialize(ContentManager content)
         {
-            texture = content.Load<Texture2D>("sprites/collision/rectangle");
-            Scale = 0.2f;
+            texture = content.Load<Texture2D>("sprites/cursor");
+            Origin = new Vector2(texture.Width, texture.Height) / 2;
+            Scale = 4;
             Depth = 10;
 
             camera = FindEntity<Camera>("Camera");
