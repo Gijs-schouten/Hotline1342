@@ -32,27 +32,24 @@ namespace PadZex
             this.songs[2] = content.Load<Song>("backgroundMusic/BFGDivision");
             MediaPlayer.Play(songs[SongNumber]);
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
-            Console.WriteLine("Music!");
         }
 
         public override void Update(Time time)
         {
+            
             if (currentSong != SongNumber)
             {
-                currentSong = SongNumber;
-                MediaPlayer.Play(songs[SongNumber]);
-                MediaPlayer.IsRepeating = true;
-                MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
-                Console.WriteLine("Music!");
-            }
-        }
-
-        void MediaPlayer_MediaStateChanged(object sender, System.EventArgs e)
-        {
-            // 0.0f is silent, 1.0f is full volume
-            MediaPlayer.Volume -= 0.1f;
-            MediaPlayer.Play(songs[SongNumber]);
+                if (SongNumber < songs.Length - 1)
+                {
+                    currentSong = SongNumber;
+                    MediaPlayer.Play(songs[SongNumber]);
+                    MediaPlayer.IsRepeating = true;
+                }
+                else
+                {
+                    Console.WriteLine("ERROR 404: song " + SongNumber + " not found");
+                }
+            }          
         }
     }
 }
