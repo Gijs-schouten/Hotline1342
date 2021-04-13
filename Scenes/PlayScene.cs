@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using PadZex.LevelLoader;
 using PadZex.Core;
 using System.Linq;
+using PadZex.Entities;
 
 namespace PadZex.Scenes
 {
@@ -17,6 +18,7 @@ namespace PadZex.Scenes
         private int currentLevel = 1;
         public PlayScene(ContentManager contentManager) : base(contentManager)
         {
+            AddEntity(new MouseEntity());
         }
 
         public void LoadLevel(Level level)
