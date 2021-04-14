@@ -28,9 +28,8 @@ namespace PadZex.Weapons
 
 		public bool throwing;
 		public float velocity = 0;
-
 		private Vector2 direction;
-		private bool pickedUp, collidingWithPlayer = false;
+		public bool pickedUp, collidingWithPlayer = false;
 		private Texture2D weaponSprite;
 		private Entity player;
 
@@ -91,7 +90,7 @@ namespace PadZex.Weapons
 			//If set, rotates the weapon and moves it to the destination
 			if (throwing)
 			{
-				if (Rotating)
+				if (Rotating && velocity > 0)
 				{
 					Angle += RotationSpeed * velocity * time.deltaTime;
 				}
