@@ -17,6 +17,7 @@ namespace PadZex
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         Camera camera;
+        BackgroundMusic music;
         //  private List<Sprite> _sprites;
 
         private PlayScene playScene;
@@ -34,14 +35,16 @@ namespace PadZex
             LevelLoader.LevelLoader.LoadMapDefinitions();
 
             camera = new Camera(GraphicsDevice.Viewport);
+            music = new BackgroundMusic();
             // TODO: Add your initialization logic here
             playScene = new Scenes.PlayScene(Content);
             playScene.SetAsMainScene();
+            playScene.AddEntityImmediate(camera);
             playScene.AddEntityImmediate(new Player());
             playScene.AddEntity(new Sword());
             playScene.AddEntity(camera);
+            playScene.AddEntity(music);
             camera.SelectTarget("Player");
-
 
             graphics.PreferredBackBufferWidth = 1080;
             graphics.PreferredBackBufferHeight = 720;
@@ -68,7 +71,7 @@ namespace PadZex
         protected override void Update(GameTime gameTime)
         {
             Input.UpdateInput();
-            
+            music.SongNumber = playScene.CurrentLevel;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -93,6 +96,7 @@ namespace PadZex
 				deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds,
                 timeSinceStart = (float)gameTime.TotalGameTime.TotalSeconds
             };
+            music.Update(time);
             camera.Update(time);
             // TODO: Add your drawing code here
             spriteBatch.Begin(SpriteSortMode.FrontToBack,

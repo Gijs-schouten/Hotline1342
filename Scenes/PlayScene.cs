@@ -5,18 +5,19 @@ using Microsoft.Xna.Framework.Content;
 using PadZex.LevelLoader;
 using PadZex.Core;
 using System.Linq;
+using PadZex.Entities;
 
 namespace PadZex.Scenes
 {
     public class PlayScene : Scene
     {
         private Level loadedLevel;
-
         private List<Entity> spawnedEntities;
 
-        private int currentLevel = 1;
+        public int CurrentLevel = 1;
         public PlayScene(ContentManager contentManager) : base(contentManager)
         {
+            AddEntity(new MouseEntity());
         }
 
         public void LoadLevel(Level level)
@@ -64,9 +65,9 @@ namespace PadZex.Scenes
             {
                 if (!(entity.Tags.Contains("Player") || entity.Tags.Contains("camera"))) DeleteEntity(entity);
             }
-            currentLevel++;
+            CurrentLevel++;
 
-            var level = LevelLoader.LevelLoader.LoadLevel(Core.CoreUtils.GraphicsDevice, "level" + currentLevel);
+            var level = LevelLoader.LevelLoader.LoadLevel(Core.CoreUtils.GraphicsDevice, "level" + CurrentLevel);
             LoadLevel(level);
         }
     }
