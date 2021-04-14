@@ -26,6 +26,7 @@ namespace PadZex
 
         public override void Initialize(ContentManager content)
         {
+            MediaPlayer.Volume = 0.5f;
             currentSong = SongNumber;
             this.songs[0] = content.Load<Song>("backgroundMusic/DoomsGate");
             this.songs[1] = content.Load<Song>("backgroundMusic/TheyFear");
@@ -35,8 +36,7 @@ namespace PadZex
         }
 
         public override void Update(Time time)
-        {
-            
+        {          
             if (currentSong != SongNumber)
             {
                 if (SongNumber < songs.Length - 1)
@@ -49,7 +49,21 @@ namespace PadZex
                 {
                     Console.WriteLine("ERROR 404: song " + SongNumber + " not found");
                 }
-            }          
+            }                 
+        }
+
+        public void ChangeVolume(bool volumeUp) //If true, volume goes up, if false, volume goes down
+        {
+            if (volumeUp)
+            {
+                MediaPlayer.Volume += 0.1f;
+                if (MediaPlayer.Volume > 1) MediaPlayer.Volume = 1;
+            }
+            else
+            {
+                MediaPlayer.Volume -= 0.1f;
+                if (MediaPlayer.Volume < 0) MediaPlayer.Volume = 0;
+            }
         }
     }
 }

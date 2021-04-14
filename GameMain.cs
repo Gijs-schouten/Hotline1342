@@ -18,6 +18,7 @@ namespace PadZex
         private SpriteBatch spriteBatch;
         Camera camera;
         BackgroundMusic music;
+        private int volumeChangeCooldown;
         //  private List<Sprite> _sprites;
 
         private PlayScene playScene;
@@ -31,6 +32,7 @@ namespace PadZex
 
         protected override void Initialize()
         {
+            volumeChangeCooldown = 0;
             Core.CoreUtils.GraphicsDevice = GraphicsDevice;
             LevelLoader.LevelLoader.LoadMapDefinitions();
 
@@ -72,6 +74,22 @@ namespace PadZex
         {
             Input.UpdateInput();
             music.SongNumber = playScene.CurrentLevel;
+
+            if (volumeChangeCooldown <= 0) //This exists so that holding the volume change for less than a second doesn't make it go from no to max volume
+            {
+                if (Input.KeyPressed(Keys.Up))
+                { 
+                    music.ChangeVolume(true);
+                    volumeChangeCooldown = 60;
+                }
+                if (Input.KeyPressed(Keys.Down))
+                { 
+                    music.ChangeVolume(false);
+                    volumeChangeCooldown = 60;
+                }
+            }
+            volumeChangeCooldown--;
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
