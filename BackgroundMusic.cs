@@ -58,13 +58,11 @@ namespace PadZex
             {
                 MediaPlayer.Volume += 0.1f;
                 if (MediaPlayer.Volume > 1) MediaPlayer.Volume = 1;
-                Console.WriteLine("Volume Up");
             }
             else
             {
                 MediaPlayer.Volume -= 0.1f;
                 if (MediaPlayer.Volume < 0) MediaPlayer.Volume = 0;
-                Console.WriteLine("Volume down");
             }
         }
     }
