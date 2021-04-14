@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using PadZex.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,5 +20,6 @@ namespace PadZex.Weapons
 			AddTag("Dagger");
             SpriteLocation = "sprites/weapons/machete";
         }
-    }
+
+	}
 }

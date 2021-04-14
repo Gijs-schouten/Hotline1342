@@ -40,16 +40,17 @@ namespace PadZex
             music = new BackgroundMusic();
             // TODO: Add your initialization logic here
             playScene = new Scenes.PlayScene(Content);
-            playScene.SetAsMainScene();
+            playScene.SetAsMainScene(camera);
             playScene.AddEntityImmediate(camera);
             playScene.AddEntityImmediate(new Player());
             playScene.AddEntity(new Sword());
             playScene.AddEntity(camera);
             playScene.AddEntity(music);
             camera.SelectTarget("Player");
+			CoreUtils.Point = new Point(1080, 720);
+            graphics.PreferredBackBufferWidth = CoreUtils.Point.X;
+            graphics.PreferredBackBufferHeight = CoreUtils.Point.Y;
 
-            graphics.PreferredBackBufferWidth = 1080;
-            graphics.PreferredBackBufferHeight = 720;
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = false;
             graphics.ApplyChanges();

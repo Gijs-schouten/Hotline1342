@@ -11,7 +11,7 @@ namespace PadZex.Scripts.Particle
 	class PotionParticle : Entity
 	{
 		private float particleSpeed;
-		private float velocity = 1;
+		private float velocity;
 		private Vector2 direction;
 		Random r = new Random();
 		private Texture2D particleSprite;
@@ -27,6 +27,7 @@ namespace PadZex.Scripts.Particle
 		public override void Initialize(ContentManager content)
 		{
 			particleSprite = content.Load<Texture2D>("sprites/weapons/potion_effect");
+			velocity = (float)r.NextDouble() + 0.2f;
 			Angle = r.Next(0, 1000);
 			particleSpeed = r.Next(200, 600);
 			Alpha = (float)r.NextDouble();
@@ -39,6 +40,10 @@ namespace PadZex.Scripts.Particle
 			if(velocity > 0) velocity -= time.deltaTime;
 			Alpha -= time.deltaTime;
 			Position += direction * particleSpeed * velocity * time.deltaTime;
+
+			if (Alpha <= 0) {
+				Scene.MainScene.DeleteEntity(this);
+			}
 		}
 	}
 }
