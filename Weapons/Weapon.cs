@@ -76,7 +76,6 @@ namespace PadZex.Weapons
 		public override void Draw(SpriteBatch spriteBatch, Time time)
 		{
 			Draw(spriteBatch, weaponSprite);
-			Shape?.Draw(spriteBatch);
 		}
 
 		public override void Update(Time time)

@@ -110,15 +110,15 @@ namespace PadZex.Collision
                 float width = 1f / rectangleTexture.Width * re.WorldWidth;
                 float height = 1f / rectangleTexture.Height * re.WorldHeight;
                 Vector2 rectScale = new Vector2(width, height);
-                spriteBatch.Draw(rectangleTexture, re.WorldPosition, null, new Color(1f, 1f, 1f, 0.3f), 0, Vector2.Zero, rectScale, SpriteEffects.None, 0);
+                spriteBatch.Draw(rectangleTexture, re.WorldPosition, null, new Color(1f, 1f, 1f, 0.3f), 0, Vector2.Zero, rectScale, SpriteEffects.None, 100);
             }
             else if (this is Circle cir)
             {
                 float scale = cir.Owner.Scale;
-                float size = (cir.Radius / circleTexture.Width * 2) * scale;
-                float x = cir.WorldX - cir.Radius * scale;
-                float y = cir.WorldY - cir.Radius * scale;
-                spriteBatch.Draw(circleTexture, new Vector2(x, y), null, new Color(1f, 1f, 1f, 0.3f), 0, Vector2.Zero, new Vector2(size), SpriteEffects.None, 0);
+                float size = 1f / circleTexture.Width * cir.WorldRadius * 2;
+                float x = cir.WorldX - cir.WorldRadius;
+                float y = cir.WorldY - cir.WorldRadius;
+                spriteBatch.Draw(circleTexture, new Vector2(x, y), null, new Color(1f, 1f, 1f, 0.3f), 0, Vector2.Zero, new Vector2(size), SpriteEffects.None, 100);
             }
         }
     }

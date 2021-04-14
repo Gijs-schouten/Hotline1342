@@ -35,14 +35,14 @@ namespace PadZex.Collision
             return rect1.WorldX < rect2.WorldX + rect2.WorldWidth
                 && rect1.WorldX + rect1.WorldWidth > rect2.WorldX
                 && rect1.WorldY < rect2.WorldY + rect2.WorldHeight
-                && rect1.WorldY + rect2.WorldHeight > rect2.WorldY;
+                && rect1.WorldY + rect1.WorldHeight > rect2.WorldY;
         }
 
         public static bool CircleWithCircle(Circle circle1, Circle circle2)
         {
             float x = circle2.WorldX - circle1.WorldX;
-            float y = circle2.WorldY - circle2.WorldY;
-            float r = circle2.WorldRadius - circle1.WorldRadius;
+            float y = circle2.WorldY - circle1.WorldY;
+            float r = circle2.WorldRadius + circle1.WorldRadius;
 
             return x * x + y * y <= r * r;
         }
