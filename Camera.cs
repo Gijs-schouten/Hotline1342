@@ -49,33 +49,47 @@ namespace PadZex
             set => Angle = value;
         }
 
-        public Camera(Viewport newViewport)
+        public Vector2 MousePosition => Input.MousePosition.ToVector2() / Zoom + Position;
+		public Vector2 GlobalPosition => Position;
+		
+		public Camera(Viewport newViewport)
         {
             viewport = newViewport;
-
         }
 
         public void SelectTarget(String targetString)
         {
             target = FindEntity(targetString);
+            Origin = CoreUtils.Point.ToVector2() / 2;
         }
 
         public override void Initialize(ContentManager content)
         {
-            AddTag("camera");
+            AddTag("Camera");
         }
 
         public override void Update(Time time)
         {
-            if (target != null) Position = new Vector2(target.Position.X, target.Position.Y);           
-            transform = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
-                                                    Matrix.CreateRotationZ(Rotation) *
-                                                    Matrix.CreateScale(new Vector3(Zoom, Zoom, 0)) *
-                                                    Matrix.CreateTranslation(new Vector3(viewport.Width / 2, viewport.Height / 2, 0));
+            if (target != null) Position = new Vector2(target.Position.X, target.Position.Y) - Origin / Zoom;
+ 			transform = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
+													Matrix.CreateRotationZ(Rotation) *
+													Matrix.CreateScale(new Vector3(Zoom, Zoom, 0));
         }
+
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {
 
         }
+
+		public bool IsInScreen(Entity obj) {
+			if (obj.Position.X < GlobalPosition.X + CoreUtils.Point.X / Zoom &&
+				obj.Position.X > GlobalPosition.X &&
+				obj.Position.Y < GlobalPosition.Y + CoreUtils.Point.Y / Zoom &&
+				obj.Position.Y > GlobalPosition.Y)
+			{
+				return true;
+			}
+			return false;
+		}
     }
 }

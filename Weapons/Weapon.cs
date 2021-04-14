@@ -32,12 +32,14 @@ namespace PadZex.Weapons
 		public bool pickedUp, collidingWithPlayer = false;
 		private Texture2D weaponSprite;
 		private Entity player;
+		private Camera camera;
 
 
 		public override void Initialize(ContentManager content)
 		{
 			weaponSprite = content.Load<Texture2D>(SpriteLocation);
 			player = FindEntity("Player");
+			camera = FindEntity<Camera>("Camera");
 			Origin = new Vector2(weaponSprite.Width / 2, weaponSprite.Height / 2);
 
 			if (isFlipped)
@@ -49,7 +51,7 @@ namespace PadZex.Weapons
 
 		public override Shape CreateShape()
 		{
-			var shape = new Collision.Circle(this, Vector2.Zero, weaponSprite.Width * Scale / 2);
+			var shape = new Collision.Circle(this, Vector2.Zero, weaponSprite.Width / 2);
 			shape.ShapeEnteredEvent += CollisionEnter;
 			shape.ShapeExitedEvent += CollisionExit;
 			return shape;
@@ -62,12 +64,10 @@ namespace PadZex.Weapons
 		{
 			player = FindEntity("Player");
 			velocity = 1;
-			MouseState state = Mouse.GetState();
-			Vector2 mousePos = new Vector2(state.X, state.Y);
-			direction = mousePos - Position + FindEntity("camera").Position;
+			Vector2 mousePos = camera.MousePosition;
+			direction = mousePos - player.Position;
 			Angle = VectorToAngle(direction);
 			direction.Normalize();
-			//Angle = VectorToAngle(direction);
 			throwing = true;
 			pickedUp = false;
 		}

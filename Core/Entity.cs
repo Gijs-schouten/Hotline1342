@@ -18,7 +18,7 @@ namespace PadZex.Core
         public float Scale = 1.0f;
 		public float Alpha = 1;
         public int Depth = 0;
-		public IEnumerable<string> Tags => tags; 
+		public IEnumerable<string> Tags => tags;
 
         /// <summary>
         /// Shape assigned to this Entity. Can be null.
@@ -27,6 +27,7 @@ namespace PadZex.Core
 
         private SpriteEffects effect = SpriteEffects.None;
         private List<string> tags = new List<string>();
+
 
         public abstract void Initialize(ContentManager content);
         public abstract void Update(Time time);
@@ -40,6 +41,15 @@ namespace PadZex.Core
         /// <param name="tag">Tag to look for</param>
         /// <returns>an Entity in the scene. Null if not found.</returns>
         public static Entity FindEntity(string tag) => Scene.MainScene?.FindEntity(tag);
+
+        /// <summary>
+        /// <summary>
+        /// Look for an entity in the Active scene and return it
+        /// </summary>
+        /// <param name="tag">Tag to look for</param>
+        /// <returns>an Entity in the scene. Null if not found.</returns>
+        public static T FindEntity<T>(string tag) where T : Entity => Scene.MainScene?.FindEntity(tag) as T;
+
         /// Create an entity and apply tags on it.
         /// </summary>
         /// <param name="tags">Tags to apply on the entity.</param>
@@ -47,8 +57,8 @@ namespace PadZex.Core
         {
             this.tags.AddRange(tags);
         }
-
         public Entity() { }
+        public Entity(Texture2D texture) { }
 
         /// <summary>
         /// Draw the texture to the screen with the entities attributes.
@@ -71,7 +81,7 @@ namespace PadZex.Core
         /// Extend this to add a shape to this entity.
         /// Return it so it's added to the collision field properly.
         /// </summary>
-        /// <returns>a newly created shape or null. 
+        /// <returns>a newly created shape or null.
         /// A <see cref="Scene"/> will add this to its collision field</returns>
         public virtual Collision.Shape CreateShape() { return null; }
 

@@ -12,7 +12,7 @@ using PadZex.Scripts.Particle;
 
 namespace PadZex
 {
-    class Enemy : Entity, IDamagable
+    public class Enemy : Entity, IDamagable
     {
         public Texture2D enemySprite;
         public Vector2 enemyVelocity;
@@ -62,7 +62,7 @@ namespace PadZex
 
         public override Shape CreateShape()
         {
-            var shape = new Collision.Circle(this, new Vector2(-enemySprite.Width / 2 * Scale, 0), (enemySprite.Width * Scale / 2));
+            var shape = new Collision.Circle(this, new Vector2(enemySprite.Width / 2 * Scale, enemySprite.Height / 2 * Scale), (enemySprite.Width / 2));
             
             return shape;
         }

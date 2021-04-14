@@ -23,7 +23,10 @@ namespace PadZex.Scripts.Particle
 		}
 		public override void Draw(SpriteBatch spriteBatch, Time time)
 		{
-			Draw(spriteBatch, particleSprite);
+			if (Scene.MainScene.Camera.IsInScreen(this)) {
+				Draw(spriteBatch, particleSprite);
+			}
+			
 		}
 
 		public override void Initialize(ContentManager content)
