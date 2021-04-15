@@ -16,7 +16,7 @@ namespace PadZex.Weapons
 		public Potion()
 		{
 			WeaponDamage = 0;
-			WeaponSpeed = 1000f;
+			WeaponSpeed = 1200;
 			RotationSpeed = 15f;
 			Scale = 0.5f;
 			Rotating = true;
