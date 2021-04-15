@@ -93,8 +93,7 @@ namespace PadZex.Weapons
 				if (Rotating && velocity > 0)
 				{
 					Angle += RotationSpeed * velocity * time.deltaTime;
-				}
-				else
+				} else
 				{
 					//Angle = VectorToAngle(direction);
 				}
@@ -147,7 +146,11 @@ namespace PadZex.Weapons
 		/// <param name="entity"></param>
 		private void CollisionEnter(Entity entity)
 		{
-			(entity as IDamagable)?.Damage(this, WeaponDamage);
+			if (throwing)
+			{
+				(entity as IDamagable)?.Damage(this, WeaponDamage);
+
+			}
 
 			if (entity is Player) collidingWithPlayer = true;
 
