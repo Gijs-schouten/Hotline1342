@@ -97,13 +97,19 @@ namespace PadZex.Core
 
 		public virtual void Update(Time time)
 		{
-			// delete all entities in the dirty list first.
-			foreach (var entity in entityGulag)
-			{
-				if (!entities.Contains(entity)) continue;
+            // delete all entities in the dirty list first.
+            for (int i = entityGulag.Count - 1; i >= 0; i--)
+            {
+                Entity entity = entityGulag[i];
+                if (!entities.Contains(entity)) continue;
 
 				entity.OnDestroy();
 				entities.Remove(entity);
+
+				if(entity.Shape != null)
+                {
+					quadTree.RemoveShape(entity.Shape);
+                }
 			}
 
 			entityGulag.Clear();
