@@ -9,6 +9,7 @@ using System.Text;
 using PadZex.Core;
 using PadZex.Collision;
 using PadZex.Scripts.Particle;
+using PadZex.Scenes;
 
 namespace PadZex
 {
@@ -73,6 +74,8 @@ namespace PadZex
         }
 
 		private void Die() {
+			PlayScene playScene = Scene.MainScene as PlayScene;
+            if (playScene != null) playScene.EnemyCount--;
 			SpawnBlood();
 			Scene.MainScene.DeleteEntity(this);
 		}
