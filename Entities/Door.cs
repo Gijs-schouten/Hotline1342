@@ -28,7 +28,7 @@ namespace PadZex
             doorStateSprites[1] = content.Load<Texture2D>("sprites/door/doorState2"); //Doorstate in between (currently not in use)
             doorStateSprites[2] = content.Load<Texture2D>("sprites/door/doorState3"); //Doorstate down/up closed
             opening = startState == 0;
-            Scale = 2;
+            Scale = 1;
 
             health = 10;
         }
