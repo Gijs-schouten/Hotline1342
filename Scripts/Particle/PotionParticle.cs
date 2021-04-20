@@ -38,11 +38,13 @@ namespace PadZex.Scripts.Particle
 		public override void Update(Time time)
 		{
 			if(velocity > 0) velocity -= time.deltaTime;
-			Alpha -= time.deltaTime;
 			Position += direction * particleSpeed * velocity * time.deltaTime;
 
-			if (Alpha <= 0) {
+			if (Alpha <= 0)
+			{
 				Scene.MainScene.DeleteEntity(this);
+			} else {
+				Alpha -= time.deltaTime;
 			}
 		}
 	}
