@@ -135,6 +135,7 @@ namespace PadZex.Weapons
 		/// </summary>
 		public void PickUp()
 		{
+			Angle = 0;
 			pickedUp = true;
 			throwing = false;
 		}
