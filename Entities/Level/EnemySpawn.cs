@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using PadZex.Core;
 using Microsoft.Xna.Framework;
+using PadZex.Scenes;
 
 namespace PadZex.Entities.Level
 {
@@ -26,6 +27,9 @@ namespace PadZex.Entities.Level
                 Position = Position
             };
             Scene.MainScene.AddEntity(enemy);
+
+            var playScene = Scene.MainScene as PlayScene;
+            playScene.EnemyCount++;
         }
 
         public override void Update(Time time)

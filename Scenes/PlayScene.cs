@@ -14,7 +14,9 @@ namespace PadZex.Scenes
         private Level loadedLevel;
         private List<Entity> spawnedEntities;
 
+        public int EnemyCount { get; set; } = 0;
         public int CurrentLevel = 1;
+
         public PlayScene(ContentManager contentManager) : base(contentManager)
         {
             AddEntity(new MouseEntity());
@@ -22,6 +24,7 @@ namespace PadZex.Scenes
 
         public void LoadLevel(Level level)
         {
+            EnemyCount = 0;
             loadedLevel = level;
             spawnedEntities = new List<Entity>();
             int width = level.Tiles.First().Texture.Width;

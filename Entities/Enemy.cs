@@ -8,6 +8,7 @@ using System;
 using System.Text;
 using PadZex.Core;
 using PadZex.Collision;
+using PadZex.Scenes;
 
 namespace PadZex
 {
@@ -65,6 +66,8 @@ namespace PadZex
 
         public void Damage(Entity entity, float damage = 0)
         {
+            PlayScene playScene = Scene.MainScene as PlayScene;
+            if (playScene != null) playScene.EnemyCount--;
             Entity.DeleteEntity(this);
         }
         
