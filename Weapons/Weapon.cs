@@ -28,9 +28,8 @@ namespace PadZex.Weapons
 
 		public bool throwing;
 		public float velocity = 0;
-
 		private Vector2 direction;
-		private bool pickedUp, collidingWithPlayer = false;
+		public bool pickedUp, collidingWithPlayer = false;
 		private Texture2D weaponSprite;
 		private Entity player;
 		private Camera camera;
@@ -91,11 +90,10 @@ namespace PadZex.Weapons
 			//If set, rotates the weapon and moves it to the destination
 			if (throwing)
 			{
-				if (Rotating)
+				if (Rotating && velocity > 0)
 				{
 					Angle += RotationSpeed * velocity * time.deltaTime;
-				}
-				else
+				} else
 				{
 					//Angle = VectorToAngle(direction);
 				}
@@ -148,7 +146,11 @@ namespace PadZex.Weapons
 		/// <param name="entity"></param>
 		private void CollisionEnter(Entity entity)
 		{
-			(entity as IDamagable)?.Damage(this, WeaponDamage);
+			if (throwing)
+			{
+				(entity as IDamagable)?.Damage(this, WeaponDamage);
+
+			}
 
 			if (entity is Player) collidingWithPlayer = true;
 

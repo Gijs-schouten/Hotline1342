@@ -8,6 +8,7 @@ using System;
 using System.Text;
 using PadZex.Core;
 using PadZex.Collision;
+using PadZex.Scripts.Particle;
 using PadZex.Scenes;
 
 namespace PadZex
@@ -16,10 +17,13 @@ namespace PadZex
     {
         public Texture2D enemySprite;
         public Vector2 enemyVelocity;
+
+		private int particleAmount = 50;
      
         public override void Initialize(ContentManager content)
         {
             enemySprite = content.Load<Texture2D>("sprites/enemySprite");
+			Origin = new Vector2(enemySprite.Width / 2, enemySprite.Height / 2);
 
             enemyVelocity.X = 5f;
             enemyVelocity.Y = 5f;
@@ -66,11 +70,25 @@ namespace PadZex
 
         public void Damage(Entity entity, float damage = 0)
         {
-            PlayScene playScene = Scene.MainScene as PlayScene;
-            if (playScene != null) playScene.EnemyCount--;
-            Entity.DeleteEntity(this);
+			if (damage > 0) Die();
         }
-        
+
+		private void Die() {
+			PlayScene playScene = Scene.MainScene as PlayScene;
+            if (playScene != null) playScene.EnemyCount--;
+			SpawnBlood();
+			Scene.MainScene.DeleteEntity(this);
+		}
+
+		private void SpawnBlood() {
+			var particles = new BloodParticle[particleAmount];
+
+			for (int i = 0; i < particleAmount; i++)
+			{
+				particles[i] = new BloodParticle(Position, false);
+				Scene.MainScene.AddEntity(particles[i]);
+			}
+		}
     }
 
 }

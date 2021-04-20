@@ -3,17 +3,20 @@ using Microsoft.Xna.Framework.Input;
 using PadZex.Collision;
 using PadZex.Scripts.Particle;
 using PadZex.Core;
+using PadZex.Interfaces;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace PadZex.Weapons
 {
 	class Potion : Weapon
 	{
-		private int particleAmount = 200;
+		private int particleAmount = 150;
 		private bool exploded;
 		public Potion()
 		{
-			WeaponDamage = 5;
-			WeaponSpeed = 1000f;
+			WeaponDamage = 0;
+			WeaponSpeed = 1200;
 			RotationSpeed = 15f;
 			Scale = 0.5f;
 			Rotating = true;
@@ -44,9 +47,18 @@ namespace PadZex.Weapons
 
 		private void Explode()
 		{
-			Alpha = 0;
+			WeaponDamage = 6;
 
-			Scene.MainScene.TestCollision(new Circle(this, Vector2.Zero, 200));
+			(bool collided, IEnumerable<Shape> shapes) = Scene.MainScene.TestAllCollision(new Circle(this, Vector2.Zero, 2000));
+
+			foreach (var shape in shapes)
+			{
+				if (collided && shape.Owner is IDamagable damagable)
+				{
+					damagable.Damage(shape.Owner, WeaponDamage);
+				}
+
+			}
 
 			var particles = new PotionParticle[particleAmount];
 
@@ -57,6 +69,7 @@ namespace PadZex.Weapons
 			}
 
 			exploded = true;
+			Scene.MainScene.DeleteEntity(this);
 		}
 	}
 }

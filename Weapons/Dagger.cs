@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using PadZex.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ namespace PadZex.Weapons
         public Dagger()
         {
             WeaponDamage = 8;
-            WeaponSpeed = 1000;
+            WeaponSpeed = 3000;
             RotationSpeed = 0;
             Scale = 0.2f;
             Rotating = false;
@@ -19,5 +20,6 @@ namespace PadZex.Weapons
 			AddTag("Dagger");
             SpriteLocation = "sprites/weapons/machete";
         }
-    }
+
+	}
 }
