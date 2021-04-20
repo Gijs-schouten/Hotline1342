@@ -98,14 +98,15 @@ namespace PadZex.Core
 		public virtual void Update(Time time)
 		{
 			// delete all entities in the dirty list first.
-			for (int i = entityGulag.Count() - 1; i >= 0; i--)
-			//foreach (var entity in entityGulag)
+			foreach (var entity in entityGulag)
 			{
-				if (!entities.Contains(entityGulag[i])) continue;
+				if (!entities.Contains(entity)) continue;
 
-				entityGulag[i].OnDestroy();
-				entities.Remove(entityGulag[i]);
+				entity.OnDestroy();
+				entities.Remove(entity);
 			}
+
+			entityGulag.Clear();
 
 			foreach (var entity in entities)
 			{
