@@ -19,6 +19,9 @@ namespace PadZex
 	/// </summary>
 	public class Player : Entity ,IDamagable
 	{
+		private const float ACCEL_SPEED = 256 * 15f; 
+		private const float MAX_SPEED = 256 * 5f;
+		
 		private Texture2D playerSprite;
 		private Color color = Color.White;
 		private float speed;
@@ -52,7 +55,7 @@ namespace PadZex
 
 			if (move != new Vector2(0, 0))
 			{
-				speed += .4f;
+				speed += ACCEL_SPEED * time.deltaTime;
 				move = Vector2.Normalize(move);
 			}
 			else
@@ -60,9 +63,10 @@ namespace PadZex
 				speed = 0f;
 			}
 
-			speed = Math.Clamp(speed, 0, 10);
-			float xVelocity = move.X * speed;
-			float yVelocity = move.Y * speed;
+			speed = Math.Clamp(speed, 0, MAX_SPEED);
+			float xVelocity = move.X * speed * time.deltaTime;
+			float yVelocity = move.Y * speed * time.deltaTime;
+			Console.WriteLine($"{speed} {time.deltaTime} {xVelocity}");
 
 			Position.X += xVelocity;
 			CheckHorizontalCollision(xVelocity);
