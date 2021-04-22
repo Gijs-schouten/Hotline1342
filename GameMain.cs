@@ -18,6 +18,8 @@ namespace PadZex
         private SpriteBatch spriteBatch;
         Camera camera;
         BackgroundMusic music;
+        SoundEffects soundEffect;
+        public bool ToPlay = false;
         private int volumeChangeCooldown;
         //  private List<Sprite> _sprites;
 
@@ -37,7 +39,10 @@ namespace PadZex
             LevelLoader.LevelLoader.LoadMapDefinitions();
 
             camera = new Camera(GraphicsDevice.Viewport);
+
             music = new BackgroundMusic();
+            soundEffect = new SoundEffects();
+
             // TODO: Add your initialization logic here
             playScene = new Scenes.PlayScene(Content);
             playScene.SetAsMainScene(camera);
@@ -45,7 +50,10 @@ namespace PadZex
             playScene.AddEntityImmediate(new Player());
             playScene.AddEntity(new Sword());
             playScene.AddEntity(camera);
+
             playScene.AddEntity(music);
+            playScene.AddEntity(soundEffect);
+
             camera.SelectTarget("Player");
 			CoreUtils.Point = new Point(1080, 720);
             graphics.PreferredBackBufferWidth = CoreUtils.Point.X;

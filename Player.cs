@@ -22,6 +22,7 @@ namespace PadZex
 		private Texture2D playerSprite;
 		private Color color = Color.White;
 		private float speed;
+		private Entity sound;
 
 		public Player()
 		{
@@ -108,8 +109,10 @@ namespace PadZex
 
 		public void Damage(Entity entity, float damage = 0)
         {
-          //  Entity.DeleteEntity(this);
-        }
+			sound = FindEntity("sound");
+			sound.Position = new Vector2(1, 3);
+			//  Entity.DeleteEntity(this);
+		}
     }
 }
 		

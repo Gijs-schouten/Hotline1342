@@ -19,7 +19,8 @@ namespace PadZex
         public Vector2 enemyVelocity;
 
 		private int particleAmount = 50;
-     
+        private Entity sound;
+
         public override void Initialize(ContentManager content)
         {
             enemySprite = content.Load<Texture2D>("sprites/enemySprite");
@@ -69,6 +70,8 @@ namespace PadZex
 
         public void Damage(Entity entity, float damage = 0)
         {
+            sound = FindEntity("sound");
+            sound.Position = new Vector2(1, 1);
 			if (damage > 0) Die();
         }
 

@@ -18,6 +18,7 @@ namespace PadZex.Weapons
 		/// <summary>
 		/// Weapon settings set in the sub classes
 		/// </summary>
+
 		public float WeaponDamage { get; set; }
 		public float WeaponSpeed { get; set; }
 		public float RotationSpeed { get; set; }
@@ -32,6 +33,7 @@ namespace PadZex.Weapons
 		public bool pickedUp, collidingWithPlayer = false;
 		private Texture2D weaponSprite;
 		private Entity player;
+		private Entity sound;
 		private Camera camera;
 
 
@@ -63,6 +65,7 @@ namespace PadZex.Weapons
 		public void ThrowWeapon()
 		{
 			player = FindEntity("Player");
+			sound = FindEntity("sound");
 			velocity = 1;
 			Vector2 mousePos = camera.MousePosition;
 			direction = mousePos - player.Position;
@@ -70,6 +73,7 @@ namespace PadZex.Weapons
 			direction.Normalize();
 			throwing = true;
 			pickedUp = false;
+			sound.Position = new Vector2(1, 5);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, Time time)

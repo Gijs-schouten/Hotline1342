@@ -13,6 +13,8 @@ namespace PadZex.Weapons
 	{
 		private int particleAmount = 150;
 		private bool exploded;
+		private Entity sound;
+
 		public Potion()
 		{
 			WeaponDamage = 0;
@@ -68,6 +70,8 @@ namespace PadZex.Weapons
 				Scene.MainScene.AddEntity(particles[i]);
 			}
 
+			sound = FindEntity("sound");
+			sound.Position = new Vector2(1, 4);
 			exploded = true;
 			Scene.MainScene.DeleteEntity(this);
 		}

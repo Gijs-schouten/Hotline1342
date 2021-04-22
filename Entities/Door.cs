@@ -14,6 +14,7 @@ namespace PadZex
         private bool opening;
         private Texture2D[] doorStateSprites = new Texture2D[3];
         private Color color = Color.White;
+        private Entity sound;
 
         public Door(short startState)
         {
@@ -78,6 +79,8 @@ namespace PadZex
 
         public void Damage(Entity entity, float damage = 10)
         {
+            sound = FindEntity("sound");
+            sound.Position = new Vector2(1, 0);
             health -= damage;
             if (health <= 0) Entity.DeleteEntity(this);
         }

@@ -31,6 +31,42 @@
 /processorParam:Quality=Best
 /build:backgroundMusic/TheyFear.mp3
 
+#begin soundEffects/DoorBreak.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/DoorBreak.mp3
+
+#begin soundEffects/EnemyOuch.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/EnemyOuch.mp3
+
+#begin soundEffects/MenuButton.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/MenuButton.mp3
+
+#begin soundEffects/PlayerOuch.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/PlayerOuch.mp3
+
+#begin soundEffects/PotionImpact.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/PotionImpact.mp3
+
+#begin soundEffects/Throw.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/Throw.mp3
+
 #begin sprites/collision/circle.png
 /importer:TextureImporter
 /processor:TextureProcessor
