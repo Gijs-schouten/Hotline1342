@@ -16,6 +16,7 @@ namespace PadZex.Scenes
 
         public int EnemyCount { get; set; } = 0;
         public int CurrentLevel = 1;
+        public bool LevelLoaded { get; private set; }
 
         public PlayScene(ContentManager contentManager) : base(contentManager)
         {
@@ -24,6 +25,11 @@ namespace PadZex.Scenes
 
         public void LoadLevel(Level level)
         {
+            if(LevelLoaded)
+            {
+                UnloadLevel();
+            }
+
             EnemyCount = 0;
             loadedLevel = level;
             spawnedEntities = new List<Entity>();
@@ -48,6 +54,8 @@ namespace PadZex.Scenes
                 spawnedEntities.Add(entity);
                 AddEntity(entity);
             }
+
+            LevelLoaded = true;
         }
 
         public void ReloadLevel() => LoadLevel(loadedLevel);
@@ -60,6 +68,7 @@ namespace PadZex.Scenes
             }
 
             spawnedEntities.Clear();
+            LevelLoaded = false;
         }
 
         public void LoadNextLevel()
