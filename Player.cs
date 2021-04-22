@@ -66,7 +66,6 @@ namespace PadZex
 			speed = Math.Clamp(speed, 0, MAX_SPEED);
 			float xVelocity = move.X * speed * time.deltaTime;
 			float yVelocity = move.Y * speed * time.deltaTime;
-			Console.WriteLine($"{speed} {time.deltaTime} {xVelocity}");
 
 			Position.X += xVelocity;
 			CheckHorizontalCollision(xVelocity);
