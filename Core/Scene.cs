@@ -18,13 +18,13 @@ namespace PadZex.Core
 		/// </summary>
 		public static Scene MainScene { get; private set; }
 
-		protected List<Entity> entities;
-		protected List<Entity> entityGulag;
-		protected List<Entity> addedEntities;
-		private ContentManager contentManager;
-		private CollisionField quadTree;
+		protected readonly List<Entity> entities;
+		private readonly List<Entity> entityGulag;
+		private readonly List<Entity> addedEntities;
+		private readonly ContentManager contentManager;
+		private readonly CollisionField quadTree;
 
-		public Camera Camera { get; set; }
+		public Camera Camera { get; private set; }
 		public Scene(ContentManager contentManager)
 		{
 			entities = new List<Entity>();
