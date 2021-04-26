@@ -145,7 +145,6 @@ namespace PadZex.Weapons
 			if (Input.MouseLeftFramePressed && pickedUp)
 			{
 				ThrowWeapon(time);
-
 			}
 
 			//Picks op weapon if colliding with 'F'
