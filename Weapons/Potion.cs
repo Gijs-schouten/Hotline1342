@@ -30,16 +30,17 @@ namespace PadZex.Weapons
 			base.Update(time);
 			KeyboardState state = Keyboard.GetState();
 
-			if (throwing && velocity > 0.5f)
+			float velocityLength = velocity.Length();
+			if (throwing && velocityLength > 0.5f)
 			{
 				Scale += time.deltaTime;
 			}
-			else if (throwing && velocity < 0.5f && velocity > 0)
+			else if (throwing && velocityLength < 0.5f && velocityLength > 0)
 			{
 				Scale -= time.deltaTime;
 			}
 
-			if (throwing && velocity <= 0 && !exploded)
+			if (throwing && velocityLength <= 0 && !exploded)
 			{
 				Explode();
 			}
