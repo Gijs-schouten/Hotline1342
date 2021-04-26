@@ -25,6 +25,18 @@
 /processorParam:Quality=Best
 /build:backgroundMusic/DoomsGate.mp3
 
+#begin backgroundMusic/music1.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:backgroundMusic/music1.ogg
+
+#begin backgroundMusic/music2.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:backgroundMusic/music2.ogg
+
 #begin backgroundMusic/TheyFear.mp3
 /importer:Mp3Importer
 /processor:SongProcessor

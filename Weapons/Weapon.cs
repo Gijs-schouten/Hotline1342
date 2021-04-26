@@ -142,14 +142,14 @@ namespace PadZex.Weapons
 			}
 
 			//Throws the weapon
-			if (Input.KeyPressed(Keys.Space) && pickedUp)
+			if (Input.MouseLeftFramePressed && pickedUp)
 			{
 				ThrowWeapon(time);
 
 			}
 
 			//Picks op weapon if colliding with 'F'
-			if (Input.KeyPressed(Keys.F) && collidingWithPlayer && !throwing)
+			if (Input.MouseLeftFramePressed && collidingWithPlayer && !throwing)
 			{
 				PickUp();
 			}

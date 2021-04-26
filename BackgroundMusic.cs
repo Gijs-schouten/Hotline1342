@@ -28,8 +28,8 @@ namespace PadZex
         {
             MediaPlayer.Volume = 0.3f;
             currentSong = SongNumber;
-            this.songs[0] = content.Load<Song>("backgroundMusic/DoomsGate");
-            this.songs[1] = content.Load<Song>("backgroundMusic/TheyFear");
+            this.songs[0] = content.Load<Song>("backgroundMusic/music1");
+            this.songs[1] = content.Load<Song>("backgroundMusic/music2");
             this.songs[2] = content.Load<Song>("backgroundMusic/BFGDivision");
             MediaPlayer.Play(songs[SongNumber]);
             MediaPlayer.IsRepeating = true;
