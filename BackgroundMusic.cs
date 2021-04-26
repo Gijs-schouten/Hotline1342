@@ -30,7 +30,7 @@ namespace PadZex
             currentSong = SongNumber;
             this.songs[0] = content.Load<Song>("backgroundMusic/music1");
             this.songs[1] = content.Load<Song>("backgroundMusic/music2");
-            this.songs[2] = content.Load<Song>("backgroundMusic/BFGDivision");
+            this.songs[2] = content.Load<Song>("backgroundMusic/music3");
             MediaPlayer.Play(songs[SongNumber]);
             MediaPlayer.IsRepeating = true;
         }

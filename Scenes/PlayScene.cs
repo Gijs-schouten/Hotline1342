@@ -27,6 +27,9 @@ namespace PadZex.Scenes
             AddEntityImmediate(new MouseEntity());
             
             Camera.SelectTarget("Player", this, -player.SpriteSize * player.Scale / 4);
+            
+            var level = LevelLoader.LevelLoader.LoadLevel(CoreUtils.GraphicsDevice, "level1");
+            LoadLevel(level);
         }
 
         public void LoadLevel(Level level)
@@ -79,12 +82,12 @@ namespace PadZex.Scenes
 
         public void LoadNextLevel()
         {
-            foreach (Entity entity in entities)
+            if (LevelLoaded)
             {
-                if (!(entity.Tags.Contains("Player") || entity.Tags.Contains("camera"))) DeleteEntity(entity);
+                UnloadLevel();
             }
+            
             CurrentLevel++;
-
             var level = LevelLoader.LevelLoader.LoadLevel(Core.CoreUtils.GraphicsDevice, "level" + CurrentLevel);
             LoadLevel(level);
         }

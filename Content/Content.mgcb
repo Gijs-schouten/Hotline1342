@@ -13,18 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin backgroundMusic/BFGDivision.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:backgroundMusic/BFGDivision.mp3
-
-#begin backgroundMusic/DoomsGate.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:backgroundMusic/DoomsGate.mp3
-
 #begin backgroundMusic/music1.ogg
 /importer:OggImporter
 /processor:SongProcessor
@@ -37,11 +25,11 @@
 /processorParam:Quality=Best
 /build:backgroundMusic/music2.ogg
 
-#begin backgroundMusic/TheyFear.mp3
-/importer:Mp3Importer
+#begin backgroundMusic/music3.ogg
+/importer:OggImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:backgroundMusic/TheyFear.mp3
+/build:backgroundMusic/music3.ogg
 
 #begin sprites/collision/circle.png
 /importer:TextureImporter

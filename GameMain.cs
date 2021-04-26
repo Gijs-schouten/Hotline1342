@@ -30,6 +30,7 @@ namespace PadZex
         {
             Core.CoreUtils.GraphicsDevice = GraphicsDevice;
             LevelLoader.LevelLoader.LoadMapDefinitions();
+            LevelLoader.LevelLoader.LoadAssets(Content);
 
 			CoreUtils.Point = new Point(1080, 720);
             graphics.PreferredBackBufferWidth = CoreUtils.Point.X;
@@ -49,10 +50,6 @@ namespace PadZex
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Collision.Shape.LoadTextures(Content);
-            LevelLoader.LevelLoader.LoadAssets(Content);
-
-            var level = LevelLoader.LevelLoader.LoadLevel(GraphicsDevice, "level1");
-            playScene.LoadLevel(level);
         }
 
         protected override void Update(GameTime gameTime)
