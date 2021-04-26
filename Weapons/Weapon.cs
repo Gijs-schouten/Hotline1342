@@ -104,6 +104,11 @@ namespace PadZex.Weapons
 					Position += direction * WeaponSpeed * velocity * time.deltaTime;
 				}
 
+				if (velocity <= 0)
+				{
+					throwing = false;
+				}
+
 			}
 
 			//Throws the weapon
@@ -114,7 +119,7 @@ namespace PadZex.Weapons
 			}
 
 			//Picks op weapon if colliding with 'F'
-			if (state.IsKeyDown(Keys.F) && collidingWithPlayer)
+			if (state.IsKeyDown(Keys.F) && collidingWithPlayer && !throwing)
 			{
 				PickUp();
 			}
