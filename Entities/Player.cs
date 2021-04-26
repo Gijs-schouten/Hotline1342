@@ -25,6 +25,7 @@ namespace PadZex
 		private Texture2D playerSprite;
 		private Color color = Color.White;
 		private float speed;
+		public bool holdingWeapon = false;
 
 		public Player()
 		{

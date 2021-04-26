@@ -31,14 +31,14 @@ namespace PadZex.Weapons
 		private Vector2 direction;
 		public bool pickedUp, collidingWithPlayer = false;
 		private Texture2D weaponSprite;
-		private Entity player;
+		private Player player;
 		private Camera camera;
 
 
 		public override void Initialize(ContentManager content)
 		{
 			weaponSprite = content.Load<Texture2D>(SpriteLocation);
-			player = FindEntity("Player");
+			player = (Player)FindEntity("Player");
 			camera = FindEntity<Camera>("Camera");
 			Origin = new Vector2(weaponSprite.Width / 2, weaponSprite.Height / 2);
 
@@ -62,7 +62,6 @@ namespace PadZex.Weapons
 		/// </summary>
 		public void ThrowWeapon()
 		{
-			player = FindEntity("Player");
 			velocity = 1;
 			Vector2 mousePos = camera.MousePosition;
 			direction = mousePos - player.Position;
@@ -70,6 +69,7 @@ namespace PadZex.Weapons
 			direction.Normalize();
 			throwing = true;
 			pickedUp = false;
+			player.holdingWeapon = false;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, Time time)
@@ -104,7 +104,7 @@ namespace PadZex.Weapons
 					Position += direction * WeaponSpeed * velocity * time.deltaTime;
 				}
 
-				if (velocity <= 0)
+				if (velocity <= 0 && this is not Potion)
 				{
 					throwing = false;
 				}
@@ -140,9 +140,14 @@ namespace PadZex.Weapons
 		/// </summary>
 		public void PickUp()
 		{
-			Angle = 0;
-			pickedUp = true;
-			throwing = false;
+			if (!player.holdingWeapon)
+			{
+				Angle = 0;
+				pickedUp = true;
+				throwing = false;
+				player.holdingWeapon = true;
+			}
+
 		}
 
 		/// <summary>
