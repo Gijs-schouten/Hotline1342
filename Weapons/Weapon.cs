@@ -31,7 +31,6 @@ namespace PadZex.Weapons
 		private Vector2 direction;
 		public bool pickedUp, collidingWithPlayer = false;
 		private Texture2D weaponSprite;
-		private Entity playerEntity;
 		private Player player;
 		private Camera camera;
 
@@ -39,10 +38,9 @@ namespace PadZex.Weapons
 		public override void Initialize(ContentManager content)
 		{
 			weaponSprite = content.Load<Texture2D>(SpriteLocation);
-			playerEntity = FindEntity("Player");
+			player = (Player)FindEntity("Player");
 			camera = FindEntity<Camera>("Camera");
 			Origin = new Vector2(weaponSprite.Width / 2, weaponSprite.Height / 2);
-			player = (Player)playerEntity;
 
 			if (isFlipped)
 			{
@@ -66,7 +64,7 @@ namespace PadZex.Weapons
 		{
 			velocity = 1;
 			Vector2 mousePos = camera.MousePosition;
-			direction = mousePos - playerEntity.Position;
+			direction = mousePos - player.Position;
 			Angle = VectorToAngle(direction);
 			direction.Normalize();
 			throwing = true;
@@ -86,7 +84,7 @@ namespace PadZex.Weapons
 			//Weapon is attached to player if picked up
 			if (!throwing && pickedUp)
 			{
-				Position = playerEntity.Position + Offset;
+				Position = player.Position + Offset;
 			}
 
 			//If set, rotates the weapon and moves it to the destination
