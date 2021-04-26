@@ -106,7 +106,7 @@ namespace PadZex.Weapons
 					Position += direction * WeaponSpeed * velocity * time.deltaTime;
 				}
 
-				if (velocity <= 0 && SpriteLocation != "sprites/weapons/potion")
+				if (velocity <= 0 && this is not Potion)
 				{
 					throwing = false;
 				}
