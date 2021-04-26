@@ -26,7 +26,7 @@ namespace PadZex
 
         public override void Initialize(ContentManager content)
         {
-            MediaPlayer.Volume = 0.5f;
+            MediaPlayer.Volume = 0.3f;
             currentSong = SongNumber;
             this.songs[0] = content.Load<Song>("backgroundMusic/DoomsGate");
             this.songs[1] = content.Load<Song>("backgroundMusic/TheyFear");
@@ -39,7 +39,7 @@ namespace PadZex
         {          
             if (currentSong != SongNumber)
             {
-                if (SongNumber < songs.Length - 1)
+                if (SongNumber <= songs.Length - 1)
                 {
                     currentSong = SongNumber;
                     MediaPlayer.Play(songs[SongNumber]);

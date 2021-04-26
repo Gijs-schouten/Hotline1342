@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using PadZex.Collision;
 using PadZex.Interfaces;
 using PadZex.Core;
+using System.Linq;
 
 namespace PadZex
 {
@@ -28,7 +29,7 @@ namespace PadZex
             doorStateSprites[1] = content.Load<Texture2D>("sprites/door/doorState2"); //Doorstate in between (currently not in use)
             doorStateSprites[2] = content.Load<Texture2D>("sprites/door/doorState3"); //Doorstate down/up closed
             opening = startState == 0;
-            Scale = 2;
+            Scale = 1;
 
             health = 10;
         }
@@ -52,16 +53,18 @@ namespace PadZex
         private void OnShapeEnteredEvent(Entity shape)
         {
             //Old way of opening, has interaction regardless of where the player is compared to the door (below/above it vs. left/right of it)
-          /*if (opening)
-            {
-                if (doorState < 2) doorState+=2;
-                if (doorState == 2) opening = false;
-            }
-            else 
-            {
-                if (doorState > 0) doorState-=2;
-                if (doorState == 0) opening = true;
-            }*/
+            /*if (opening)
+              {
+                  if (doorState < 2) doorState+=2;
+                  if (doorState == 2) opening = false;
+              }
+              else 
+              {
+                  if (doorState > 0) doorState-=2;
+                  if (doorState == 0) opening = true;
+              }*/
+
+            if (!shape.Tags.Contains("Player")) return;
             
             //Only changes doorstate if the player is on the right side of the door
             if((shape.Position.X < Position.X || shape.Position.X > Position.X + doorStateSprites[0].Width) && !opening) 

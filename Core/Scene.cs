@@ -18,13 +18,13 @@ namespace PadZex.Core
 		/// </summary>
 		public static Scene MainScene { get; private set; }
 
-		protected List<Entity> entities;
-		protected List<Entity> entityGulag;
-		protected List<Entity> addedEntities;
-		private ContentManager contentManager;
-		private CollisionField quadTree;
+		protected readonly List<Entity> entities;
+		private readonly List<Entity> entityGulag;
+		private readonly List<Entity> addedEntities;
+		private readonly ContentManager contentManager;
+		private readonly CollisionField quadTree;
 
-		public Camera Camera { get; set; }
+		public Camera Camera { get; private set; }
 		public Scene(ContentManager contentManager)
 		{
 			entities = new List<Entity>();
@@ -97,15 +97,22 @@ namespace PadZex.Core
 
 		public virtual void Update(Time time)
 		{
-			// delete all entities in the dirty list first.
-			for (int i = entityGulag.Count() - 1; i >= 0; i--)
-			//foreach (var entity in entityGulag)
-			{
-				if (!entities.Contains(entityGulag[i])) continue;
+            // delete all entities in the dirty list first.
+            for (int i = entityGulag.Count - 1; i >= 0; i--)
+            {
+                Entity entity = entityGulag[i];
+                if (!entities.Contains(entity)) continue;
 
-				entityGulag[i].OnDestroy();
-				entities.Remove(entityGulag[i]);
+				entity.OnDestroy();
+				entities.Remove(entity);
+
+				if(entity.Shape != null)
+                {
+					quadTree.RemoveShape(entity.Shape);
+                }
 			}
+
+			entityGulag.Clear();
 
 			foreach (var entity in entities)
 			{
