@@ -23,7 +23,7 @@ namespace PadZex.Weapons
 		/// </summary>
 		private const float THROW_TIMEFRAME = 0.05f;
 		private const bool DRAW_SHAPE = false;
-		private const float WEAPON_FRICTION = 0.8f;
+		private const float WEAPON_FRICTION = 0.3f;
 		
 		/// <summary>
 		/// Weapon settings set in the sub classes
@@ -74,7 +74,6 @@ namespace PadZex.Weapons
 		/// </summary>
 		public void ThrowWeapon(Time time)
 		{
-			player = (Player)FindEntity("Player");
 			velocity = new Vector2(1, 1);
 			Vector2 mousePos = camera.MousePosition;
 			direction = mousePos - player.Position;
@@ -82,6 +81,7 @@ namespace PadZex.Weapons
 			direction.Normalize();
 			throwing = true;
 			pickedUp = false;
+			player.holdingWeapon = false;
 
 			throwTime = time.timeSinceStart;
 		}
@@ -127,14 +127,14 @@ namespace PadZex.Weapons
 
 					if (collided)
 					{
-						velocity.X -= WEAPON_FRICTION * time.deltaTime;
-						velocity.Y -= WEAPON_FRICTION * time.deltaTime;
+						velocity.X -= WEAPON_FRICTION ;
+						velocity.Y -= WEAPON_FRICTION ;
 						if (velocity.X < 0) velocity.X = 0.0f;
 						if (velocity.Y < 0) velocity.Y = 0.0f;
 					}
 				}
 
-				if (velocity.Length() <= 0.001f)
+				if (velocity.Length() <= 0.001f && this is not Potion)
 				{
 					throwing = false;
 				}
@@ -220,9 +220,14 @@ namespace PadZex.Weapons
 		/// </summary>
 		public void PickUp()
 		{
-			Angle = 0;
-			pickedUp = true;
-			throwing = false;
+			if (!player.holdingWeapon)
+			{
+				Angle = 0;
+				pickedUp = true;
+				throwing = false;
+				player.holdingWeapon = true;
+			}
+
 		}
 
 		/// <summary>

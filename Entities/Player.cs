@@ -19,12 +19,15 @@ namespace PadZex
 	/// </summary>
 	public class Player : Entity ,IDamagable
 	{
+		public Vector2 Middle => Position + new Vector2(playerSprite.Width, playerSprite.Height) / 2f;
+		
 		private const float ACCEL_SPEED = 256 * 15f; 
 		private const float MAX_SPEED = 256 * 5f;
 		
 		private Texture2D playerSprite;
 		private Color color = Color.White;
 		private float speed;
+		public bool holdingWeapon = false;
 
 		public Player()
 		{
