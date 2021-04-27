@@ -52,6 +52,7 @@ namespace PadZex
             graphics.PreferredBackBufferHeight = CoreUtils.Point.Y;
 
             IsFixedTimeStep = false;
+            IsMouseVisible = false;
             graphics.SynchronizeWithVerticalRetrace = false;
             graphics.ApplyChanges();
 
