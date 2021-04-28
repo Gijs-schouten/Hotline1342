@@ -19,7 +19,8 @@ namespace PadZex
 	/// </summary>
 	public class Player : Entity ,IDamagable
 	{
-		public Vector2 Middle => Position + new Vector2(playerSprite.Width, playerSprite.Height) / 2f;
+		public Vector2 Middle => Position + SpriteSize / 2f;
+		public Vector2 SpriteSize => new Vector2(playerSprite.Width, playerSprite.Height);
 		
 		private const float ACCEL_SPEED = 256 * 15f; 
 		private const float MAX_SPEED = 256 * 5f;
