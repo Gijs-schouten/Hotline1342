@@ -13,65 +13,65 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin backgroundMusic/BFGDivision.mp3
-/importer:Mp3Importer
+#begin backgroundMusic/music1.ogg
+/importer:OggImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:backgroundMusic/BFGDivision.mp3
+/build:backgroundMusic/music1.ogg
 
-#begin backgroundMusic/DoomsGate.mp3
-/importer:Mp3Importer
+#begin backgroundMusic/music2.ogg
+/importer:OggImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:backgroundMusic/DoomsGate.mp3
+/build:backgroundMusic/music2.ogg
 
-#begin backgroundMusic/TheyFear.mp3
-/importer:Mp3Importer
+#begin backgroundMusic/music3.ogg
+/importer:OggImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:backgroundMusic/TheyFear.mp3
+/build:backgroundMusic/music3.ogg
 
-#begin sounds/doorbreak1.mp3
-/importer:Mp3Importer
+#begin sounds/doorbreak1.ogg
+/importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:sounds/doorbreak1.mp3
+/build:sounds/doorbreak1.ogg
 
-#begin sounds/enemyhurt1.mp3
-/importer:Mp3Importer
+#begin sounds/enemyhurt1.ogg
+/importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:sounds/enemyhurt1.mp3
+/build:sounds/enemyhurt1.ogg
 
-#begin sounds/menubutton1.mp3
-/importer:Mp3Importer
+#begin sounds/menubutton1.ogg
+/importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:sounds/menubutton1.mp3
+/build:sounds/menubutton1.ogg
 
-#begin sounds/playerhurt1.mp3
-/importer:Mp3Importer
+#begin sounds/playerhurt1.ogg
+/importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:sounds/playerhurt1.mp3
+/build:sounds/playerhurt1.ogg
 
-#begin sounds/playerhut2.wav
-/importer:WavImporter
+#begin sounds/playerhut2.ogg
+/importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:sounds/playerhut2.wav
+/build:sounds/playerhut2.ogg
 
-#begin sounds/potionimpact1.mp3
-/importer:Mp3Importer
+#begin sounds/potionimpact1.ogg
+/importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:sounds/potionimpact1.mp3
+/build:sounds/potionimpact1.ogg
 
-#begin sounds/throw1.mp3
-/importer:Mp3Importer
+#begin sounds/throw1.ogg
+/importer:OggImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:sounds/throw1.mp3
+/build:sounds/throw1.ogg
 
 #begin sprites/collision/circle.png
 /importer:TextureImporter

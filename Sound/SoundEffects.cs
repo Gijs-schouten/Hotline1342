@@ -12,7 +12,7 @@ namespace PadZex.Sound
         private const string SOUND_PATH = "data/sounds.data";
         
         private static Dictionary<string, Sound> sounds = new();
-        private static AudioListener audioListener = new ();
+        private static AudioListener audioListener;
         private static Player player;
 
         public static void Load(ContentManager content)

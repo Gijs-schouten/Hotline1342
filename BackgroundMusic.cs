@@ -6,14 +6,17 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Content;
 using PadZex.Core;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace PadZex
 {
     public class BackgroundMusic : Entity
     {
+        private const float VOLUME_CHANGE_RATE = 0.1f;
+        
         private Song[] songs = new Song[3];
-        public int SongNumber = 0;
         private int currentSong;
+        private int lastSong;
         public BackgroundMusic()
         {
             AddTag("backgroundMusic");
@@ -27,43 +30,70 @@ namespace PadZex
         public override void Initialize(ContentManager content)
         {
             MediaPlayer.Volume = 0.3f;
-            currentSong = SongNumber;
-            this.songs[0] = content.Load<Song>("backgroundMusic/DoomsGate");
-            this.songs[1] = content.Load<Song>("backgroundMusic/TheyFear");
-            this.songs[2] = content.Load<Song>("backgroundMusic/BFGDivision");
-            MediaPlayer.Play(songs[SongNumber]);
-            MediaPlayer.IsRepeating = true;
+            this.songs[0] = content.Load<Song>("backgroundMusic/music1");
+            this.songs[1] = content.Load<Song>("backgroundMusic/music2");
+            this.songs[2] = content.Load<Song>("backgroundMusic/music3");
+
+            ShuffleSong();
+            MediaPlayer.MediaStateChanged += OnMediaStateChanged;
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            MediaPlayer.MediaStateChanged -= OnMediaStateChanged;
+        }
+
+        private void OnMediaStateChanged(object? sender, EventArgs e)
+        {
+            if (MediaPlayer.IsRepeating) return;
+            ShuffleSong();
         }
 
         public override void Update(Time time)
-        {          
-            if (currentSong != SongNumber)
-            {
-                if (SongNumber <= songs.Length - 1)
-                {
-                    currentSong = SongNumber;
-                    MediaPlayer.Play(songs[SongNumber]);
-                    MediaPlayer.IsRepeating = true;
-                }
-                else
-                {
-                    Console.WriteLine("ERROR 404: song " + SongNumber + " not found");
-                }
-            }                 
+        {
+            float volume = Input.KeyFramePressed(Keys.Down) ? -VOLUME_CHANGE_RATE :
+                Input.KeyFramePressed((Keys.Up)) ? VOLUME_CHANGE_RATE : 0;
+            if (volume is > -float.Epsilon and < float.Epsilon) return;
+            ChangeVolume(volume);
         }
 
-        public void ChangeVolume(bool volumeUp) //If true, volume goes up, if false, volume goes down
+        public void PlaySong(int songIndex, bool repeating = false)
         {
-            if (volumeUp)
+            if (songIndex == currentSong || songIndex < 0 || songIndex >= songs.Length) return;
+            MediaPlayer.Play(songs[songIndex]);
+            MediaPlayer.IsRepeating = repeating;
+            currentSong = songIndex;
+        }
+
+        public void ShuffleSong()
+        {
+            int tries = 5;
+            do
             {
-                MediaPlayer.Volume += 0.1f;
-                if (MediaPlayer.Volume > 1) MediaPlayer.Volume = 1;
-            }
-            else
+                int randomSongIndex = CoreUtils.Random.Next(songs.Length);
+
+                if (randomSongIndex != currentSong)
+                {
+                    PlaySong(randomSongIndex);
+                }
+                
+                tries--;
+            } while (tries > 0);
+
+            // just play the same song again as compromise
+            PlaySong(currentSong);
+        }
+
+        private void ChangeVolume(float volumeAmount)
+        {
+            MediaPlayer.Volume += volumeAmount;
+            MediaPlayer.Volume = MediaPlayer.Volume switch
             {
-                MediaPlayer.Volume -= 0.1f;
-                if (MediaPlayer.Volume < 0) MediaPlayer.Volume = 0;
-            }
+                < 0 => 0,
+                > 1 => 1,
+                _ => MediaPlayer.Volume
+            };
         }
     }
 }

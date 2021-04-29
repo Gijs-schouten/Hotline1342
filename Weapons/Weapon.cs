@@ -6,7 +6,10 @@ using PadZex.Interfaces;
 using PadZex.Collision;
 using PadZex.Core;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using Rectangle = PadZex.Collision.Rectangle;
 using PadZex.Sound;
 
 namespace PadZex.Weapons
@@ -16,6 +19,13 @@ namespace PadZex.Weapons
 	/// </summary>
 	public class Weapon : Entity
 	{
+		/// <summary>
+		/// collision detection will do nothing in this timeframe
+		/// </summary>
+		private const float THROW_TIMEFRAME = 0.05f;
+		private const bool DRAW_SHAPE = false;
+		private const float WEAPON_FRICTION = 0.3f;
+		
 		/// <summary>
 		/// Weapon settings set in the sub classes
 		/// </summary>
@@ -29,19 +39,20 @@ namespace PadZex.Weapons
 		public Vector2 Offset { get; set; }
 
 		public bool throwing;
-		public float velocity = 0;
+		public Vector2 velocity = Vector2.Zero;
 		private Vector2 direction;
 		public bool pickedUp, collidingWithPlayer = false;
 		private Texture2D weaponSprite;
-		private Entity player;
-		private Entity sound;
+		private Player player;
 		private Camera camera;
-
+		
+		// throw timing
+		private float throwTime = 0;
 
 		public override void Initialize(ContentManager content)
 		{
 			weaponSprite = content.Load<Texture2D>(SpriteLocation);
-			player = FindEntity("Player");
+			player = (Player)FindEntity("Player");
 			camera = FindEntity<Camera>("Camera");
 			Origin = new Vector2(weaponSprite.Width / 2, weaponSprite.Height / 2);
 
@@ -54,7 +65,7 @@ namespace PadZex.Weapons
 
 		public override Shape CreateShape()
 		{
-			var shape = new Collision.Circle(this, Vector2.Zero, weaponSprite.Width / 2);
+			var shape = new Collision.Circle(this, new Vector2((float)-weaponSprite.Width / 2), (float)weaponSprite.Width / 2);
 			shape.ShapeEnteredEvent += CollisionEnter;
 			shape.ShapeExitedEvent += CollisionExit;
 			return shape;
@@ -63,65 +74,136 @@ namespace PadZex.Weapons
 		/// <summary>
 		/// Funtion to throw your weapon to the mouse position
 		/// </summary>
-		public void ThrowWeapon()
+		public void ThrowWeapon(Time time)
 		{
-			player = FindEntity("Player");
-			velocity = 1;
+			velocity = new Vector2(1, 1);
 			Vector2 mousePos = camera.MousePosition;
 			direction = mousePos - player.Position;
 			Angle = VectorToAngle(direction);
 			direction.Normalize();
 			throwing = true;
 			pickedUp = false;
+			player.holdingWeapon = false;
+			throwTime = time.timeSinceStart;
 			SoundPlayer.PlaySound(Sounds.THROW, this);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, Time time)
 		{
 			Draw(spriteBatch, weaponSprite);
+			// ReSharper disable once ConditionIsAlwaysTrueOrFalse
+			if(DRAW_SHAPE) Shape?.Draw(spriteBatch);
 		}
 
 		public override void Update(Time time)
 		{
-			KeyboardState state = Keyboard.GetState();
-
 			//Weapon is attached to player if picked up
 			if (!throwing && pickedUp)
 			{
-				Position = player.Position + Offset;
+				Position = player.Middle;// + Offset;
 			}
 
 			//If set, rotates the weapon and moves it to the destination
 			if (throwing)
 			{
-				if (Rotating && velocity > 0)
+				float velocityLength = velocity.Length();
+				if (Rotating && velocityLength > 0)
 				{
-					Angle += RotationSpeed * velocity * time.deltaTime;
+					Angle += RotationSpeed * velocityLength * time.deltaTime;
 				} else
 				{
 					//Angle = VectorToAngle(direction);
 				}
 
-				if (velocity > 0)
+				if (velocity.LengthSquared() > 0)
 				{
-					velocity -= time.deltaTime;
-					Position += direction * WeaponSpeed * velocity * time.deltaTime;
+					velocity.X -= time.deltaTime;
+					velocity.X = velocity.X < 0 ? 0 : velocity.X;
+					velocity.Y -= time.deltaTime;
+					velocity.Y = velocity.Y < 0 ? 0 : velocity.Y;
+					
+					Position.X += direction.X * WeaponSpeed * velocity.X * time.deltaTime;
+					bool collided = HorizontalCollisionDetection(direction.X, velocity.X, time.timeSinceStart);
+					Position.Y += direction.Y * WeaponSpeed * velocity.Y * time.deltaTime;
+					collided = collided || VerticalCollisionDetection(direction.Y, velocity.Y, time.timeSinceStart);
+
+					if (collided)
+					{
+						velocity.X -= WEAPON_FRICTION ;
+						velocity.Y -= WEAPON_FRICTION ;
+						if (velocity.X < 0) velocity.X = 0.0f;
+						if (velocity.Y < 0) velocity.Y = 0.0f;
+					}
+				}
+
+				if (velocity.Length() <= 0.001f && this is not Potion)
+				{
+					throwing = false;
 				}
 
 			}
 
 			//Throws the weapon
-			if (state.IsKeyDown(Keys.Space) && pickedUp)
+			if (Input.MouseLeftFramePressed && pickedUp)
 			{
-				ThrowWeapon();
-
+				ThrowWeapon(time);
 			}
 
 			//Picks op weapon if colliding with 'F'
-			if (state.IsKeyDown(Keys.F) && collidingWithPlayer)
+			if (Input.MouseLeftFramePressed && collidingWithPlayer && !throwing)
 			{
 				PickUp();
 			}
+		}
+
+		private bool VerticalCollisionDetection(float direction, float velocity, float timeSinceStart)
+		{
+			bool InTimeFrame() => timeSinceStart < throwTime + THROW_TIMEFRAME;
+
+			if (velocity < float.Epsilon) return false;
+			
+			(bool collided, var shapes) = Scene.MainScene.TestAllCollision(Shape);
+			if (!collided || this is Potion || InTimeFrame()) return false;
+
+			foreach (var shape in shapes)
+			{
+				if (!shape.Owner.Tags.Contains("wall")) continue;
+				var wall = (Rectangle)shape;
+
+				if (Position.X < wall.WorldPosition.X ||
+				    Position.X > wall.WorldPosition.X + wall.WorldWidth) continue;
+
+				if (direction < 0) Position.Y = wall.WorldY + wall.WorldHeight + ((Collision.Circle) Shape).WorldRadius;
+				else Position.Y = wall.WorldY - ((Collision.Circle) Shape).WorldRadius;
+				this.velocity.Y = 0;
+				return true;
+			}
+			return false;
+		}
+		
+		private bool HorizontalCollisionDetection(float direction, float velocity, float timeSinceStart)
+		{
+			bool InTimeFrame() => timeSinceStart < throwTime + THROW_TIMEFRAME;
+			
+			if (velocity < float.Epsilon) return false;
+			
+			(bool collided, var shapes) = Scene.MainScene.TestAllCollision(Shape);
+			if (!collided || this is Potion || InTimeFrame()) return false;
+
+			foreach (var shape in shapes)
+			{
+				if (!shape.Owner.Tags.Contains("wall")) continue;
+				var wall = (Rectangle)shape;
+				
+				if (Position.Y < wall.WorldPosition.Y ||
+				    Position.Y > wall.WorldPosition.Y + wall.WorldHeight) continue;
+
+				if (direction < 0) Position.X = wall.WorldX + wall.WorldWidth + ((Collision.Circle)Shape).WorldRadius + 0.01f;
+				else Position.X = wall.WorldX - ((Collision.Circle) Shape).WorldRadius;
+				this.velocity.X = 0;
+				return true;
+			}
+			return false;
 		}
 
 		/// <summary>
@@ -139,8 +221,14 @@ namespace PadZex.Weapons
 		/// </summary>
 		public void PickUp()
 		{
-			pickedUp = true;
-			throwing = false;
+			if (!player.holdingWeapon)
+			{
+				Angle = 0;
+				pickedUp = true;
+				throwing = false;
+				player.holdingWeapon = true;
+			}
+
 		}
 
 		/// <summary>

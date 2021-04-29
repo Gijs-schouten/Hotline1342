@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Specialized;
 using PadZex.Core;
 
 namespace PadZex
@@ -17,7 +18,7 @@ namespace PadZex
         
         private Viewport viewport;
 
-        private float zoom = 0.5f;
+        private float zoom = 0.42f;
         private Entity target;
 
         public float X
@@ -57,10 +58,10 @@ namespace PadZex
             viewport = newViewport;
         }
 
-        public void SelectTarget(String targetString)
+        public void SelectTarget(String targetString, Scene scene, Vector2 origin = default)
         {
-            target = FindEntity(targetString);
-            Origin = CoreUtils.Point.ToVector2() / 2;
+            target = scene.FindEntity(targetString);
+            Origin = CoreUtils.Point.ToVector2() / 2 + origin;
         }
 
         public override void Initialize(ContentManager content)

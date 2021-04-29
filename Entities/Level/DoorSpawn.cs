@@ -2,9 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using PadZex.Core;
 using Microsoft.Xna.Framework;
-using System;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace PadZex.Entities.Level
 {
@@ -17,10 +15,11 @@ namespace PadZex.Entities.Level
         public DoorSpawn(LevelLoader.Level level, Point gridPos)
         {
             var tiles = level.Tiles.ToList();
-            if (SpawnerUtils.IsSolid(tiles, level.Size, new Point(gridPos.X - 1, gridPos.Y), new Point(gridPos.X + 1, gridPos.Y)))
-                doorDirection = DoorDirection.Vertical;
-            else doorDirection = DoorDirection.Horizontal;
-                
+            doorDirection =
+                SpawnerUtils.IsSolid(tiles, level.Size, new Point(gridPos.X - 1, gridPos.Y),
+                    new Point(gridPos.X + 1, gridPos.Y))
+                    ? DoorDirection.Horizontal
+                    : DoorDirection.Vertical;
         }
 
         public override void Draw(SpriteBatch spriteBatch, Time time)
@@ -46,27 +45,6 @@ namespace PadZex.Entities.Level
         {
             base.OnDestroy();
             Scene.MainScene.DeleteEntity(door);
-        }
-    }
-
-    public static class SpawnerUtils
-    {
-        /// <summary>
-        /// returns ture if all point positions are solid
-        /// </summary>
-        public static bool IsSolid(List<LevelLoader.Tile> tiles, Point levelSize, params Point[] positions)
-        {
-            Func<Point, int> p = point => levelSize.X * point.X + point.Y;
-            bool isSolid = true;
-
-            for (int i = 0; i < positions.Length; i++)
-            {
-                int point = p(positions[i]);
-                if (point < 0 || point >= tiles.Count) continue;
-                isSolid = isSolid && tiles[i].Shape != null;
-            }
-
-            return isSolid;
         }
     }
 }

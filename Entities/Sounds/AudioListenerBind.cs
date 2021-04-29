@@ -14,6 +14,7 @@ namespace PadZex.Entities.Sounds
         public AudioListenerBind(Entity entity, AudioListener audioListener)
         {
             target = entity;
+            audioListener.Position = new Vector3(Position, 0);
             this.audioListener = audioListener;
         }
 
