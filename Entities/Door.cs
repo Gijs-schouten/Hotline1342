@@ -79,8 +79,7 @@ namespace PadZex
 
         public void Damage(Entity entity, float damage = 10)
         {
-            sound = FindEntity("sound");
-            sound.Position = new Vector2(1, 0);
+            Sound.SoundPlayer.PlaySound(Sound.Sounds.DOOR_BREAK, this);
             health -= damage;
             if (health <= 0) Entity.DeleteEntity(this);
         }

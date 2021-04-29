@@ -7,6 +7,7 @@ using PadZex.Collision;
 using PadZex.Core;
 using System;
 using System.Diagnostics;
+using PadZex.Sound;
 
 namespace PadZex.Weapons
 {
@@ -65,7 +66,6 @@ namespace PadZex.Weapons
 		public void ThrowWeapon()
 		{
 			player = FindEntity("Player");
-			sound = FindEntity("sound");
 			velocity = 1;
 			Vector2 mousePos = camera.MousePosition;
 			direction = mousePos - player.Position;
@@ -73,7 +73,7 @@ namespace PadZex.Weapons
 			direction.Normalize();
 			throwing = true;
 			pickedUp = false;
-			sound.Position = new Vector2(1, 5);
+			SoundPlayer.PlaySound(Sounds.THROW, this);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, Time time)

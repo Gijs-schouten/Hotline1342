@@ -70,8 +70,7 @@ namespace PadZex.Weapons
 				Scene.MainScene.AddEntity(particles[i]);
 			}
 
-			sound = FindEntity("sound");
-			sound.Position = new Vector2(1, 4);
+			Sound.SoundPlayer.PlaySound(Sound.Sounds.POTION_IMPACT, this);
 			exploded = true;
 			Scene.MainScene.DeleteEntity(this);
 		}

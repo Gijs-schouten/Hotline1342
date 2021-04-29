@@ -70,8 +70,7 @@ namespace PadZex
 
         public void Damage(Entity entity, float damage = 0)
         {
-            sound = FindEntity("sound");
-            sound.Position = new Vector2(1, 1);
+	        Sound.SoundPlayer.PlaySound(Sound.Sounds.ENEMY_HURT, this);
 			if (damage > 0) Die();
         }
 

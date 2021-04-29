@@ -31,41 +31,47 @@
 /processorParam:Quality=Best
 /build:backgroundMusic/TheyFear.mp3
 
-#begin soundEffects/DoorBreak.mp3
+#begin sounds/doorbreak1.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:soundEffects/DoorBreak.mp3
+/build:sounds/doorbreak1.mp3
 
-#begin soundEffects/EnemyOuch.mp3
+#begin sounds/enemyhurt1.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:soundEffects/EnemyOuch.mp3
+/build:sounds/enemyhurt1.mp3
 
-#begin soundEffects/MenuButton.mp3
+#begin sounds/menubutton1.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:soundEffects/MenuButton.mp3
+/build:sounds/menubutton1.mp3
 
-#begin soundEffects/PlayerOuch.mp3
+#begin sounds/playerhurt1.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:soundEffects/PlayerOuch.mp3
+/build:sounds/playerhurt1.mp3
 
-#begin soundEffects/PotionImpact.mp3
-/importer:Mp3Importer
+#begin sounds/playerhut2.wav
+/importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:soundEffects/PotionImpact.mp3
+/build:sounds/playerhut2.wav
 
-#begin soundEffects/Throw.mp3
+#begin sounds/potionimpact1.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:soundEffects/Throw.mp3
+/build:sounds/potionimpact1.mp3
+
+#begin sounds/throw1.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/throw1.mp3
 
 #begin sprites/collision/circle.png
 /importer:TextureImporter

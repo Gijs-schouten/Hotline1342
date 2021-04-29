@@ -108,9 +108,8 @@ namespace PadZex
 		}
 
 		public void Damage(Entity entity, float damage = 0)
-        {
-			sound = FindEntity("sound");
-			sound.Position = new Vector2(1, 3);
+		{
+			Sound.SoundPlayer.PlaySound(Sound.Sounds.PLAYER_HURT, this);
 			//  Entity.DeleteEntity(this);
 		}
     }

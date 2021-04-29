@@ -18,7 +18,6 @@ namespace PadZex
         private SpriteBatch spriteBatch;
         Camera camera;
         BackgroundMusic music;
-        SoundEffects soundEffect;
         public bool ToPlay = false;
         private int volumeChangeCooldown;
         //  private List<Sprite> _sprites;
@@ -41,7 +40,6 @@ namespace PadZex
             camera = new Camera(GraphicsDevice.Viewport);
 
             music = new BackgroundMusic();
-            soundEffect = new SoundEffects();
 
             // TODO: Add your initialization logic here
             playScene = new Scenes.PlayScene(Content);
@@ -52,7 +50,6 @@ namespace PadZex
             playScene.AddEntity(camera);
 
             playScene.AddEntity(music);
-            playScene.AddEntity(soundEffect);
 
             camera.SelectTarget("Player");
 			CoreUtils.Point = new Point(1080, 720);
@@ -74,6 +71,7 @@ namespace PadZex
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Collision.Shape.LoadTextures(Content);
             LevelLoader.LevelLoader.LoadAssets(Content);
+            Sound.SoundPlayer.Load(Content);
 
             var level = LevelLoader.LevelLoader.LoadLevel(GraphicsDevice, "level1");
             playScene.LoadLevel(level);
