@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,6 +9,10 @@ namespace PadZex.Entities.Sounds
 {
     public class EmitterBind : Core.Entity
     {
+        private const float DISTANCE = 2000f;
+        private const float MIN_AUDIO = 0.1f;
+        private const float PAN_DISTANCE = 2200f;
+        
         public bool Playing { get; set; }
 
         private Core.Entity target;
@@ -42,9 +47,22 @@ namespace PadZex.Entities.Sounds
             Vector2 velocity = target.Position - Position;
             velocity.Normalize();
             Position = target.Position;
-            audioEmitter.Velocity = new Vector3(velocity, 0);
             audioEmitter.Position = new Vector3(Position, 0);
-            //soundEffect.Apply3D(audioListener, audioEmitter);
+
+            float distance = (audioListener.Position - audioEmitter.Position).LengthSquared();
+            float volume = 1.0f - Math.Clamp(distance / (DISTANCE * DISTANCE), MIN_AUDIO, 1f);
+            float abs = Math.Sign(audioListener.Position.X - audioEmitter.Position.X);
+            float pan = Math.Clamp(distance / (PAN_DISTANCE * PAN_DISTANCE), 0f, 1f) * -abs;
+
+            soundEffect.Volume = volume;
+            if (pan is < 0.15f and > -0.15f) pan = 0f;
+            soundEffect.Pan = Math.Clamp(pan, -1f, 1f);
+
+            if (soundEffect.State == SoundState.Stopped)
+            {
+                soundEffect.Dispose();
+                Entity.DeleteEntity(this);
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch, Time time) { }
