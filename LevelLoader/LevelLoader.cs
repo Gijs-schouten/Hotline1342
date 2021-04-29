@@ -11,7 +11,7 @@ namespace PadZex.LevelLoader
 {
     public static class LevelLoader
     {
-        public const string LEVEL_PATH = "./levels/";
+        public const string LEVEL_PATH = "./data/levels/";
         public const string PNG_POSTFIX = ".png";
         public const string ENTITIES_POSTFIX = "_entities";
 

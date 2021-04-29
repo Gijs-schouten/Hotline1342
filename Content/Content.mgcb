@@ -31,6 +31,48 @@
 /processorParam:Quality=Best
 /build:backgroundMusic/music3.ogg
 
+#begin sounds/doorbreak1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/doorbreak1.ogg
+
+#begin sounds/enemyhurt1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/enemyhurt1.ogg
+
+#begin sounds/menubutton1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/menubutton1.ogg
+
+#begin sounds/playerhurt1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/playerhurt1.ogg
+
+#begin sounds/playerhut2.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/playerhut2.ogg
+
+#begin sounds/potionimpact1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/potionimpact1.ogg
+
+#begin sounds/throw1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/throw1.ogg
+
 #begin sprites/collision/circle.png
 /importer:TextureImporter
 /processor:TextureProcessor

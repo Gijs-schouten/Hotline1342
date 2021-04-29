@@ -29,6 +29,7 @@ namespace PadZex
 		private Color color = Color.White;
 		private float speed;
 		public bool holdingWeapon = false;
+		private Entity sound;
 
 		public Player()
 		{
@@ -114,9 +115,10 @@ namespace PadZex
 		}
 
 		public void Damage(Entity entity, float damage = 0)
-        {
-          //  Entity.DeleteEntity(this);
-        }
+		{
+			Sound.SoundPlayer.PlaySound(Sound.Sounds.PLAYER_HURT, this);
+			//  Entity.DeleteEntity(this);
+		}
     }
 }
 		

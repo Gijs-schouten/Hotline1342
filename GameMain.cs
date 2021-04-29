@@ -50,6 +50,7 @@ namespace PadZex
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Collision.Shape.LoadTextures(Content);
+            Sound.SoundPlayer.Load(Content);
         }
 
         protected override void Update(GameTime gameTime)

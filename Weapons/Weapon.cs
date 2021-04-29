@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Rectangle = PadZex.Collision.Rectangle;
+using PadZex.Sound;
 
 namespace PadZex.Weapons
 {
@@ -28,6 +29,7 @@ namespace PadZex.Weapons
 		/// <summary>
 		/// Weapon settings set in the sub classes
 		/// </summary>
+
 		public float WeaponDamage { get; set; }
 		public float WeaponSpeed { get; set; }
 		public float RotationSpeed { get; set; }
@@ -82,8 +84,8 @@ namespace PadZex.Weapons
 			throwing = true;
 			pickedUp = false;
 			player.holdingWeapon = false;
-
 			throwTime = time.timeSinceStart;
+			SoundPlayer.PlaySound(Sounds.THROW, this);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, Time time)
