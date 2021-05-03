@@ -10,6 +10,7 @@ using PadZex.Core;
 using PadZex.Collision;
 using PadZex.Scripts.Particle;
 using PadZex.Scenes;
+using System.Linq;
 
 namespace PadZex
 {
@@ -18,42 +19,104 @@ namespace PadZex
         public Texture2D enemySprite;
         public Vector2 enemyVelocity;
 
+        private Vector2 lastPosition;
+        private float distanceToPlayer;
+        private float engageRange = 1024f;
+        private bool isEngaged = false;
+        private float angelDeg;
+        private float angleRad;
+        private float maxVelocity = 512f;
+        private int moveTimer = 0;
+        private bool isMoving = false;
+
 		private int particleAmount = 50;
         private Entity sound;
+        private Entity player;
 
         public override void Initialize(ContentManager content)
         {
             enemySprite = content.Load<Texture2D>("sprites/enemySprite");
 			Origin = new Vector2(enemySprite.Width / 2, enemySprite.Height / 2);
 
-            enemyVelocity.X = 5f;
-            enemyVelocity.Y = 5f;
             Depth = 1;
             Scale = 0.38f;
-
+            player = FindEntity("Player");
         }
         public override void Update(Time time)
         {
-            /*Position += enemyVelocity; //Makes the enemies move.
-            var randomSpeed = new Random();
-            var enemyDirection = -1;
-            //enemyPosition.X = MathHelper.Clamp(enemyPosition.X, 0, window.ClientBounds.Width - width);
-            //enemyPosition.Y = MathHelper.Clamp(enemyPosition.Y, 0, window.ClientBounds.Height - height);
-            //Makes it so that the enemies cant exit the gamescreen.
-            if (Position.X >= 1080 - width || Position.X <= 0) 
+            Random r = new Random();
+            if (!isMoving)
             {
-                enemyVelocity *= enemyDirection; //Enemies will bounce back in a random direction.
-                enemyVelocity.Y = randomSpeed.Next(-5, 5);
-                
+                lastPosition = Position;
+                isMoving = true;
+                moveTimer = 300;
+
+                angelDeg = r.Next(0, 360);                
+                angleRad = Convert.ToSingle((Math.PI / 180) * angelDeg);
+                enemyVelocity.X = Convert.ToSingle(Math.Cos(angleRad));
+                enemyVelocity.Y = Convert.ToSingle(Math.Sin(angleRad));
+            }
+            else
+            {
+                if (moveTimer > 0)
+                {
+                    float xVelocity = enemyVelocity.X * maxVelocity * time.deltaTime;
+                    float yVelocity = enemyVelocity.Y * maxVelocity * time.deltaTime;
+
+                    Position.X += xVelocity;
+                    CheckHorizontalCollision(xVelocity);
+
+                    Position.Y += yVelocity;
+                    CheckVerticalCollision(yVelocity);
+                    moveTimer--;
+                }
+                else
+                {
+                    isMoving = false;
+                }
             }
 
-            if (Position.Y >= 720 - height || Position.Y <= 0) 
-            {
-                enemyVelocity *= enemyDirection; //Enemies will bounce back in a random direction.
-                enemyVelocity.X = randomSpeed.Next(-5, 5);
-            }
-            */
+            
+            distanceToPlayer = Convert.ToSingle(Math.Sqrt((Position.X - player.Position.X) * (Position.X - player.Position.X) + ((Position.Y - player.Position.Y) * (Position.Y - player.Position.Y))));
+            if (distanceToPlayer < engageRange) isEngaged = true;
+            attack();
+        }
 
+        private void attack()
+        {
+            if (isEngaged)
+            {
+
+            }
+        }
+
+        private void CheckHorizontalCollision(float velocity)
+        {
+            (bool collided, IEnumerable<Shape> shapes) = Scene.MainScene.TestAllCollision(Shape);
+            if (collided)
+            {
+                var walls = shapes.Where(x => x.Owner.Tags.Contains("wall")).Cast<Collision.Rectangle>();
+                var wall = walls.FirstOrDefault();
+                if (wall == null) return;
+
+                if (velocity < 0) Position.X = wall.WorldX + wall.WorldWidth;
+                else Position.X = wall.WorldX - ((Collision.Rectangle)Shape).WorldWidth;
+
+            }
+        }
+
+        private void CheckVerticalCollision(float velocity)
+        {
+            (bool collided, IEnumerable<Shape> shapes) = Scene.MainScene.TestAllCollision(Shape);
+            if (collided)
+            {
+                var walls = shapes.Where(x => x.Owner.Tags.Contains("wall")).Cast<Collision.Rectangle>();
+                var wall = walls.FirstOrDefault();
+                if (wall == null) return;
+
+                if (velocity < 0) Position.Y = wall.WorldY + wall.WorldHeight;
+                else Position.Y = wall.WorldY - ((Collision.Rectangle)Shape).WorldHeight;
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch, Time time)
@@ -91,5 +154,4 @@ namespace PadZex
 			}
 		}
     }
-
 }
