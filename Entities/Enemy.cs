@@ -16,17 +16,18 @@ namespace PadZex
 {
     public class Enemy : Entity, IDamagable
     {
+        private const float ENGAGE_RANGE = 1024f;
+        private const float MAX_VELOCITY = 512f;
+
         public Texture2D enemySprite;
         public Vector2 enemyVelocity;
 
         private Vector2 lastPosition;
-        private float distanceToPlayer;
-        private float engageRange = 1024f;
+        private float distanceToPlayer;       
         private bool isEngaged = false;
         private float angelDeg;
-        private float angleRad;
-        private float maxVelocity = 512f;
-        private int moveTimer = 0;
+        private float angleRad;        
+        private float moveTimer = 0f;
         private bool isMoving = false;
 
 		private int particleAmount = 50;
@@ -43,32 +44,31 @@ namespace PadZex
             player = FindEntity("Player");
         }
         public override void Update(Time time)
-        {
-            Random r = new Random();
+        {          
             if (!isMoving)
             {
                 lastPosition = Position;
                 isMoving = true;
-                moveTimer = 300;
+                moveTimer = 3;
 
-                angelDeg = r.Next(0, 360);                
-                angleRad = Convert.ToSingle((Math.PI / 180) * angelDeg);
-                enemyVelocity.X = Convert.ToSingle(Math.Cos(angleRad));
-                enemyVelocity.Y = Convert.ToSingle(Math.Sin(angleRad));
+                angelDeg = CoreUtils.Random.Next(0, 360);                
+                angleRad = (float)((Math.PI / 180) * angelDeg);
+                enemyVelocity.X = (float)Math.Cos(angleRad);
+                enemyVelocity.Y = (float)Math.Sin(angleRad);
             }
             else
             {
                 if (moveTimer > 0)
                 {
-                    float xVelocity = enemyVelocity.X * maxVelocity * time.deltaTime;
-                    float yVelocity = enemyVelocity.Y * maxVelocity * time.deltaTime;
+                    float xVelocity = enemyVelocity.X * MAX_VELOCITY * time.deltaTime;
+                    float yVelocity = enemyVelocity.Y * MAX_VELOCITY * time.deltaTime;
 
                     Position.X += xVelocity;
                     CheckHorizontalCollision(xVelocity);
 
                     Position.Y += yVelocity;
                     CheckVerticalCollision(yVelocity);
-                    moveTimer--;
+                    moveTimer -= time.deltaTime;
                 }
                 else
                 {
@@ -77,16 +77,16 @@ namespace PadZex
             }
 
             
-            distanceToPlayer = Convert.ToSingle(Math.Sqrt((Position.X - player.Position.X) * (Position.X - player.Position.X) + ((Position.Y - player.Position.Y) * (Position.Y - player.Position.Y))));
-            if (distanceToPlayer < engageRange) isEngaged = true;
-            attack();
+            distanceToPlayer = (float)Math.Sqrt((Position.X - player.Position.X) * (Position.X - player.Position.X) + ((Position.Y - player.Position.Y) * (Position.Y - player.Position.Y)));
+            if (distanceToPlayer < ENGAGE_RANGE) isEngaged = true;
+            Attack();
         }
 
-        private void attack()
+        private void Attack()
         {
             if (isEngaged)
             {
-
+                //Insert throwing of swords here (NYI)
             }
         }
 
