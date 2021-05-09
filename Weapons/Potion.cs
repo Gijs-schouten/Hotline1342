@@ -13,6 +13,8 @@ namespace PadZex.Weapons
 	{
 		private int particleAmount = 150;
 		private bool exploded;
+		private Entity sound;
+
 		public Potion()
 		{
 			WeaponDamage = 0;
@@ -30,16 +32,17 @@ namespace PadZex.Weapons
 			base.Update(time);
 			KeyboardState state = Keyboard.GetState();
 
-			if (throwing && velocity > 0.5f)
+			float velocityLength = velocity.Length();
+			if (throwing && velocityLength > 0.5f)
 			{
 				Scale += time.deltaTime;
 			}
-			else if (throwing && velocity < 0.5f && velocity > 0)
+			else if (throwing && velocityLength < 0.5f && velocityLength > 0)
 			{
 				Scale -= time.deltaTime;
 			}
 
-			if (throwing && velocity <= 0 && !exploded)
+			if (throwing && velocityLength <= 0 && !exploded)
 			{
 				Explode();
 			}
@@ -68,6 +71,7 @@ namespace PadZex.Weapons
 				Scene.MainScene.AddEntity(particles[i]);
 			}
 
+			Sound.SoundPlayer.PlaySound(Sound.Sounds.POTION_IMPACT, this);
 			exploded = true;
 			Scene.MainScene.DeleteEntity(this);
 		}

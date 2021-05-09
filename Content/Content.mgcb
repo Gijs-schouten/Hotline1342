@@ -13,23 +13,65 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin backgroundMusic/BFGDivision.mp3
-/importer:Mp3Importer
+#begin backgroundMusic/music1.ogg
+/importer:OggImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:backgroundMusic/BFGDivision.mp3
+/build:backgroundMusic/music1.ogg
 
-#begin backgroundMusic/DoomsGate.mp3
-/importer:Mp3Importer
+#begin backgroundMusic/music2.ogg
+/importer:OggImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:backgroundMusic/DoomsGate.mp3
+/build:backgroundMusic/music2.ogg
 
-#begin backgroundMusic/TheyFear.mp3
-/importer:Mp3Importer
+#begin backgroundMusic/music3.ogg
+/importer:OggImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:backgroundMusic/TheyFear.mp3
+/build:backgroundMusic/music3.ogg
+
+#begin sounds/doorbreak1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/doorbreak1.ogg
+
+#begin sounds/enemyhurt1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/enemyhurt1.ogg
+
+#begin sounds/menubutton1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/menubutton1.ogg
+
+#begin sounds/playerhurt1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/playerhurt1.ogg
+
+#begin sounds/playerhut2.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/playerhut2.ogg
+
+#begin sounds/potionimpact1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/potionimpact1.ogg
+
+#begin sounds/throw1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/throw1.ogg
 
 #begin RedPixel.png
 /importer:TextureImporter
@@ -114,6 +156,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/door/DoorState3.png
+
+#begin sprites/door/LevelEndState0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/door/LevelEndState0.png
 
 #begin sprites/enemySprite.png
 /importer:TextureImporter
