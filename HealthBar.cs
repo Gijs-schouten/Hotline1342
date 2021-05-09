@@ -14,21 +14,21 @@ public class HealthBar
     private Rectangle healthBar;
 
     private Texture2D texture;
-    private int xOffset;
+    private Vector2 offset;
     private int thickness;
 
-    public HealthBar(Texture2D texture, int maxHealth, int xOffset, int thickness)
+    public HealthBar(Texture2D texture, int maxHealth, Vector2 offset, int thickness)
     {
         this.texture = texture;
         this.maxHealth = maxHealth;
         this.health = maxHealth;
-        this.xOffset = xOffset;
+        this.offset = offset;
         this.thickness = thickness;
 
         healthBar = new Rectangle(0, 0, 0, 0);
     }
 
-    public void UpdateHealh(int health)
+    public void SetHealh(int health)
     {
         this.health = health;
     }
@@ -43,7 +43,7 @@ public class HealthBar
 
     private void Update()
     {
-        healthBar = new Rectangle((int)position.X - maxHealth + xOffset, (int)position.Y, health, thickness);
+        healthBar = new Rectangle((int)position.X - maxHealth + (int)offset.X, (int)position.Y + (int)offset.Y, health, thickness);
     }
 
     public void Draw(SpriteBatch spriteBatch)

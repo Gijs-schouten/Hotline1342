@@ -28,15 +28,16 @@ public class Health
         this.maxHealth = maxHealth;
     }
 
-    public void GetHit(int damage)
+    public void Hit(int damage)
     {
         health -= damage;
 
         HealthChangedEvent?.Invoke(health);
 
-        if(health <= 0)
+        if (health <= 0)
         {
             HasDiedEvent?.Invoke();
         }
+
     }
 }

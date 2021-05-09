@@ -37,9 +37,9 @@ namespace PadZex
 			playerSprite = content.Load<Texture2D>("sprites/player");
 			healthTexture = content.Load<Texture2D>("RedPixel");
 			health = new Health(100, 100);
-			healthBar = new HealthBar(healthTexture, 100, playerSprite.Width / 2 - 5, 10);
+			healthBar = new HealthBar(healthTexture, 100, new Vector2(playerSprite.Width / 2 - 5, 0), 10);
 
-			health.HealthChangedEvent += healthBar.UpdateHealh;
+			health.HealthChangedEvent += healthBar.SetHealh;
 
 			speed = 0;
 			AddTag("Player");
@@ -81,6 +81,15 @@ namespace PadZex
 			CheckVerticalCollision(yVelocity);
 
 			healthBar.UpdatePosition(Position);
+
+			if (Input.KeyPressed(Keys.A))
+			{
+				FlipSprite();
+			}
+			else if (Input.KeyPressed(Keys.D))
+			{
+				UnFlipSprite();
+			}
 		}
 
 		private void CheckHorizontalCollision(float velocity)
@@ -100,7 +109,7 @@ namespace PadZex
 				var enemy = enemies.FirstOrDefault();
 				if (enemy != null)
 				{
-					health.GetHit(1);
+					health.Hit(1);
 				}
 			}
         }
@@ -126,7 +135,7 @@ namespace PadZex
 
 		public void Damage(Entity entity, float damage = 0)
         {
-			//health.GetHit(1);
+			health.Hit(1);
 		}
     }
 }

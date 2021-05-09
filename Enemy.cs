@@ -29,10 +29,11 @@ namespace PadZex
 
             healthTexture = content.Load<Texture2D>("RedPixel");
             health = new Health(100, 100);
-            healthBar = new HealthBar(healthTexture, 100, enemySprite.Width / 2 - 5, 10);
+            healthBar = new HealthBar(healthTexture, 100, new Vector2(50, -130), 10);
 
-            health.HealthChangedEvent += healthBar.UpdateHealh;
-            health.HasDiedEvent += Die;
+            health.HealthChangedEvent -= healthBar.SetHealh;
+            health.HasDiedEvent -= Die;
+           
 
             enemyVelocity.X = 5f;
             enemyVelocity.Y = 5f;
@@ -81,7 +82,7 @@ namespace PadZex
 
         public void Damage(Entity entity, float damage = 0)
         {
-            health.GetHit(100);
+            health.Hit(100);
         }
 
 		private void Die() {
