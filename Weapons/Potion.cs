@@ -50,7 +50,7 @@ namespace PadZex.Weapons
 
 		private void Explode()
 		{
-			WeaponDamage = 6;
+			WeaponDamage = 3;
 
 			(bool collided, IEnumerable<Shape> shapes) = Scene.MainScene.TestAllCollision(new Circle(this, Vector2.Zero, 2000));
 

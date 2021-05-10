@@ -80,6 +80,11 @@ namespace PadZex.Scenes
             LevelLoaded = false;
         }
 
+        public override void Update(Time time)
+        {
+            if(!HitStun.UpdateStun(time.deltaTime)) base.Update(time);
+        }
+
         public void LoadNextLevel()
         {
             if (LevelLoaded)

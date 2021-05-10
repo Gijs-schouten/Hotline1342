@@ -30,7 +30,7 @@ namespace PadZex.Weapons
 		/// Weapon settings set in the sub classes
 		/// </summary>
 
-		public float WeaponDamage { get; set; }
+		public int WeaponDamage { get; set; }
 		public float WeaponSpeed { get; set; }
 		public float RotationSpeed { get; set; }
 		public string SpriteLocation { get; set; }
@@ -240,8 +240,11 @@ namespace PadZex.Weapons
 		{
 			if (throwing)
 			{
-				(entity as IDamagable)?.Damage(this, WeaponDamage);
-
+				if (entity is IDamagable damagable)
+				{
+					damagable.Damage(this, WeaponDamage);
+					HitStun.Add(WeaponDamage);
+				}
 			}
 
 			if (entity is Player) collidingWithPlayer = true;
