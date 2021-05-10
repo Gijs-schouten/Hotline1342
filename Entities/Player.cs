@@ -112,13 +112,6 @@ namespace PadZex
 					if (velocity < 0) Position.X = wall.WorldX + wall.WorldWidth;
 					else Position.X = wall.WorldX - ((Collision.Rectangle)Shape).WorldWidth;
 				}
-
-				var enemies = shapes.Where(x => x.Owner.Tags.Contains("enemy")).Cast<Collision.Circle>();
-				var enemy = enemies.FirstOrDefault();
-				if (enemy != null)
-				{
-					health.Hit(1);
-				}
 			}
         }
 	
@@ -138,7 +131,19 @@ namespace PadZex
 		public override Shape CreateShape()
 		{
 			var shape = new Collision.Rectangle(this, Vector2.Zero, new Vector2(playerSprite.Width, playerSprite.Height));
+			shape.ShapeEnteredEvent += OnShapeEnteredEvent;
 			return shape;
+		}
+
+		public override void OnDestroy()
+		{
+			Shape.ShapeEnteredEvent -= OnShapeEnteredEvent;
+		}
+
+		private void OnShapeEnteredEvent(Entity shape)
+		{
+			if (!shape.Tags.Contains("enemy")) return;
+			Damage(shape, 1);
 		}
 
 		public void Damage(Entity entity, float damage = 0)
