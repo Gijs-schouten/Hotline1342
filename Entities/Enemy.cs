@@ -16,6 +16,7 @@ namespace PadZex
 {
     public class Enemy : Entity, IDamagable
     {
+        private Texture2D healthTexture;
         private const float ENGAGE_RANGE = 1024f;
         private const float MAX_VELOCITY = 512f;
 
@@ -31,6 +32,9 @@ namespace PadZex
         private bool isMoving = false;
 
 		private int particleAmount = 50;
+
+        private Health health;
+        private HealthBar healthBar;
         private Entity sound;
         private Entity player;
 
@@ -39,12 +43,25 @@ namespace PadZex
             enemySprite = content.Load<Texture2D>("sprites/enemySprite");
 			Origin = new Vector2(enemySprite.Width / 2, enemySprite.Height / 2);
 
+            healthTexture = content.Load<Texture2D>("RedPixel");
+            health = new Health(100, 100);
+            healthBar = new HealthBar(healthTexture, 100, new Vector2(50, -130), 10);
+
+            health.HealthChangedEvent -= healthBar.SetHealh;
+            health.HasDiedEvent -= Die;
+           
+
+            enemyVelocity.X = 5f;
+            enemyVelocity.Y = 5f;
             Depth = 1;
             Scale = 0.38f;
+            AddTag("enemy");
             player = FindEntity("Player");
         }
         public override void Update(Time time)
         {          
+        	healthBar.UpdatePosition(Position);
+        
             if (!isMoving)
             {
                 lastPosition = Position;
@@ -121,8 +138,9 @@ namespace PadZex
 
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {
-            //Draws the enemy sprite.
+            //Draws sprites.
             Draw(spriteBatch, enemySprite);
+            healthBar.Draw(spriteBatch);
         }
 
         public override Shape CreateShape()
@@ -133,6 +151,8 @@ namespace PadZex
 
         public void Damage(Entity entity, float damage = 0)
         {
+            health.Hit(100);
+
 	        Sound.SoundPlayer.PlaySound(Sound.Sounds.ENEMY_HURT, this);
 			if (damage > 0) Die();
         }
