@@ -14,12 +14,18 @@ namespace PadZex.Weapons
 		{
 			WeaponDamage = 15;
 			WeaponSpeed = 2300;
-			RotationSpeed = r.Next(-5, 5); ;
+			RotationSpeed = 0;
 			Scale = 0.3f;
 			Rotating = true;
 			Offset = new Vector2(150, 150);
 			AddTag("Brick");
 			SpriteLocation = "sprites/weapons/brick";
+		}
+
+		public override void ThrowWeapon()
+		{
+			RotationSpeed = r.Next(-10, 10);
+			base.ThrowWeapon();
 		}
 	}
 }
