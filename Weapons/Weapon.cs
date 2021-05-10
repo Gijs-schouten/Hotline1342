@@ -60,7 +60,7 @@ namespace PadZex.Weapons
 		/// <summary>
 		/// Funtion to throw your weapon to the mouse position
 		/// </summary>
-		public void ThrowWeapon()
+		public virtual void ThrowWeapon()
 		{
 			velocity = 1;
 			Vector2 mousePos = camera.MousePosition;

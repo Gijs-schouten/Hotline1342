@@ -20,7 +20,7 @@ namespace PadZex.Weapons
 			RotationSpeed = 15f;
 			Scale = 0.5f;
 			Rotating = true;
-			Offset = new Vector2(180, 30);
+			Offset = new Vector2(150, 100);
 			AddTag("Potion");
 			SpriteLocation = "sprites/weapons/potion";
 		}
