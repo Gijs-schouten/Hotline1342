@@ -78,7 +78,7 @@ namespace PadZex
 
         public override Shape CreateShape()
         {
-            var shape = new Collision.Rectangle(this, Vector2.Zero, new Vector2(enemySprite.Width, enemySprite.Height));
+            var shape = new Collision.Rectangle(this, new Vector2(-(float)enemySprite.Width/2*Scale, -(float)enemySprite.Height/2*Scale), new Vector2(enemySprite.Width, enemySprite.Height));
             return shape;
         }
 
