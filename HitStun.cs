@@ -5,16 +5,23 @@ namespace PadZex
     public static class HitStun
     {
         /// <summary>
-        /// How long is a single frame?
+        /// The duration of a hit stun frame.
         /// </summary>
         private const float FRAME_DURATION = 0.16f / 8;
 
+        /// <summary>
+        /// The duration of a pause frame where the game continues before the next freeze.
+        /// </summary>
         private const float PAUSE_FRAME_TIME = 0.16f / 4;
 
         private static int hitStunAmount = 0;
         private static float currentHitStunTime = FRAME_DURATION;
         private static bool isPauseFrame = false;
 
+        /// <summary>
+        /// Add Hitstun time.
+        /// </summary>
+        /// <param name="time">Time to add. Any values below 1 will be ignored.</param>
         public static void Add(int time)
         {
             if (time < 1) return;
