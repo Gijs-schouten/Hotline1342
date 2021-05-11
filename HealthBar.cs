@@ -1,26 +1,53 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.Text;
-/*
+
+//Universele healthbar class. 
 public class HealthBar
 {
-    private Texture2D healthBar;
+    private int health;
+    private int maxHealth;
+    private Vector2 position;
 
-    public HealthBar(Texture2D texture)
+    private Rectangle healthBar;
+
+    private Texture2D texture;
+    private Vector2 offset;
+    private int thickness;
+
+    public HealthBar(Texture2D texture, int maxHealth, Vector2 offset, int thickness)
     {
-        healthBar = texture;
+        this.texture = texture;
+        this.maxHealth = maxHealth;
+        this.health = maxHealth;
+        this.offset = offset;
+        this.thickness = thickness;
+
+        healthBar = new Rectangle(0, 0, 0, 0);
     }
 
-    public void Draw(SpriteBatch spriteBatch, Vector2 position, float health)
+    public void SetHealh(int health)
     {
-        spriteBatch.Draw(healthBar, new Vector2(0,0), null, Color.White, 50, new Vector2(0, 0), 1, SpriteEffects.None, 1);
-        //for (int n = 0; n < ((float) health/ 100) * 50; n++)
-        //{
-        //spriteBatch.Draw(healthBar, new Vector2(0, 0), null, Color.Red, 0, new Vector2(0,0), 0, SpriteEffects.None, 1);
-        //spriteBatch.Draw(healthBar, new Rectangle((int)position.X + 51 + n, (int)position.Y + 15, 2, 4), new Rectangle(0, 3, 1, 3), Color.Red);
-        //}
+        this.health = health;
+    }
+
+    public void UpdatePosition(Vector2 position)
+    {
+        this.position.X = position.X;
+        this.position.Y = position.Y;
+
+        Update();
+    }
+
+    private void Update()
+    {
+        healthBar = new Rectangle((int)position.X - maxHealth + (int)offset.X, (int)position.Y + (int)offset.Y, health, thickness);
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        spriteBatch.Draw(texture, healthBar, Color.White);
     }
 }
-*/

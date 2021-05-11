@@ -20,7 +20,16 @@ namespace PadZex.Scenes
 
         public PlayScene(ContentManager contentManager) : base(contentManager)
         {
-            AddEntity(new MouseEntity());
+            Player player = new Player();
+            AddEntityImmediate(player);
+            AddEntityImmediate(new BackgroundMusic());
+            AddEntityImmediate((Camera = new Camera(CoreUtils.GraphicsDevice.Viewport)));
+            AddEntityImmediate(new MouseEntity());
+            
+            Camera.SelectTarget("Player", this, -player.SpriteSize * player.Scale / 4);
+            
+            var level = LevelLoader.LevelLoader.LoadLevel(CoreUtils.GraphicsDevice, "level1");
+            LoadLevel(level);
         }
 
         public void LoadLevel(Level level)
@@ -71,14 +80,19 @@ namespace PadZex.Scenes
             LevelLoaded = false;
         }
 
+        public override void Update(Time time)
+        {
+            if(!HitStun.UpdateStun(time.deltaTime)) base.Update(time);
+        }
+
         public void LoadNextLevel()
         {
-            foreach (Entity entity in entities)
+            if (LevelLoaded)
             {
-                if (!(entity.Tags.Contains("Player") || entity.Tags.Contains("camera"))) DeleteEntity(entity);
+                UnloadLevel();
             }
+            
             CurrentLevel++;
-
             var level = LevelLoader.LevelLoader.LoadLevel(Core.CoreUtils.GraphicsDevice, "level" + CurrentLevel);
             LoadLevel(level);
         }

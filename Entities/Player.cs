@@ -7,8 +7,6 @@ using PadZex.Collision;
 using PadZex.Core;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using PadZex.LevelLoader;
 using System.Linq;
 
 namespace PadZex
@@ -19,13 +17,23 @@ namespace PadZex
 	/// </summary>
 	public class Player : Entity ,IDamagable
 	{
+		public Vector2 Middle => Position + SpriteSize / 2f;
+		public Vector2 SpriteSize => new Vector2(playerSprite.Width, playerSprite.Height);
+		
 		private const float ACCEL_SPEED = 256 * 15f; 
 		private const float MAX_SPEED = 256 * 5f;
 		
 		private Texture2D playerSprite;
+		private Texture2D healthTexture;
+
 		private Color color = Color.White;
 		private float speed;
 		public bool holdingWeapon = false;
+		private Entity sound;
+
+		private Health health;
+		private HealthBar healthBar;
+
 
 		public Player()
 		{
@@ -35,7 +43,12 @@ namespace PadZex
 		public override void Initialize(ContentManager content)
 		{
 			playerSprite = content.Load<Texture2D>("sprites/player");
-			//health = new Health(100, 100);
+			healthTexture = content.Load<Texture2D>("RedPixel");
+			health = new Health(100, 100);
+			healthBar = new HealthBar(healthTexture, 100, new Vector2(playerSprite.Width / 2 - 5, 0), 10);
+
+			health.HealthChangedEvent += healthBar.SetHealh;
+
 			speed = 0;
 			AddTag("Player");
 			Depth = 5;
@@ -45,6 +58,7 @@ namespace PadZex
 		public override void Draw(SpriteBatch spriteBatch, Time time)
 		{
 			Draw(spriteBatch, playerSprite);
+			healthBar.Draw(spriteBatch);
 		}
 
 		public override void Update(Time time)
@@ -73,21 +87,32 @@ namespace PadZex
 
 			Position.Y += yVelocity;
 			CheckVerticalCollision(yVelocity);
+
+			healthBar.UpdatePosition(Position);
+
+			if (Input.KeyPressed(Keys.A))
+			{
+				FlipSprite();
+			}
+			else if (Input.KeyPressed(Keys.D))
+			{
+				UnFlipSprite();
+			}
 		}
 
 		private void CheckHorizontalCollision(float velocity)
         {
             (bool collided, IEnumerable<Shape> shapes) = Scene.MainScene.TestAllCollision(Shape);
-			if(collided)
-            {
-				var walls = shapes.Where(x  =>  x.Owner.Tags.Contains("wall")).Cast<Collision.Rectangle>();
+			if (collided)
+			{
+				var walls = shapes.Where(x => x.Owner.Tags.Contains("wall")).Cast<Collision.Rectangle>();
 				var wall = walls.FirstOrDefault();
-				if  (wall == null) return;
-
-				if (velocity < 0) Position.X = wall.WorldX + wall.WorldWidth;
-				else Position.X = wall.WorldX - ((Collision.Rectangle)Shape).WorldWidth;
-
-            }
+				if (wall != null)
+				{
+					if (velocity < 0) Position.X = wall.WorldX + wall.WorldWidth;
+					else Position.X = wall.WorldX - ((Collision.Rectangle)Shape).WorldWidth;
+				}
+			}
         }
 	
 		private void CheckVerticalCollision(float velocity)
@@ -98,7 +123,6 @@ namespace PadZex
 				var walls = shapes.Where(x  =>  x.Owner.Tags.Contains("wall")).Cast<Collision.Rectangle>();
 				var wall = walls.FirstOrDefault();
 				if  (wall == null) return;
-
 				if (velocity < 0) Position.Y = wall.WorldY + wall.WorldHeight;
 				else Position.Y = wall.WorldY - ((Collision.Rectangle)Shape).WorldHeight;
             }
@@ -107,13 +131,26 @@ namespace PadZex
 		public override Shape CreateShape()
 		{
 			var shape = new Collision.Rectangle(this, Vector2.Zero, new Vector2(playerSprite.Width, playerSprite.Height));
+			shape.ShapeEnteredEvent += OnShapeEnteredEvent;
 			return shape;
+		}
+
+		public override void OnDestroy()
+		{
+			Shape.ShapeEnteredEvent -= OnShapeEnteredEvent;
+		}
+
+		private void OnShapeEnteredEvent(Entity shape)
+		{
+			if (!shape.Tags.Contains("enemy")) return;
+			Damage(shape, 1);
 		}
 
 		public void Damage(Entity entity, float damage = 0)
         {
-          //  Entity.DeleteEntity(this);
-        }
+			health.Hit(1);
+			Sound.SoundPlayer.PlaySound(Sound.Sounds.PLAYER_HURT, this);
+		}
     }
 }
 		

@@ -24,7 +24,7 @@ namespace PadZex.Core
 		private readonly ContentManager contentManager;
 		private readonly CollisionField quadTree;
 
-		public Camera Camera { get; private set; }
+		public Camera Camera { get; protected set; }
 		public Scene(ContentManager contentManager)
 		{
 			entities = new List<Entity>();
@@ -134,7 +134,7 @@ namespace PadZex.Core
 		public void SetAsMainScene(Camera camera = null)
 		{
 			MainScene = this;
-			Camera = camera;
+			if(this.Camera == null) Camera = camera;
 		}
 
 		/// <summary>
