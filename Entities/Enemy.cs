@@ -10,6 +10,7 @@ using PadZex.Core;
 using PadZex.Collision;
 using PadZex.Scripts.Particle;
 using PadZex.Scenes;
+using PadZex.Entities;
 using System.Linq;
 
 namespace PadZex
@@ -33,18 +34,19 @@ namespace PadZex
 		private int particleAmount = 50;
         private Entity sound;
         private Entity player;
+        private EnemyWeapon weapon;
 
         public override void Initialize(ContentManager content)
         {
             enemySprite = content.Load<Texture2D>("sprites/enemySprite");
 			Origin = new Vector2(enemySprite.Width / 2, enemySprite.Height / 2);
-
+            weapon = new EnemyWeapon();
             Depth = 1;
             Scale = 0.38f;
             player = FindEntity("Player");
         }
         public override void Update(Time time)
-        {          
+        {
             if (!isMoving)
             {
                 lastPosition = Position;
@@ -87,6 +89,7 @@ namespace PadZex
             if (isEngaged)
             {
                 //Insert throwing of swords here (NYI)
+                if (!weapon.IsFlying) weapon.Reset(Position);
             }
         }
 
