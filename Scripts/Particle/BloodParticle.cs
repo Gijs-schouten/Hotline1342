@@ -14,7 +14,7 @@ namespace PadZex.Scripts.Particle
 		private float velocity;
 		private Vector2 direction;
 		private bool isTrail;
-		Random r = new Random();
+		Random r = CoreUtils.Random;
 		private Texture2D particleSprite;
 		public BloodParticle(Vector2 startPos, bool trail)
 		{

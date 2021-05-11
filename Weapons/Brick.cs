@@ -9,7 +9,6 @@ namespace PadZex.Weapons
 {
 	class Brick : Weapon
 	{
-		Random r = new Random();
 		public Brick()
 		{
 			WeaponDamage = 15;
@@ -24,7 +23,7 @@ namespace PadZex.Weapons
 
 		public override void ThrowWeapon()
 		{
-			RotationSpeed = r.Next(-10, 10);
+			RotationSpeed = Core.CoreUtils.Random.Next(-5, 5);
 			base.ThrowWeapon();
 		}
 	}
