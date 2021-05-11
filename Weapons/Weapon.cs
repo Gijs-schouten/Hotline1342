@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -74,7 +74,7 @@ namespace PadZex.Weapons
 		/// <summary>
 		/// Funtion to throw your weapon to the mouse position
 		/// </summary>
-		public void ThrowWeapon(Time time)
+		public virtual void ThrowWeapon(Time time)
 		{
 			velocity = new Vector2(1, 1);
 			Vector2 mousePos = camera.MousePosition;

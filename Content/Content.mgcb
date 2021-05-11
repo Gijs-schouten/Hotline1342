@@ -241,6 +241,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/weapons/blood_particle.png
 
+#begin sprites/weapons/brick.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/weapons/brick.png
+
 #begin sprites/weapons/hammer.png
 /importer:TextureImporter
 /processor:TextureProcessor

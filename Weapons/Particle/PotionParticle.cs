@@ -13,7 +13,7 @@ namespace PadZex.Scripts.Particle
 		private float particleSpeed;
 		private float velocity;
 		private Vector2 direction;
-		Random r = new Random();
+		Random r = CoreUtils.Random;
 		private Texture2D particleSprite;
 		public PotionParticle(Vector2 startPos)
 		{
