@@ -13,10 +13,15 @@ namespace PadZex
     public class BackgroundMusic : Entity
     {
         private const float VOLUME_CHANGE_RATE = 0.1f;
+        private const float START_VOLUME = 0.3f; 
+        private const Keys MUTE_KEY = Keys.M;
         
         private Song[] songs = new Song[3];
         private int currentSong;
         private int lastSong;
+        private bool muted;
+        private float volume;
+        
         public BackgroundMusic()
         {
             AddTag("backgroundMusic");
@@ -29,7 +34,8 @@ namespace PadZex
 
         public override void Initialize(ContentManager content)
         {
-            MediaPlayer.Volume = 0.3f;
+            volume = START_VOLUME;
+            MediaPlayer.Volume = volume;
             this.songs[0] = content.Load<Song>("backgroundMusic/music1");
             this.songs[1] = content.Load<Song>("backgroundMusic/music2");
             this.songs[2] = content.Load<Song>("backgroundMusic/music3");
@@ -52,9 +58,9 @@ namespace PadZex
 
         public override void Update(Time time)
         {
-            float volume = Input.KeyFramePressed(Keys.Down) ? -VOLUME_CHANGE_RATE :
-                Input.KeyFramePressed((Keys.Up)) ? VOLUME_CHANGE_RATE : 0;
-            if (volume is > -float.Epsilon and < float.Epsilon) return;
+            volume += (Input.KeyFramePressed(Keys.Down) ? -VOLUME_CHANGE_RATE :
+                Input.KeyFramePressed((Keys.Up)) ? VOLUME_CHANGE_RATE : 0);
+            if (Input.KeyFramePressed(MUTE_KEY)) muted = !muted;
             ChangeVolume(volume);
         }
 
@@ -87,7 +93,12 @@ namespace PadZex
 
         private void ChangeVolume(float volumeAmount)
         {
-            MediaPlayer.Volume += volumeAmount;
+            if (muted)
+            {
+                MediaPlayer.Volume = 0;
+                return;
+            }
+            MediaPlayer.Volume = volumeAmount;
             MediaPlayer.Volume = MediaPlayer.Volume switch
             {
                 < 0 => 0,

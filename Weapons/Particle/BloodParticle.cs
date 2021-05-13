@@ -21,8 +21,22 @@ namespace PadZex.Scripts.Particle
 			Position = startPos;
 			isTrail = trail;
 		}
+		
 		public override void Draw(SpriteBatch spriteBatch, Time time)
 		{
+			if (velocity > 0)
+			{
+				velocity -= time.deltaTime * 4;
+				Position += direction * particleSpeed * velocity * time.deltaTime;
+
+				if (!isTrail)
+				{
+					BloodParticle trail = new BloodParticle(Position, true);
+					Scene.MainScene.AddEntity(trail);
+				}
+
+			}
+			
 			if (Scene.MainScene.Camera.IsInScreen(this)) {
 				Draw(spriteBatch, particleSprite);
 			}
@@ -49,22 +63,6 @@ namespace PadZex.Scripts.Particle
 			}
 		}
 
-		public override void Update(Time time)
-		{
-			if (velocity > 0)
-			{
-				velocity -= time.deltaTime * 4;
-				Position += direction * particleSpeed * velocity * time.deltaTime;
-
-				if (!isTrail)
-				{
-					BloodParticle trail = new BloodParticle(Position, true);
-					Scene.MainScene.AddEntity(trail);
-				}
-
-			}
-			//Alpha -= time.deltaTime;
-
-		}
+		public override void Update(Time time) { }
 	}
 }
