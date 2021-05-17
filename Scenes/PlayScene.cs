@@ -13,6 +13,7 @@ namespace PadZex.Scenes
     {
         private Level loadedLevel;
         private List<Entity> spawnedEntities;
+        private BackgroundMusic backgroundMusic;
 
         public int EnemyCount { get; set; } = 0;
         public int CurrentLevel = 1;
@@ -22,7 +23,7 @@ namespace PadZex.Scenes
         {
             Player player = new Player();
             AddEntityImmediate(player);
-            AddEntityImmediate(new BackgroundMusic());
+            AddEntityImmediate((backgroundMusic = new BackgroundMusic()));
             AddEntityImmediate((Camera = new Camera(CoreUtils.GraphicsDevice.Viewport)));
             AddEntityImmediate(new MouseEntity());
             
@@ -30,6 +31,12 @@ namespace PadZex.Scenes
             
             var level = LevelLoader.LevelLoader.LoadLevel(CoreUtils.GraphicsDevice, "level1");
             LoadLevel(level);
+        }
+
+        public override void Initialize()
+        {
+            backgroundMusic.ShuffleSong();
+            base.Initialize();
         }
 
         public void LoadLevel(Level level)

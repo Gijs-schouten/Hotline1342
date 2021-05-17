@@ -150,6 +150,11 @@ namespace PadZex.Core
 		public T FindEntity<T>(string tag) where T : Entity => entities.FirstOrDefault(x => x.Tags.Contains(tag) && x is T) as T;
 
 		/// <summary>
+		/// Find an Entity with a specific type and return it.
+		/// </summary>
+		public T FindEntity<T>() where T : Entity => entities.FirstOrDefault(x => x is T) as T;
+
+		/// <summary>
 		/// Mark an entity in the MainScene for death and delete it the next frame.
 		/// </summary>
 		/// <param name="entity"></param>

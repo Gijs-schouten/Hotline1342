@@ -43,6 +43,7 @@ namespace PadZex
             graphics.ApplyChanges();
 
             SceneManager.InitializeScenes(Content, SceneName.MainMenu);
+            SceneManager.QuitEvent += Exit;
             base.Initialize();
         }
 

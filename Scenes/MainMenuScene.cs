@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using PadZex.Core;
 using PadZex.Entities;
+using PadZex.Entities.MainMenu;
 
 namespace PadZex.Scenes
 {
@@ -36,6 +37,23 @@ namespace PadZex.Scenes
             };
             background.Scale = (float)REFERENCE_WIDTH / background.Texture.Width;
             AddEntityImmediate(background);
+
+            Color playNormalColor = new Color(0.0f, 1f, 0.0f);
+            Color playHoverColor = new Color(0.0f, 0.5f, 0.0f);
+            Button playButton = new("sprites/mainmenu/play", content, playNormalColor, playHoverColor,
+                () => SceneManager.ChangeScene(SceneName.Game));
+            playButton.Center();
+            playButton.Position = new Vector2((float) REFERENCE_WIDTH / 2, (float) REFERENCE_HEIGHT / 2);
+            AddEntityImmediate(playButton);
+
+            Color exitNormalColor = Color.Red;
+            Color exitHoverColor = new Color(0.7f, .0f, .0f);
+            Button exitbutton = new("sprites/mainmenu/exit", content, exitNormalColor, exitHoverColor,
+                SceneManager.Quit);
+            exitbutton.Origin = new Vector2(exitbutton.Texture.Width, exitbutton.Texture.Height);
+            exitbutton.Position = new Vector2(REFERENCE_WIDTH - 10, REFERENCE_HEIGHT - 10);
+            exitbutton.Scale = 0.4f;
+            AddEntityImmediate(exitbutton);
             
             SpriteEntity logo = new("sprites/mainmenu/logo", content);
             logo.Center();

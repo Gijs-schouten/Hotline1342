@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 using PadZex.Scenes;
 
@@ -6,6 +7,8 @@ namespace PadZex.Core
 {
     public static class SceneManager
     {
+        public static event Action QuitEvent;
+        
         /// <summary>
         /// Scene used when none specified.
         /// </summary>
@@ -47,6 +50,11 @@ namespace PadZex.Core
             CurrentScene = scene;
             scenes[CurrentScene].SetAsMainScene();
             Scene.MainScene.Initialize();
+        }
+
+        public static void Quit()
+        {
+            QuitEvent?.Invoke();
         }
     }
 }

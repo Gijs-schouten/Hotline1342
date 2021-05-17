@@ -199,6 +199,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/mainmenu/background.jpg
 
+#begin sprites/mainmenu/exit.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/mainmenu/exit.png
+
 #begin sprites/mainmenu/logo.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -210,6 +222,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/mainmenu/logo.png
+
+#begin sprites/mainmenu/play.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/mainmenu/play.png
 
 #begin sprites/player.png
 /importer:TextureImporter
