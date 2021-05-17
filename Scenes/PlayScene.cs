@@ -11,6 +11,8 @@ namespace PadZex.Scenes
 {
     public class PlayScene : Scene
     {
+        private const int REFERENCE_WIDTH = 1920;
+        
         private Level loadedLevel;
         private List<Entity> spawnedEntities;
         private BackgroundMusic backgroundMusic;
@@ -28,6 +30,7 @@ namespace PadZex.Scenes
             AddEntityImmediate(new MouseEntity());
             
             Camera.SelectTarget("Player", this, -player.SpriteSize * player.Scale / 4);
+            Camera.Zoom *= CoreUtils.ScreenSize.X / (float)REFERENCE_WIDTH;
             
             var level = LevelLoader.LevelLoader.LoadLevel(CoreUtils.GraphicsDevice, "level1");
             LoadLevel(level);
