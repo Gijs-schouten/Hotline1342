@@ -29,6 +29,8 @@ namespace PadZex
         private Vector2 velocity;
         private Vector2 direction;
 
+        private float timeAlive;
+
         private Entity Player;
         
         private Texture2D weaponSprite;
@@ -47,8 +49,8 @@ namespace PadZex
             Angle = VectorToAngle(direction);
             direction.Normalize();
             IsFlying = true;
-
-            Console.WriteLine(Position);
+            timeAlive = 0;
+            velocity = new Vector2(1, 1);
         }
 
         public override void Initialize(ContentManager content)
@@ -57,6 +59,7 @@ namespace PadZex
             AddTag("EnemySword");
             
             velocity = new Vector2(1, 1);
+            Scale = 0.3f;
         }
 
         public override Shape CreateShape()
@@ -69,7 +72,6 @@ namespace PadZex
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {
             if (IsFlying) Draw(spriteBatch, weaponSprite);
-            Console.WriteLine("DRAW");
         }  
 
         public override void Update(Time time)
@@ -92,10 +94,11 @@ namespace PadZex
                     velocity.Y -= WEAPON_FRICTION;
                     if (velocity.X < 0) velocity.X = 0.0f;
                     if (velocity.Y < 0) velocity.Y = 0.0f;
-                }
+                }                              
             }
 
-            if (velocity.Length() <= 0.001f)
+            timeAlive += time.deltaTime;
+            if (timeAlive > 2)
             {
                 IsFlying = false;
             }

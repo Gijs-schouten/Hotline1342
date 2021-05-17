@@ -41,6 +41,7 @@ namespace PadZex
             enemySprite = content.Load<Texture2D>("sprites/enemySprite");
 			Origin = new Vector2(enemySprite.Width / 2, enemySprite.Height / 2);
             weapon = new EnemyWeapon();
+            Scene.MainScene.AddEntity(weapon);          
             Depth = 1;
             Scale = 0.38f;
             player = FindEntity("Player");
@@ -86,11 +87,7 @@ namespace PadZex
 
         private void Attack()
         {
-            if (isEngaged)
-            {
-                //Insert throwing of swords here (NYI)
-                if (!weapon.IsFlying) weapon.Reset(Position);
-            }
+            if (isEngaged && !weapon.IsFlying) weapon.Reset(Position+(Origin*Scale));
         }
 
         private void CheckHorizontalCollision(float velocity)
