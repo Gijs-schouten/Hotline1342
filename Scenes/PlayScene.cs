@@ -38,7 +38,7 @@ namespace PadZex.Scenes
 
         public override void Initialize()
         {
-            backgroundMusic.ShuffleSong();
+            backgroundMusic.Start();
             base.Initialize();
         }
 

@@ -66,6 +66,7 @@ namespace PadZex.Scenes
         public override void Initialize()
         {
             MediaPlayer.Volume = SONG_VOLUME;
+            MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(song);
             base.Initialize();
         }
