@@ -61,7 +61,7 @@ namespace PadZex
         public void SelectTarget(String targetString, Scene scene, Vector2 origin = default)
         {
             target = scene.FindEntity(targetString);
-            Origin = CoreUtils.Point.ToVector2() / 2 + origin;
+            Origin = CoreUtils.ScreenSize.ToVector2() / 2 + origin;
         }
 
         public override void Initialize(ContentManager content)
@@ -82,15 +82,10 @@ namespace PadZex
 
         }
 
-		public bool IsInScreen(Entity obj) {
-			if (obj.Position.X < GlobalPosition.X + CoreUtils.Point.X / Zoom &&
-				obj.Position.X > GlobalPosition.X &&
-				obj.Position.Y < GlobalPosition.Y + CoreUtils.Point.Y / Zoom &&
-				obj.Position.Y > GlobalPosition.Y)
-			{
-				return true;
-			}
-			return false;
-		}
+		public bool IsInScreen(Entity obj) =>
+            obj.Position.X < GlobalPosition.X + CoreUtils.ScreenSize.X / Zoom &&
+            obj.Position.X > GlobalPosition.X &&
+            obj.Position.Y < GlobalPosition.Y + CoreUtils.ScreenSize.Y / Zoom &&
+            obj.Position.Y > GlobalPosition.Y;
     }
 }

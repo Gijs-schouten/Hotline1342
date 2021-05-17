@@ -21,17 +21,17 @@ namespace PadZex.Core
 		protected readonly List<Entity> entities;
 		private readonly List<Entity> entityGulag;
 		private readonly List<Entity> addedEntities;
-		private readonly ContentManager contentManager;
+		private readonly ContentManager content;
 		private readonly CollisionField quadTree;
 
 		public Camera Camera { get; protected set; }
-		public Scene(ContentManager contentManager)
+		public Scene(ContentManager content)
 		{
 			entities = new List<Entity>();
 			entityGulag = new List<Entity>();
 			addedEntities = new List<Entity>();
 			quadTree = new CollisionField();
-			this.contentManager = contentManager;
+			this.content = content;
 		}
 
 		/// <summary>
@@ -49,7 +49,7 @@ namespace PadZex.Core
 		public void AddEntityImmediate(Entity entity)
 		{
 			entities.Add(entity);
-			entity.Initialize(contentManager);
+			entity.Initialize(content);
 			Shape shape = entity.InitializeShape();
 			if (shape != null)
 			{
@@ -65,7 +65,7 @@ namespace PadZex.Core
 			for (int i = 0; i < addedEntities.Count; i++)
 			{
 				entities.Add(addedEntities[i]);
-				addedEntities[i].Initialize(contentManager);
+				addedEntities[i].Initialize(content);
 				Shape shape = addedEntities[i].InitializeShape();
 
 				if (shape != null)
@@ -80,10 +80,7 @@ namespace PadZex.Core
 		/// <summary>
 		/// Initialize is called when the scene activates.
 		/// </summary>
-		public virtual void Initialize()
-		{
-
-		}
+		public virtual void Initialize() { }
 
 		public virtual void Draw(SpriteBatch spriteBatch, Time time)
 		{

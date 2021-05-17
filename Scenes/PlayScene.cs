@@ -18,7 +18,7 @@ namespace PadZex.Scenes
         public int CurrentLevel = 1;
         public bool LevelLoaded { get; private set; }
 
-        public PlayScene(ContentManager contentManager) : base(contentManager)
+        public PlayScene(ContentManager content) : base(content)
         {
             Player player = new Player();
             AddEntityImmediate(player);

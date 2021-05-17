@@ -8,7 +8,7 @@ namespace PadZex.Core
         public static System.Random Random { get; set; }
         public static GraphicsDevice GraphicsDevice { get; set; }
 
-		public static Point Point { get; set; }
+		public static Point ScreenSize { get; set; }
 
         static CoreUtils()
         {
