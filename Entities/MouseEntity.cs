@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Input;
 
 namespace PadZex.Entities
 {
@@ -20,12 +21,16 @@ namespace PadZex.Entities
             Draw(spriteBatch, texture);
         }
 
+        public MouseEntity()
+        {
+            Scale = 4;
+            Depth = 10;
+        }
+
         public override void Initialize(ContentManager content)
         {
             texture = content.Load<Texture2D>("sprites/cursor");
             Origin = new Vector2(texture.Width, texture.Height) / 2;
-            Scale = 4;
-            Depth = 10;
 
             camera = FindEntity<Camera>("Camera");
         }

@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin backgroundMusic/mainmenu1.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:backgroundMusic/mainmenu1.ogg
+
 #begin backgroundMusic/music1.ogg
 /importer:OggImporter
 /processor:SongProcessor
@@ -30,6 +36,18 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:backgroundMusic/music3.ogg
+
+#begin RedPixel.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:RedPixel.png
 
 #begin sounds/doorbreak1.ogg
 /importer:OggImporter
@@ -72,18 +90,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:sounds/throw1.ogg
-
-#begin RedPixel.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:RedPixel.png
 
 #begin sprites/collision/circle.png
 /importer:TextureImporter
@@ -180,6 +186,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/enemySprite.png
+
+#begin sprites/mainmenu/background.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/mainmenu/background.jpg
+
+#begin sprites/mainmenu/logo.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/mainmenu/logo.png
 
 #begin sprites/player.png
 /importer:TextureImporter
