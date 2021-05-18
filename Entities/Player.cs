@@ -44,8 +44,8 @@ namespace PadZex
 		{
 			playerSprite = content.Load<Texture2D>("sprites/player");
 			healthTexture = content.Load<Texture2D>("RedPixel");
-			health = new Health(100, 100);
-			healthBar = new HealthBar(healthTexture, 100, new Vector2(playerSprite.Width / 2 - 5, 0), 10);
+			health = new Health(3);
+			healthBar = new HealthBar(healthTexture, health.HP, new Vector2(50 * Scale, -10), 10);
 
 			health.HealthChangedEvent += healthBar.SetHealh;
 

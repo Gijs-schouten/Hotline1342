@@ -19,32 +19,31 @@ namespace PadZex
     {
 
         private const float WEAPON_FRICTION = 0.3f;
-        private float MAX_SPEED = 3000f;
-
-        public float WeaponDamage = 5;
-        public bool IsFlying;
+        private const float MAX_SPEED = 3000f;
+        private const float MIN_DAMAGE_VELOCITY = 0.8f;
+        
+        public bool IsFlying { get; private set; }
 
         private Vector2 startPosition;
         private Vector2 target;
         private Vector2 velocity;
         private Vector2 direction;
+        private Entity player;
+        private Texture2D weaponSprite;
 
         private float timeAlive;
-
-        private Entity Player;
-        
-        private Texture2D weaponSprite;
+        private int weaponDamage = 1;
 
         public EnemyWeapon() 
         {
-            Player = FindEntity("Player");
+            player = FindEntity("Player");
         }
 
         public void Reset(Vector2 startPosition)
         {
             this.startPosition = startPosition;
             Position = startPosition;
-            target = Player.Position;
+            target = player.Position;
             direction = target - startPosition;
             Angle = VectorToAngle(direction);
             direction.Normalize();
@@ -155,9 +154,9 @@ namespace PadZex
 
         private void CollisionEnter(Entity entity)
         {
-            if (IsFlying && entity is Player)
+            if (IsFlying && entity is Player && velocity.Length() > MIN_DAMAGE_VELOCITY * MIN_DAMAGE_VELOCITY)
             {
-                (entity as IDamagable)?.Damage(this, WeaponDamage);
+                ((IDamagable) entity)?.Damage(this, weaponDamage);
             }
         }
     }

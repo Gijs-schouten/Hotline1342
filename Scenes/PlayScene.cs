@@ -13,27 +13,35 @@ namespace PadZex.Scenes
     {
         private const int REFERENCE_WIDTH = 1920;
         
+        public int EnemyCount { get; set; } = 0;
+        
         private Level loadedLevel;
         private List<Entity> spawnedEntities;
-        private BackgroundMusic backgroundMusic;
+        private List<Entity> protectedEntities = new();
+        private readonly BackgroundMusic backgroundMusic;
 
-        public int EnemyCount { get; set; } = 0;
-        public int CurrentLevel = 1;
-        public bool LevelLoaded { get; private set; }
+        private int currentLevel = 1;
+        private bool LevelLoaded { get; set; }
 
         public PlayScene(ContentManager content) : base(content)
         {
-            Player player = new Player();
-            AddEntityImmediate(player);
-            AddEntityImmediate((backgroundMusic = new BackgroundMusic()));
-            AddEntityImmediate((Camera = new Camera(CoreUtils.GraphicsDevice.Viewport)));
-            AddEntityImmediate(new MouseEntity());
+            Player player = new();
+            AddProtectedEntityImmediate(player);
+            AddProtectedEntityImmediate((backgroundMusic = new BackgroundMusic()));
+            AddProtectedEntityImmediate((Camera = new Camera(CoreUtils.GraphicsDevice.Viewport)));
+            AddProtectedEntityImmediate(new MouseEntity());
             
             Camera.SelectTarget("Player", this, -player.SpriteSize * player.Scale / 4);
             Camera.Zoom *= CoreUtils.ScreenSize.X / (float)REFERENCE_WIDTH;
             
             var level = LevelLoader.LevelLoader.LoadLevel(CoreUtils.GraphicsDevice, "level1");
             LoadLevel(level);
+        }
+
+        public void AddProtectedEntityImmediate(Entity entity)
+        {
+            protectedEntities.Add(entity);
+            AddEntityImmediate(entity);
         }
 
         public override void Initialize()
@@ -81,8 +89,9 @@ namespace PadZex.Scenes
 
         public void UnloadLevel()
         {
-            foreach(var entity in spawnedEntities)
+            foreach(var entity in entities)
             {
+                if (protectedEntities.Contains(entity)) continue;
                 DeleteEntity(entity);
             }
 
@@ -102,8 +111,8 @@ namespace PadZex.Scenes
                 UnloadLevel();
             }
             
-            CurrentLevel++;
-            var level = LevelLoader.LevelLoader.LoadLevel(Core.CoreUtils.GraphicsDevice, "level" + CurrentLevel);
+            currentLevel++;
+            var level = LevelLoader.LevelLoader.LoadLevel(Core.CoreUtils.GraphicsDevice, "level" + currentLevel);
             LoadLevel(level);
         }
     }

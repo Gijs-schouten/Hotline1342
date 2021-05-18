@@ -10,12 +10,15 @@ namespace PadZex.Scripts.Particle
 {
 	class BloodParticle : Entity
 	{
+		private const float LIFE_TIME = 5.0f;
+		
 		private float particleSpeed;
 		private float velocity;
 		private Vector2 direction;
 		private bool isTrail;
-		Random r = CoreUtils.Random;
 		private Texture2D particleSprite;
+		private float lifeSpan = 0.0f;
+		
 		public BloodParticle(Vector2 startPos, bool trail)
 		{
 			Position = startPos;
@@ -40,21 +43,26 @@ namespace PadZex.Scripts.Particle
 			if (Scene.MainScene.Camera.IsInScreen(this)) {
 				Draw(spriteBatch, particleSprite);
 			}
-			
+
+			lifeSpan += time.deltaTime;
+			if (lifeSpan > LIFE_TIME)
+			{
+				DeleteEntity(this);
+			}
 		}
 
 		public override void Initialize(ContentManager content)
 		{
 			Scale = 0.15f;
 			particleSprite = content.Load<Texture2D>("sprites/weapons/blood_particle");
-			Angle = r.Next(0, 1000);
-			Alpha = (float)r.NextDouble();
+			Angle = CoreUtils.Random.Next(0, 1000);
+			Alpha = (float)CoreUtils.Random.NextDouble();
 			direction = new Vector2((float)Math.Cos(Angle), (float)Math.Sin(Angle));
 
 			if (!isTrail)
 			{
-				velocity = (float)r.NextDouble() + 0.2f;
-				particleSpeed = r.Next(0, 800);			
+				velocity = (float)CoreUtils.Random.NextDouble() + 0.2f;
+				particleSpeed = CoreUtils.Random.Next(0, 800);			
 				
 			} else
 			{

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -49,8 +49,8 @@ namespace PadZex
             Scene.MainScene.AddEntity(weapon);          
 
             healthTexture = content.Load<Texture2D>("RedPixel");
-            health = new Health(100, 100);
-            healthBar = new HealthBar(healthTexture, 100, new Vector2(50, -130), 10);
+            health = new Health(3);
+            healthBar = new HealthBar(healthTexture, health.HP, new Vector2(-50 * Scale, -130), 10);
 
             health.HealthChangedEvent -= healthBar.SetHealh;
             health.HasDiedEvent -= Die;

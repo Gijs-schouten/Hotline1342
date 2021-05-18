@@ -11,7 +11,9 @@ namespace PadZex.Weapons
 {
 	class Potion : Weapon
 	{
-		private int particleAmount = 150;
+		private const float RADIUS = 750.0f;
+		private const int PARTICLE_AMOUNT = 150;
+		
 		private bool exploded;
 		private Entity sound;
 
@@ -52,7 +54,7 @@ namespace PadZex.Weapons
 		{
 			WeaponDamage = 3;
 
-			(bool collided, IEnumerable<Shape> shapes) = Scene.MainScene.TestAllCollision(new Circle(this, Vector2.Zero, 2000));
+			(bool collided, IEnumerable<Shape> shapes) = Scene.MainScene.TestAllCollision(new Circle(this, new Vector2(-RADIUS / Scale * 0.5f), RADIUS / Scale));
 
 			foreach (var shape in shapes)
 			{
@@ -63,9 +65,9 @@ namespace PadZex.Weapons
 
 			}
 
-			var particles = new PotionParticle[particleAmount];
+			var particles = new PotionParticle[PARTICLE_AMOUNT];
 
-			for (int i = 0; i < particleAmount; i++)
+			for (int i = 0; i < PARTICLE_AMOUNT; i++)
 			{
 				particles[i] = new PotionParticle(Position);
 				Scene.MainScene.AddEntity(particles[i]);
