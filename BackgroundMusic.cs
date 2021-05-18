@@ -34,12 +34,20 @@ namespace PadZex
 
         public override void Initialize(ContentManager content)
         {
-            volume = START_VOLUME;
-            MediaPlayer.Volume = volume;
             this.songs[0] = content.Load<Song>("backgroundMusic/music1");
             this.songs[1] = content.Load<Song>("backgroundMusic/music2");
             this.songs[2] = content.Load<Song>("backgroundMusic/music3");
 
+        }
+
+        /// <summary>
+        /// sets up the music player
+        /// </summary>
+        public void Start()
+        {
+            volume = START_VOLUME;
+            MediaPlayer.Volume = volume;
+            MediaPlayer.IsRepeating = false;
             ShuffleSong();
             MediaPlayer.MediaStateChanged += OnMediaStateChanged;
         }

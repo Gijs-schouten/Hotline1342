@@ -11,25 +11,35 @@ namespace PadZex.Scenes
 {
     public class PlayScene : Scene
     {
+        private const int REFERENCE_WIDTH = 1920;
+        
         private Level loadedLevel;
         private List<Entity> spawnedEntities;
+        private BackgroundMusic backgroundMusic;
 
         public int EnemyCount { get; set; } = 0;
         public int CurrentLevel = 1;
         public bool LevelLoaded { get; private set; }
 
-        public PlayScene(ContentManager contentManager) : base(contentManager)
+        public PlayScene(ContentManager content) : base(content)
         {
             Player player = new Player();
             AddEntityImmediate(player);
-            AddEntityImmediate(new BackgroundMusic());
+            AddEntityImmediate((backgroundMusic = new BackgroundMusic()));
             AddEntityImmediate((Camera = new Camera(CoreUtils.GraphicsDevice.Viewport)));
             AddEntityImmediate(new MouseEntity());
             
             Camera.SelectTarget("Player", this, -player.SpriteSize * player.Scale / 4);
+            Camera.Zoom *= CoreUtils.ScreenSize.X / (float)REFERENCE_WIDTH;
             
             var level = LevelLoader.LevelLoader.LoadLevel(CoreUtils.GraphicsDevice, "level1");
             LoadLevel(level);
+        }
+
+        public override void Initialize()
+        {
+            backgroundMusic.Start();
+            base.Initialize();
         }
 
         public void LoadLevel(Level level)

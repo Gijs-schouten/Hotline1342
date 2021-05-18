@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PadZex.Core;
 
 namespace PadZex.Weapons
 {
@@ -21,10 +22,10 @@ namespace PadZex.Weapons
 			SpriteLocation = "sprites/weapons/brick";
 		}
 
-		public override void ThrowWeapon()
+		public override void ThrowWeapon(Time time)
 		{
 			RotationSpeed = Core.CoreUtils.Random.Next(-5, 5);
-			base.ThrowWeapon();
+			base.ThrowWeapon(time);
 		}
 	}
 }

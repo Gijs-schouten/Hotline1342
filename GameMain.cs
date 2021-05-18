@@ -17,8 +17,6 @@ namespace PadZex
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private PlayScene playScene;
-
         public GameMain()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -32,17 +30,20 @@ namespace PadZex
             LevelLoader.LevelLoader.LoadMapDefinitions();
             LevelLoader.LevelLoader.LoadAssets(Content);
 
-			CoreUtils.Point = new Point(1080, 720);
-            graphics.PreferredBackBufferWidth = CoreUtils.Point.X;
-            graphics.PreferredBackBufferHeight = CoreUtils.Point.Y;
+			CoreUtils.ScreenSize = new Point(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width,
+                GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+            graphics.PreferredBackBufferWidth = CoreUtils.ScreenSize.X;
+            graphics.PreferredBackBufferHeight = CoreUtils.ScreenSize.Y;
 
             IsFixedTimeStep = false;
             IsMouseVisible = false;
             graphics.SynchronizeWithVerticalRetrace = false;
+            graphics.IsFullScreen = true;
+            graphics.HardwareModeSwitch = false;
             graphics.ApplyChanges();
 
-            playScene = new Scenes.PlayScene(Content);
-            playScene.SetAsMainScene();
+            SceneManager.InitializeScenes(Content, SceneName.MainMenu);
+            SceneManager.QuitEvent += Exit;
             base.Initialize();
         }
 
@@ -70,7 +71,7 @@ namespace PadZex
             spriteBatch.Begin(SpriteSortMode.FrontToBack,
                               BlendState.AlphaBlend,
                               null, null, null, null,
-                              Scene.MainScene.Camera.Transform);
+                              Scene.MainScene.Camera?.Transform);
             
             Scene.MainScene.Draw(spriteBatch, time);
             

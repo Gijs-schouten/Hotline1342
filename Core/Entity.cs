@@ -14,6 +14,7 @@ namespace PadZex.Core
     {
         public Vector2 Position = Vector2.Zero;
         public Vector2 Origin = default;
+        public Color Color = Microsoft.Xna.Framework.Color.White;
         public float Angle = .0f;
         public float Scale = 1.0f;
 		public float Alpha = 1;
@@ -43,7 +44,7 @@ namespace PadZex.Core
         /// </summary>
         /// <param name="tag">Tag to look for</param>
         /// <returns>an Entity in the scene. Null if not found.</returns>
-        public static Entity FindEntity(string tag) => Scene.MainScene?.FindEntity(tag);
+        protected static Entity FindEntity(string tag) => Scene.MainScene?.FindEntity(tag);
 
         /// <summary>
         /// <summary>
@@ -51,7 +52,9 @@ namespace PadZex.Core
         /// </summary>
         /// <param name="tag">Tag to look for</param>
         /// <returns>an Entity in the scene. Null if not found.</returns>
-        public static T FindEntity<T>(string tag) where T : Entity => Scene.MainScene?.FindEntity(tag) as T;
+        protected static T FindEntity<T>(string tag) where T : Entity => Scene.MainScene?.FindEntity(tag) as T;
+
+        protected static T FindEntity<T>() where T : Entity => Scene.MainScene?.FindEntity<T>();
 
         /// Create an entity and apply tags on it.
         /// </summary>
@@ -69,7 +72,7 @@ namespace PadZex.Core
         public void Draw(SpriteBatch spriteBatch, Texture2D texture)
         {
             spriteBatch.Draw(texture, Position, null,
-                Color.White * Alpha, Angle, Origin,
+                Color * Alpha, Angle, Origin,
                 Scale, effect, Depth);
         }
         /// Deletes an entity the next frame in the active scene.
