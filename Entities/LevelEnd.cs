@@ -45,7 +45,7 @@ namespace PadZex.Entities
             {
                 PlayScene playScene = Scene.MainScene as PlayScene;
                 if (playScene == null) return;
-				player.holdingWeapon = false;
+				player.HoldingWeapon = false;
                 playScene.LoadNextLevel();
             }
         }

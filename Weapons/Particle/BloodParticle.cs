@@ -18,11 +18,13 @@ namespace PadZex.Scripts.Particle
 		private bool isTrail;
 		private Texture2D particleSprite;
 		private float lifeSpan = 0.0f;
+		private bool infinite;
 		
-		public BloodParticle(Vector2 startPos, bool trail)
+		public BloodParticle(Vector2 startPos, bool trail, bool infinite = false)
 		{
 			Position = startPos;
 			isTrail = trail;
+			this.infinite = infinite;
 		}
 		
 		public override void Draw(SpriteBatch spriteBatch, Time time)
@@ -34,7 +36,7 @@ namespace PadZex.Scripts.Particle
 
 				if (!isTrail)
 				{
-					BloodParticle trail = new BloodParticle(Position, true);
+					BloodParticle trail = new BloodParticle(Position, true, infinite);
 					Scene.MainScene.AddEntity(trail);
 				}
 
@@ -45,7 +47,7 @@ namespace PadZex.Scripts.Particle
 			}
 
 			lifeSpan += time.deltaTime;
-			if (lifeSpan > LIFE_TIME)
+			if (!infinite && lifeSpan > LIFE_TIME)
 			{
 				DeleteEntity(this);
 			}

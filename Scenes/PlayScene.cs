@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using PadZex.LevelLoader;
 using PadZex.Core;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using PadZex.Entities;
 
 namespace PadZex.Scenes
@@ -12,6 +13,9 @@ namespace PadZex.Scenes
     public class PlayScene : Scene
     {
         private const int REFERENCE_WIDTH = 1920;
+        private const float CAMERA_ZOOM = 0.5f;
+        private const float DEAD_CAMERA_ZOOM = 1.5f;
+        private const float ZOOM_SPEED = 0.8f;
         
         public int EnemyCount { get; set; } = 0;
         
@@ -19,21 +23,38 @@ namespace PadZex.Scenes
         private List<Entity> spawnedEntities;
         private List<Entity> protectedEntities = new();
         private readonly BackgroundMusic backgroundMusic;
+        private readonly Player player;
 
         private int currentLevel = 1;
         private bool LevelLoaded { get; set; }
+        private SpriteEntity deathOverlay;
 
         public PlayScene(ContentManager content) : base(content)
         {
-            Player player = new();
+            player = new Player();
             AddProtectedEntityImmediate(player);
             AddProtectedEntityImmediate((backgroundMusic = new BackgroundMusic()));
             AddProtectedEntityImmediate((Camera = new Camera(CoreUtils.GraphicsDevice.Viewport)));
             AddProtectedEntityImmediate(new MouseEntity());
             
             Camera.SelectTarget("Player", this, -player.SpriteSize * player.Scale / 4);
+            Camera.Zoom = CAMERA_ZOOM;
             Camera.Zoom *= CoreUtils.ScreenSize.X / (float)REFERENCE_WIDTH;
-            
+
+            deathOverlay = new SpriteEntity("sprites/deathOverlay")
+            {
+                Depth = 9999, 
+                Alpha = 0
+            };
+            AddProtectedEntity(deathOverlay);
+
+            player.DeadEvent += () =>
+            {
+                deathOverlay.Alpha = 1.0f;
+                deathOverlay.Position = Camera.Position;
+                deathOverlay.Scale = (float) CoreUtils.ScreenSize.X / REFERENCE_WIDTH / Camera.Zoom;
+            };
+
             var level = LevelLoader.LevelLoader.LoadLevel(CoreUtils.GraphicsDevice, "level1");
             LoadLevel(level);
         }
@@ -42,6 +63,12 @@ namespace PadZex.Scenes
         {
             protectedEntities.Add(entity);
             AddEntityImmediate(entity);
+        }
+
+        public void AddProtectedEntity(Entity entity)
+        {
+            protectedEntities.Add(entity);
+            AddEntity(entity);
         }
 
         public override void Initialize()
@@ -82,6 +109,11 @@ namespace PadZex.Scenes
                 AddEntity(entity);
             }
 
+            player.Reset();
+            deathOverlay.Alpha = 0.0f;
+            Camera.Zoom = CAMERA_ZOOM;
+            Camera.Zoom *= CoreUtils.ScreenSize.X / (float)REFERENCE_WIDTH;
+            Camera.Angle = 0;
             LevelLoaded = true;
         }
 
@@ -101,6 +133,20 @@ namespace PadZex.Scenes
 
         public override void Update(Time time)
         {
+            if (player.Dead)
+            {
+                float zoom = MathHelper.Lerp(Camera.Zoom, DEAD_CAMERA_ZOOM, time.deltaTime * ZOOM_SPEED);
+                
+                deathOverlay.Position = Camera.Position;
+                deathOverlay.Scale = (float) CoreUtils.ScreenSize.X / REFERENCE_WIDTH / Camera.Zoom;
+                Camera.Zoom = zoom;
+
+                if (Input.MouseLeftPressed)
+                {
+                    ReloadLevel();
+                }
+            }
+
             if(!HitStun.UpdateStun(time.deltaTime)) base.Update(time);
         }
 
@@ -112,6 +158,13 @@ namespace PadZex.Scenes
             }
             
             currentLevel++;
+
+            if (!LevelLoader.LevelLoader.DoesLevelExist("level" + currentLevel))
+            {
+                // TODO : switch to game win state instead.
+                return;
+            }
+            
             var level = LevelLoader.LevelLoader.LoadLevel(Core.CoreUtils.GraphicsDevice, "level" + currentLevel);
             LoadLevel(level);
         }

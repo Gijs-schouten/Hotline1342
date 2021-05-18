@@ -83,7 +83,7 @@ namespace PadZex.Weapons
 			direction.Normalize();
 			throwing = true;
 			pickedUp = false;
-			player.holdingWeapon = false;
+			player.HoldingWeapon = false;
 			throwTime = time.timeSinceStart;
 			SoundPlayer.PlaySound(Sounds.THROW, this);
 		}
@@ -221,12 +221,12 @@ namespace PadZex.Weapons
 		/// </summary>
 		public void PickUp()
 		{
-			if (!player.holdingWeapon)
+			if (!player.HoldingWeapon)
 			{
 				Angle = 0;
 				pickedUp = true;
 				throwing = false;
-				player.holdingWeapon = true;
+				player.HoldingWeapon = true;
 			}
 
 		}

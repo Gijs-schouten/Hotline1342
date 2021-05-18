@@ -17,6 +17,8 @@ namespace PadZex
 {
     public class Enemy : Entity, IDamagable
     {
+        private const int PARTICLE_AMOUNT = 50;
+        
         private Texture2D healthTexture;
         private const float ENGAGE_RANGE = 1024f;
         private const float MAX_VELOCITY = 512f;
@@ -31,8 +33,6 @@ namespace PadZex
         private float angleRad;        
         private float moveTimer = 0f;
         private bool isMoving = false;
-
-		private int particleAmount = 50;
 
         private Health health;
         private HealthBar healthBar;
@@ -102,7 +102,7 @@ namespace PadZex
 
             
             distanceToPlayer = (float)Math.Sqrt((Position.X - player.Position.X) * (Position.X - player.Position.X) + ((Position.Y - player.Position.Y) * (Position.Y - player.Position.Y)));
-            if (distanceToPlayer < ENGAGE_RANGE) isEngaged = true;
+            isEngaged = distanceToPlayer < ENGAGE_RANGE && !((Player)player).Dead;
             Attack();
         }
 
@@ -169,9 +169,9 @@ namespace PadZex
 		}
 
 		private void SpawnBlood() {
-			var particles = new BloodParticle[particleAmount];
+			var particles = new BloodParticle[PARTICLE_AMOUNT];
 
-			for (int i = 0; i < particleAmount; i++)
+			for (int i = 0; i < PARTICLE_AMOUNT; i++)
 			{
 				particles[i] = new BloodParticle(Position, false);
 				Scene.MainScene.AddEntity(particles[i]);

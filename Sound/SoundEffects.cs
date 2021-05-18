@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using PadZex.Core;
 using PadZex.Entities.Sounds;
+using PadZex.Scenes;
 
 namespace PadZex.Sound
 {
@@ -49,7 +50,7 @@ namespace PadZex.Sound
             player = playerEntity;
             audioListener = new AudioListener();
             AudioListenerBind bind = new(playerEntity, audioListener);
-            Scene.MainScene.AddEntity(bind);
+            ((PlayScene)Scene.MainScene).AddProtectedEntity(bind);
             return true;
         }
     }
