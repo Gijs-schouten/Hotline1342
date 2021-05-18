@@ -50,7 +50,7 @@ namespace PadZex
 
             healthTexture = content.Load<Texture2D>("RedPixel");
             health = new Health(3);
-            healthBar = new HealthBar(healthTexture, health.HP, new Vector2(50, -130), 10);
+            healthBar = new HealthBar(healthTexture, health.HP, new Vector2(-50 * Scale, -130), 10);
 
             health.HealthChangedEvent -= healthBar.SetHealh;
             health.HasDiedEvent -= Die;
