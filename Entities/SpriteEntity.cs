@@ -18,7 +18,12 @@ namespace PadZex.Entities
         public SpriteEntity(string spritePath, ContentManager content)
         {
             this.sprite = spritePath;
-            Initialize(content);
+            this.Initialize(content);
+        }
+
+        public SpriteEntity(Texture2D texture)
+        {
+            this.Texture = texture;
         }
         
         public override void Initialize(ContentManager content)

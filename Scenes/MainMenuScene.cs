@@ -13,9 +13,13 @@ namespace PadZex.Scenes
         private const float SONG_VOLUME = 0.4f;
         private const int REFERENCE_WIDTH = 1920;
         private const int REFERENCE_HEIGHT = 1080;
+        private const float FADE_SPEED = 0.3f; // in seconds
+        private const float VOLUME_FADE_SPEED = 0.1f; // in seconds
         
-        private Song song;
-        
+        private Song song; 
+        private SpriteEntity fade;
+        private bool fading;
+
         public MainMenuScene(ContentManager content) : base(content)
         {
             var viewport = CoreUtils.GraphicsDevice.Viewport;
@@ -41,7 +45,7 @@ namespace PadZex.Scenes
             Color playNormalColor = new Color(0.0f, 1f, 0.0f);
             Color playHoverColor = new Color(0.0f, 0.5f, 0.0f);
             Button playButton = new("sprites/mainmenu/play", content, playNormalColor, playHoverColor,
-                () => SceneManager.ChangeScene(SceneName.Game));
+                FadeToGameState);
             playButton.Center();
             playButton.Position = new Vector2((float) REFERENCE_WIDTH / 2, (float) REFERENCE_HEIGHT / 2);
             AddEntityImmediate(playButton);
@@ -61,6 +65,15 @@ namespace PadZex.Scenes
             logo.Position = new Vector2((float)REFERENCE_WIDTH / 2, (float)logo.Texture.Height / 2 + 2f);
             AddEntityImmediate(logo);
             AddEntityImmediate(new MouseEntity() { Scale = 2.0f });
+
+            Texture2D singlePixelTexture = new(CoreUtils.GraphicsDevice, 1, 1);
+            singlePixelTexture .SetData(new Color[] { Color.Black });
+            fade = new SpriteEntity(singlePixelTexture)
+            {
+                Scale = 9000,
+                Alpha = 0.0f,
+            };
+            AddEntityImmediate(fade);
         }
 
         public override void Initialize()
@@ -71,8 +84,24 @@ namespace PadZex.Scenes
             base.Initialize();
         }
 
+        public void FadeToGameState()
+        {
+            fading = true;
+        }
+
         public override void Update(Time time)
         {
+            if (fading)
+            {
+                fade.Alpha += FADE_SPEED * time.deltaTime;
+                MediaPlayer.Volume -= VOLUME_FADE_SPEED * time.deltaTime;
+                if (fade.Alpha > 0.999f)
+                {
+                    SceneManager.ChangeScene(SceneName.Game);
+                }
+                return;
+            }
+            
             base.Update(time);
         }
     }
