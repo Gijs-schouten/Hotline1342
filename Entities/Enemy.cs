@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,6 +10,7 @@ using PadZex.Core;
 using PadZex.Collision;
 using PadZex.Scripts.Particle;
 using PadZex.Scenes;
+using PadZex.Entities;
 using System.Linq;
 
 namespace PadZex
@@ -37,10 +38,15 @@ namespace PadZex
         private HealthBar healthBar;
         private Entity sound;
         private Entity player;
+        private EnemyWeapon weapon;
 
         public override void Initialize(ContentManager content)
         {
             enemySprite = content.Load<Texture2D>("sprites/enemySprite");
+
+			Origin = new Vector2(enemySprite.Width / 2, enemySprite.Height / 2);
+            weapon = new EnemyWeapon();
+            Scene.MainScene.AddEntity(weapon);          
 
             healthTexture = content.Load<Texture2D>("RedPixel");
             health = new Health(100, 100);
@@ -52,13 +58,15 @@ namespace PadZex
 
             enemyVelocity.X = 5f;
             enemyVelocity.Y = 5f;
+
             Depth = 1;
             Scale = 0.38f;
             AddTag("enemy");
             player = FindEntity("Player");
         }
+
         public override void Update(Time time)
-        {          
+        {        
         	healthBar.UpdatePosition(Position);
         
             if (!isMoving)
@@ -100,10 +108,7 @@ namespace PadZex
 
         private void Attack()
         {
-            if (isEngaged)
-            {
-                //Insert throwing of swords here (NYI)
-            }
+            if (isEngaged && !weapon.IsFlying) weapon.Reset(Position+(Origin*Scale));
         }
 
         private void CheckHorizontalCollision(float velocity)
