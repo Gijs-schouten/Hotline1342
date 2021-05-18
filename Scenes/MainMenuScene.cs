@@ -13,8 +13,8 @@ namespace PadZex.Scenes
         private const float SONG_VOLUME = 0.4f;
         private const int REFERENCE_WIDTH = 1920;
         private const int REFERENCE_HEIGHT = 1080;
-        private const float FADE_SPEED = 0.3f; // in seconds
-        private const float VOLUME_FADE_SPEED = 0.1f; // in seconds
+        private const float FADE_SPEED = 0.7f; // in seconds
+        private const float VOLUME_FADE_SPEED = 0.2f; // in seconds
         
         private Song song; 
         private SpriteEntity fade;
