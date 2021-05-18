@@ -17,11 +17,13 @@ namespace PadZex.Entities
         public enum Direction { Horizontal, Vertical };
         private Texture2D texture;
         private PlayScene playScene;
+		private Player player;
 
         public LevelEnd(Direction direction)
         {
             AddTag("wall");
-        }
+			player = (Player)FindEntity("Player");
+		}
 
         public override void Draw(SpriteBatch spriteBatch, Time time)
         {
@@ -43,6 +45,7 @@ namespace PadZex.Entities
             {
                 PlayScene playScene = Scene.MainScene as PlayScene;
                 if (playScene == null) return;
+				player.holdingWeapon = false;
                 playScene.LoadNextLevel();
             }
         }

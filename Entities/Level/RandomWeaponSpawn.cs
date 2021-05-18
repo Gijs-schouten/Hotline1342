@@ -13,7 +13,7 @@ namespace PadZex.Entities.Level
     {
         private Type[] weaponTypes = new Type[]
         {
-            typeof(Dagger), typeof(Sword), typeof(Potion)
+            typeof(Dagger), typeof(Sword), typeof(Potion), typeof(Hammer), typeof(Brick)
         };
 
         private Weapon spawnedWeapon;
