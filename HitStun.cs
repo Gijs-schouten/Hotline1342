@@ -7,7 +7,7 @@ namespace PadZex
         /// <summary>
         /// The duration of a hit stun frame.
         /// </summary>
-        private const float FRAME_DURATION = 0.16f / 8;
+        private const float FRAME_DURATION = 0.16f / 6;
 
         /// <summary>
         /// The duration of a pause frame where the game continues before the next freeze.
@@ -22,10 +22,9 @@ namespace PadZex
         /// Add Hitstun time.
         /// </summary>
         /// <param name="time">Time to add. Any values below 1 will be ignored.</param>
-        public static void Add(int time)
+        public static void Add()
         {
-            if (time < 1) return;
-            hitStunAmount += time;
+            hitStunAmount ++ ;
         }
 
         /// <summary>
