@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -43,6 +43,7 @@ namespace PadZex
         public override void Initialize(ContentManager content)
         {
             enemySprite = content.Load<Texture2D>("sprites/enemySprite");
+
 			Origin = new Vector2(enemySprite.Width / 2, enemySprite.Height / 2);
             weapon = new EnemyWeapon();
             Scene.MainScene.AddEntity(weapon);          
@@ -57,13 +58,15 @@ namespace PadZex
 
             enemyVelocity.X = 5f;
             enemyVelocity.Y = 5f;
+
             Depth = 1;
             Scale = 0.38f;
             AddTag("enemy");
             player = FindEntity("Player");
         }
+
         public override void Update(Time time)
-        {          
+        {        
         	healthBar.UpdatePosition(Position);
         
             if (!isMoving)

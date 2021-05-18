@@ -22,7 +22,7 @@ namespace PadZex.Weapons
 			SpriteLocation = "sprites/weapons/brick";
 		}
 
-        public override void ThrowWeapon(Time time)
+		public override void ThrowWeapon(Time time)
 		{
 			RotationSpeed = Core.CoreUtils.Random.Next(-5, 5);
 			base.ThrowWeapon(time);

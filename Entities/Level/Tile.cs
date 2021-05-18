@@ -17,7 +17,7 @@ namespace PadZex.Entities.Level
             Position = new Microsoft.Xna.Framework.Vector2(
                 tile.GridPosition.X * Scale * tile.Texture.Width, 
                 tile.GridPosition.Y * Scale * tile.Texture.Width - (tile.Texture.Height - tile.Texture.Width));
-            Depth = -10;
+            Depth = -1000 + tile.GridPosition.Y;
         }
 
         public override void Draw(SpriteBatch spriteBatch, Time time)
