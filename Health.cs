@@ -8,24 +8,18 @@ public class Health
     public delegate void DiedHandler();
     public event DiedHandler HasDiedEvent;
 
+    public int HP => health;
+
     public delegate void HealthChangedHandler(int health);
     public event HealthChangedHandler HealthChangedEvent;
 
-    private int maxHealth = 100;
-    private int health = 100;
+    private readonly int startingHealth;
+    private int health;
 
-    public float GetHealth
-    {
-        get
-        {
-            return health;
-        }
-    }
-
-    public Health(int health, int maxHealth)
+    public Health(int health)
     {
         this.health = health;
-        this.maxHealth = maxHealth;
+        this.startingHealth = health;
     }
 
     public void Hit(int damage)
@@ -38,6 +32,10 @@ public class Health
         {
             HasDiedEvent?.Invoke();
         }
+    }
 
+    public void Reset()
+    {
+        health = startingHealth;
     }
 }
