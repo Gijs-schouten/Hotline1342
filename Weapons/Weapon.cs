@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -30,7 +30,7 @@ namespace PadZex.Weapons
 		/// Weapon settings set in the sub classes
 		/// </summary>
 
-		public float WeaponDamage { get; set; }
+		public int WeaponDamage { get; set; }
 		public float WeaponSpeed { get; set; }
 		public float RotationSpeed { get; set; }
 		public string SpriteLocation { get; set; }
@@ -74,7 +74,7 @@ namespace PadZex.Weapons
 		/// <summary>
 		/// Funtion to throw your weapon to the mouse position
 		/// </summary>
-		public void ThrowWeapon(Time time)
+		public virtual void ThrowWeapon(Time time)
 		{
 			velocity = new Vector2(1, 1);
 			Vector2 mousePos = camera.MousePosition;
@@ -240,8 +240,11 @@ namespace PadZex.Weapons
 		{
 			if (throwing)
 			{
-				(entity as IDamagable)?.Damage(this, WeaponDamage);
-
+				if (entity is IDamagable damagable)
+				{
+					damagable.Damage(this, WeaponDamage);
+					HitStun.Add();
+				}
 			}
 
 			if (entity is Player) collidingWithPlayer = true;

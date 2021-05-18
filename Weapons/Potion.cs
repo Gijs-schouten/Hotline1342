@@ -22,7 +22,7 @@ namespace PadZex.Weapons
 			RotationSpeed = 15f;
 			Scale = 0.5f;
 			Rotating = true;
-			Offset = new Vector2(180, 30);
+			Offset = new Vector2(150, 100);
 			AddTag("Potion");
 			SpriteLocation = "sprites/weapons/potion";
 		}
@@ -50,7 +50,7 @@ namespace PadZex.Weapons
 
 		private void Explode()
 		{
-			WeaponDamage = 6;
+			WeaponDamage = 3;
 
 			(bool collided, IEnumerable<Shape> shapes) = Scene.MainScene.TestAllCollision(new Circle(this, Vector2.Zero, 2000));
 

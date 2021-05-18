@@ -18,12 +18,15 @@ namespace PadZex.Core
         public float Scale = 1.0f;
 		public float Alpha = 1;
         public int Depth = 0;
-		public IEnumerable<string> Tags => tags;
+        
+        public IEnumerable<string> Tags => tags;
 
         /// <summary>
         /// Shape assigned to this Entity. Can be null.
         /// </summary>
         public Collision.Shape Shape { get; private set; }
+
+        protected facing oldFacing = facing.left;
 
         private SpriteEffects effect = SpriteEffects.None;
         private List<string> tags = new List<string>();
@@ -90,6 +93,11 @@ namespace PadZex.Core
             effect = SpriteEffects.FlipHorizontally;
         }
 
+        public void UnFlipSprite()
+        {
+            effect = SpriteEffects.None;
+        }
+
         /// <summary>
         /// Add a tag to the Entity
         /// </summary>
@@ -112,4 +120,10 @@ namespace PadZex.Core
             return Shape;
         }
     }
+}
+
+public enum facing
+{
+    left,
+    right
 }

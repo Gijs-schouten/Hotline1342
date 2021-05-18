@@ -10,12 +10,12 @@ namespace PadZex.Weapons
     {
         public Dagger()
         {
-            WeaponDamage = 8;
+            WeaponDamage = 1;
             WeaponSpeed = 5000;
             RotationSpeed = 0;
             Scale = 0.2f;
             Rotating = false;
-            Offset = new Vector2(100, 150);
+            Offset = new Vector2(200, 150);
             isFlipped = true;
 			AddTag("Dagger");
             SpriteLocation = "sprites/weapons/machete";

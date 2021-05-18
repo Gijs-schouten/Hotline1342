@@ -13,7 +13,7 @@ namespace PadZex.Scripts.Particle
 		private float particleSpeed;
 		private float velocity;
 		private Vector2 direction;
-		Random r = new Random();
+		Random r = CoreUtils.Random;
 		private Texture2D particleSprite;
 		public PotionParticle(Vector2 startPos)
 		{
@@ -21,6 +21,16 @@ namespace PadZex.Scripts.Particle
 		}
 		public override void Draw(SpriteBatch spriteBatch, Time time)
 		{
+			if(velocity > 0) velocity -= time.deltaTime;
+			Position += direction * particleSpeed * velocity * time.deltaTime;
+
+			if (Alpha <= 0)
+			{
+				Scene.MainScene.DeleteEntity(this);
+			} else {
+				Alpha -= time.deltaTime;
+			}
+			
 			Draw(spriteBatch, particleSprite);
 		}
 
@@ -35,17 +45,6 @@ namespace PadZex.Scripts.Particle
 			Scale = 0.1f;
 		}
 
-		public override void Update(Time time)
-		{
-			if(velocity > 0) velocity -= time.deltaTime;
-			Position += direction * particleSpeed * velocity * time.deltaTime;
-
-			if (Alpha <= 0)
-			{
-				Scene.MainScene.DeleteEntity(this);
-			} else {
-				Alpha -= time.deltaTime;
-			}
-		}
+		public override void Update(Time time) { }
 	}
 }
