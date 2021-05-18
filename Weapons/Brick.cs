@@ -12,7 +12,7 @@ namespace PadZex.Weapons
 	{
 		public Brick()
 		{
-			WeaponDamage = 15;
+			WeaponDamage = 3;
 			WeaponSpeed = 2300;
 			RotationSpeed = 0;
 			Scale = 0.3f;
