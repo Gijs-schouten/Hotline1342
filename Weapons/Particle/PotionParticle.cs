@@ -13,7 +13,6 @@ namespace PadZex.Scripts.Particle
 		private float particleSpeed;
 		private float velocity;
 		private Vector2 direction;
-		Random r = CoreUtils.Random;
 		private Texture2D particleSprite;
 		public PotionParticle(Vector2 startPos)
 		{
@@ -37,10 +36,10 @@ namespace PadZex.Scripts.Particle
 		public override void Initialize(ContentManager content)
 		{
 			particleSprite = content.Load<Texture2D>("sprites/weapons/potion_effect");
-			velocity = (float)r.NextDouble() + 0.2f;
-			Angle = r.Next(0, 1000);
-			particleSpeed = r.Next(200, 600);
-			Alpha = (float)r.NextDouble();
+			velocity = (float)CoreUtils.Random.NextDouble() + 0.2f;
+			Angle = CoreUtils.Random.Next(0, 1000);
+			particleSpeed = CoreUtils.Random.Next(200, 600);
+			Alpha = (float)CoreUtils.Random.NextDouble();
 			direction = new Vector2((float)Math.Cos(Angle), (float)Math.Sin(Angle));
 			Scale = 0.1f;
 		}
