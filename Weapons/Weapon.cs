@@ -243,7 +243,7 @@ namespace PadZex.Weapons
 				if (entity is IDamagable damagable)
 				{
 					damagable.Damage(this, WeaponDamage);
-					HitStun.Add(WeaponDamage);
+					HitStun.Add();
 				}
 			}
 
