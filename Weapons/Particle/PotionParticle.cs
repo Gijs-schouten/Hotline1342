@@ -41,7 +41,7 @@ namespace PadZex.Scripts.Particle
 			particleSpeed = CoreUtils.Random.Next(200, 600);
 			Alpha = (float)CoreUtils.Random.NextDouble();
 			direction = new Vector2((float)Math.Cos(Angle), (float)Math.Sin(Angle));
-			Scale = 0.1f;
+			Scale = 0.2f;
 		}
 
 		public override void Update(Time time) { }

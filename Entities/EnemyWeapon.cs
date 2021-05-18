@@ -20,7 +20,7 @@ namespace PadZex
 
         private const float WEAPON_FRICTION = 0.3f;
         private const float MAX_SPEED = 3000f;
-
+        private const float MIN_DAMAGE_VELOCITY = 0.8f;
         
         public bool IsFlying { get; private set; }
 
@@ -154,9 +154,9 @@ namespace PadZex
 
         private void CollisionEnter(Entity entity)
         {
-            if (IsFlying && entity is Player)
+            if (IsFlying && entity is Player && velocity.Length() > MIN_DAMAGE_VELOCITY * MIN_DAMAGE_VELOCITY)
             {
-                (entity as IDamagable)?.Damage(this, weaponDamage);
+                ((IDamagable) entity)?.Damage(this, weaponDamage);
             }
         }
     }
