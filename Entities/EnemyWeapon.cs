@@ -154,7 +154,7 @@ namespace PadZex
 
         private void CollisionEnter(Entity entity)
         {
-            if (IsFlying && entity is Player && velocity.Length() > MIN_DAMAGE_VELOCITY * MIN_DAMAGE_VELOCITY)
+            if (IsFlying && entity is Player or Door && velocity.Length() > MIN_DAMAGE_VELOCITY * MIN_DAMAGE_VELOCITY)
             {
                 ((IDamagable) entity)?.Damage(this, weaponDamage);
             }

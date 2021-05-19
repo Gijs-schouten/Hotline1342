@@ -15,7 +15,10 @@ namespace PadZex.LevelLoader
         public const string PNG_POSTFIX = ".png";
         public const string ENTITIES_POSTFIX = "_entities";
 
-        private static Dictionary<string, Texture2D> tileAssets; 
+        private static Dictionary<string, Texture2D> tileAssets;
+
+        public static bool DoesLevelExist(string levelName) =>
+            File.Exists(Path.Combine(LEVEL_PATH, levelName + PNG_POSTFIX));
 
         public static Level LoadLevel(GraphicsDevice graphicsDevice, string fileName)
         {

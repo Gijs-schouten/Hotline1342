@@ -32,7 +32,7 @@ namespace PadZex
             opening = startState == 0;
             Scale = 1;
 
-            health = 2;
+            health = 1;
         }
 
         public override void Draw(SpriteBatch spriteBatch, Time time)

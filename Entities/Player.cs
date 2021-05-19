@@ -8,6 +8,7 @@ using PadZex.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PadZex.Scripts.Particle;
 
 namespace PadZex
 {
@@ -17,18 +18,24 @@ namespace PadZex
 	/// </summary>
 	public class Player : Entity ,IDamagable
 	{
+		private const int PARTICLE_AMOUNT = 250;
+		
+		public event Action DeadEvent;
+		
 		public Vector2 Middle => Position + SpriteSize / 2f;
 		public Vector2 SpriteSize => new Vector2(playerSprite.Width, playerSprite.Height);
+		public bool Dead { get; private set; }
+		public bool HoldingWeapon { get; set; }
 		
 		private const float ACCEL_SPEED = 256 * 15f; 
 		private const float MAX_SPEED = 256 * 5f;
 		
 		private Texture2D playerSprite;
+		private Texture2D deathSprite;
 		private Texture2D healthTexture;
 
 		private Color color = Color.White;
 		private float speed;
-		public bool holdingWeapon = false;
 		private Entity sound;
 
 		private Health health;
@@ -43,26 +50,36 @@ namespace PadZex
 		public override void Initialize(ContentManager content)
 		{
 			playerSprite = content.Load<Texture2D>("sprites/player");
+			deathSprite = content.Load<Texture2D>("sprites/deadPlayer");
 			healthTexture = content.Load<Texture2D>("RedPixel");
 			health = new Health(3);
 			healthBar = new HealthBar(healthTexture, health.HP, new Vector2(50 * Scale, -10), 10);
 
 			health.HealthChangedEvent += healthBar.SetHealh;
+			health.HasDiedEvent += Die;
 
 			speed = 0;
-			AddTag("Player");
 			Depth = 5;
 			Scale = 1f / (float)playerSprite.Width * 200f;
+			
+			AddTag("Player");
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, Time time)
 		{
-			Draw(spriteBatch, playerSprite);
+			Texture2D sprite = Dead ? deathSprite : playerSprite;
+			Draw(spriteBatch, sprite);
 			healthBar.Draw(spriteBatch);
 		}
 
 		public override void Update(Time time)
 		{
+			if (Dead)
+			{
+				healthBar.UpdatePosition(Position);
+				return;
+			}
+			
 			float horizontal = -Convert.ToSingle(Input.KeyPressed(Keys.A)) + Convert.ToSingle(Input.KeyPressed(Keys.D));
 			float vertical = -Convert.ToSingle(Input.KeyPressed(Keys.W)) + Convert.ToSingle(Input.KeyPressed(Keys.S));
 
@@ -150,6 +167,31 @@ namespace PadZex
         {
 			health.Hit(1);
 			Sound.SoundPlayer.PlaySound(Sound.Sounds.PLAYER_HURT, this);
+		}
+
+		public void Reset()
+		{
+			health.Reset();
+			Dead = false;
+			HoldingWeapon = false;
+		}
+
+		private void Die()
+		{
+			if (Dead) return;
+			
+			DeadEvent?.Invoke();
+			Dead = true;
+			SpawnBlood();
+		}
+		
+		private void SpawnBlood() 
+		{
+			for (int i = 0; i < PARTICLE_AMOUNT; i++)
+			{
+				BloodParticle particles = new(Middle, false, true);
+				Scene.MainScene.AddEntity(particles);
+			}
 		}
     }
 }
