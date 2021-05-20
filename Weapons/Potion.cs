@@ -11,8 +11,12 @@ namespace PadZex.Weapons
 {
 	class Potion : Weapon
 	{
-		private int particleAmount = 150;
+		private const float RADIUS = 750.0f;
+		private const int PARTICLE_AMOUNT = 150;
+		
 		private bool exploded;
+		private Entity sound;
+
 		public Potion()
 		{
 			WeaponDamage = 0;
@@ -30,16 +34,17 @@ namespace PadZex.Weapons
 			base.Update(time);
 			KeyboardState state = Keyboard.GetState();
 
-			if (throwing && velocity > 0.5f)
+			float velocityLength = velocity.Length();
+			if (throwing && velocityLength > 0.5f)
 			{
 				Scale += time.deltaTime;
 			}
-			else if (throwing && velocity < 0.5f && velocity > 0)
+			else if (throwing && velocityLength < 0.5f && velocityLength > 0)
 			{
 				Scale -= time.deltaTime;
 			}
 
-			if (throwing && velocity <= 0 && !exploded)
+			if (throwing && velocityLength <= 0 && !exploded)
 			{
 				Explode();
 			}
@@ -47,9 +52,9 @@ namespace PadZex.Weapons
 
 		private void Explode()
 		{
-			WeaponDamage = 6;
+			WeaponDamage = 3;
 
-			(bool collided, IEnumerable<Shape> shapes) = Scene.MainScene.TestAllCollision(new Circle(this, Vector2.Zero, 2000));
+			(bool collided, IEnumerable<Shape> shapes) = Scene.MainScene.TestAllCollision(new Circle(this, new Vector2(-RADIUS / Scale * 0.5f), RADIUS / Scale));
 
 			foreach (var shape in shapes)
 			{
@@ -60,14 +65,15 @@ namespace PadZex.Weapons
 
 			}
 
-			var particles = new PotionParticle[particleAmount];
+			var particles = new PotionParticle[PARTICLE_AMOUNT];
 
-			for (int i = 0; i < particleAmount; i++)
+			for (int i = 0; i < PARTICLE_AMOUNT; i++)
 			{
 				particles[i] = new PotionParticle(Position);
 				Scene.MainScene.AddEntity(particles[i]);
 			}
 
+			Sound.SoundPlayer.PlaySound(Sound.Sounds.POTION_IMPACT, this);
 			exploded = true;
 			Scene.MainScene.DeleteEntity(this);
 		}

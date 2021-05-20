@@ -1,34 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-/*
+
+//Universele health class. 
 public class Health
 {
-    private float maxHealth = 100;
-    private float health = 100;
+    public delegate void DiedHandler();
+    public event DiedHandler HasDiedEvent;
 
-    public float GetHealth
-    {
-        get
-        {
-            return health;
-        }
-    }
+    public int HP => health;
 
-    public Health(float health, float maxHealth)
+    public delegate void HealthChangedHandler(int health);
+    public event HealthChangedHandler HealthChangedEvent;
+
+    private readonly int startingHealth;
+    private int health;
+
+    public Health(int health)
     {
         this.health = health;
-        this.maxHealth = maxHealth;
+        this.startingHealth = health;
     }
 
-    public void GetHit(float damage)
+    public void Hit(int damage)
     {
         health -= damage;
 
-        if(health < 0)
+        HealthChangedEvent?.Invoke(health);
+
+        if (health <= 0)
         {
-            //dead
+            HasDiedEvent?.Invoke();
         }
     }
+
+    public void Reset()
+    {
+        health = startingHealth;
+    }
 }
-*/

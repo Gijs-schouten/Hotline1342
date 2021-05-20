@@ -21,17 +21,17 @@ namespace PadZex.Core
 		protected readonly List<Entity> entities;
 		private readonly List<Entity> entityGulag;
 		private readonly List<Entity> addedEntities;
-		private readonly ContentManager contentManager;
+		private readonly ContentManager content;
 		private readonly CollisionField quadTree;
 
-		public Camera Camera { get; private set; }
-		public Scene(ContentManager contentManager)
+		public Camera Camera { get; protected set; }
+		public Scene(ContentManager content)
 		{
 			entities = new List<Entity>();
 			entityGulag = new List<Entity>();
 			addedEntities = new List<Entity>();
 			quadTree = new CollisionField();
-			this.contentManager = contentManager;
+			this.content = content;
 		}
 
 		/// <summary>
@@ -49,7 +49,7 @@ namespace PadZex.Core
 		public void AddEntityImmediate(Entity entity)
 		{
 			entities.Add(entity);
-			entity.Initialize(contentManager);
+			entity.Initialize(content);
 			Shape shape = entity.InitializeShape();
 			if (shape != null)
 			{
@@ -65,7 +65,7 @@ namespace PadZex.Core
 			for (int i = 0; i < addedEntities.Count; i++)
 			{
 				entities.Add(addedEntities[i]);
-				addedEntities[i].Initialize(contentManager);
+				addedEntities[i].Initialize(content);
 				Shape shape = addedEntities[i].InitializeShape();
 
 				if (shape != null)
@@ -80,10 +80,7 @@ namespace PadZex.Core
 		/// <summary>
 		/// Initialize is called when the scene activates.
 		/// </summary>
-		public virtual void Initialize()
-		{
-
-		}
+		public virtual void Initialize() { }
 
 		public virtual void Draw(SpriteBatch spriteBatch, Time time)
 		{
@@ -134,7 +131,7 @@ namespace PadZex.Core
 		public void SetAsMainScene(Camera camera = null)
 		{
 			MainScene = this;
-			Camera = camera;
+			if(this.Camera == null) Camera = camera;
 		}
 
 		/// <summary>
@@ -151,6 +148,11 @@ namespace PadZex.Core
 		/// <param name="tag">Tag the entity needs</param>
 		/// <returns>An entity of Type <typeparamref name="T"/>, or null if not found.</returns>
 		public T FindEntity<T>(string tag) where T : Entity => entities.FirstOrDefault(x => x.Tags.Contains(tag) && x is T) as T;
+
+		/// <summary>
+		/// Find an Entity with a specific type and return it.
+		/// </summary>
+		public T FindEntity<T>() where T : Entity => entities.FirstOrDefault(x => x is T) as T;
 
 		/// <summary>
 		/// Mark an entity in the MainScene for death and delete it the next frame.

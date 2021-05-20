@@ -1,26 +1,58 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
-/*
-public class HealthBar
+
+//Universele healthbar class. 
+namespace PadZex
 {
-    private Texture2D healthBar;
-
-    public HealthBar(Texture2D texture)
+    public class HealthBar
     {
-        healthBar = texture;
-    }
+        private const int WIDTH = 100;
+    
+        private int health;
+        private readonly int startingHealth;
+        private Vector2 position;
 
-    public void Draw(SpriteBatch spriteBatch, Vector2 position, float health)
-    {
-        spriteBatch.Draw(healthBar, new Vector2(0,0), null, Color.White, 50, new Vector2(0, 0), 1, SpriteEffects.None, 1);
-        //for (int n = 0; n < ((float) health/ 100) * 50; n++)
-        //{
-        //spriteBatch.Draw(healthBar, new Vector2(0, 0), null, Color.Red, 0, new Vector2(0,0), 0, SpriteEffects.None, 1);
-        //spriteBatch.Draw(healthBar, new Rectangle((int)position.X + 51 + n, (int)position.Y + 15, 2, 4), new Rectangle(0, 3, 1, 3), Color.Red);
-        //}
+        private Rectangle healthBar;
+
+        private Texture2D texture;
+        private Vector2 offset;
+        private int thickness;
+
+        public HealthBar(Texture2D texture, int startingHealth, Vector2 offset, int thickness)
+        {
+            this.texture = texture;
+            this.startingHealth = startingHealth;
+            this.health = startingHealth;
+            this.offset = offset;
+            this.thickness = thickness;
+
+            healthBar = new Rectangle(0, 0, 0, 0);
+        }
+
+        public void SetHealh(int health)
+        {
+            this.health = health;
+        }
+
+        public void UpdatePosition(Vector2 position)
+        {
+            this.position.X = position.X;
+            this.position.Y = position.Y;
+
+            Update();
+        }
+
+        private void Update()
+        {
+            int width = WIDTH;
+            int healthDif = startingHealth - health;
+            if (healthDif is > 0) width = WIDTH - (WIDTH / startingHealth * (startingHealth - health));
+            healthBar = new Rectangle((int)position.X - startingHealth + (int)offset.X, (int)position.Y + (int)offset.Y, width, thickness);
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, healthBar, Color.White);
+        }
     }
 }
-*/

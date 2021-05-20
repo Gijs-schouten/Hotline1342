@@ -11,7 +11,7 @@ namespace PadZex.Weapons
 	{
 		public Hammer()
 		{
-			WeaponDamage = 15;
+			WeaponDamage = 3;
 			WeaponSpeed = 1500;
 			RotationSpeed = 30;
 			Scale = 0.4f;

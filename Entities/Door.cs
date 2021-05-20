@@ -11,10 +11,11 @@ namespace PadZex
     class Door : Entity, IDamagable
     {
         private short doorState, startState;
-        private float health;
+        private int health;
         private bool opening;
         private Texture2D[] doorStateSprites = new Texture2D[3];
         private Color color = Color.White;
+        private Entity sound;
 
         public Door(short startState)
         {
@@ -31,7 +32,7 @@ namespace PadZex
             opening = startState == 0;
             Scale = 1;
 
-            health = 10;
+            health = 1;
         }
 
         public override void Draw(SpriteBatch spriteBatch, Time time)
@@ -81,7 +82,8 @@ namespace PadZex
 
         public void Damage(Entity entity, float damage = 10)
         {
-            health -= damage;
+            Sound.SoundPlayer.PlaySound(Sound.Sounds.DOOR_BREAK, this);
+            health -= (int)damage;
             if (health <= 0) Entity.DeleteEntity(this);
         }
     }
