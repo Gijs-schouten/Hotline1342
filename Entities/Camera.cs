@@ -91,5 +91,10 @@ namespace PadZex
 			}
 			return false;
 		}
+
+		private void ScreenShake() {
+			Random r = Core.CoreUtils.Random;
+			Position += new Vector2(r.Next(-5, 5), r.Next(-5, 5));
+		}
     }
 }
