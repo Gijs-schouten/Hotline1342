@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using Rectangle = PadZex.Collision.Rectangle;
 using PadZex.Sound;
+using PadZex.Entities;
 
 namespace PadZex.Weapons
 {
@@ -244,6 +245,7 @@ namespace PadZex.Weapons
 				{
 					damagable.Damage(this, WeaponDamage);
 					HitStun.Add();
+					ScreenShake.Shake();
 				}
 			}
 

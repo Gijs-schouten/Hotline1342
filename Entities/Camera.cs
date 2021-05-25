@@ -14,6 +14,9 @@ namespace PadZex
         {
             get { return transform; }
         }
+
+		public Vector2 offset;
+
         private Matrix transform;
         
         private Viewport viewport;
@@ -71,7 +74,7 @@ namespace PadZex
 
         public override void Update(Time time)
         {
-            if (target != null) Position = new Vector2(target.Position.X, target.Position.Y) - Origin / Zoom;
+			if (target != null) Position = new Vector2(target.Position.X, target.Position.Y) + offset - Origin / Zoom;
  			transform = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
 													Matrix.CreateRotationZ(Rotation) *
 													Matrix.CreateScale(new Vector3(Zoom, Zoom, 0));
@@ -81,11 +84,6 @@ namespace PadZex
         {
 
         }
-
-		private void ScreenShake() {
-			Random r = Core.CoreUtils.Random;
-			Position += new Vector2(r.Next(-5, 5), r.Next(-5, 5));
-		}
 
 		public bool IsInScreen(Entity obj) =>
             obj.Position.X < GlobalPosition.X + CoreUtils.ScreenSize.X / Zoom &&

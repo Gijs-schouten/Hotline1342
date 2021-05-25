@@ -10,163 +10,170 @@ using PadZex.Entities;
 
 namespace PadZex.Scenes
 {
-    public class PlayScene : Scene
-    {
-        private const int REFERENCE_WIDTH = 1920;
-        private const float CAMERA_ZOOM = 0.5f;
-        private const float DEAD_CAMERA_ZOOM = 1.5f;
-        private const float ZOOM_SPEED = 0.8f;
-        
-        public int EnemyCount { get; set; } = 0;
-        
-        private Level loadedLevel;
-        private List<Entity> spawnedEntities;
-        private List<Entity> protectedEntities = new();
-        private readonly BackgroundMusic backgroundMusic;
-        private readonly Player player;
+	public class PlayScene : Scene
+	{
+		private const int REFERENCE_WIDTH = 1920;
+		private const float CAMERA_ZOOM = 0.5f;
+		private const float DEAD_CAMERA_ZOOM = 1.5f;
+		private const float ZOOM_SPEED = 0.8f;
 
-        private int currentLevel = 1;
-        private bool LevelLoaded { get; set; }
-        private SpriteEntity deathOverlay;
+		public int EnemyCount { get; set; } = 0;
 
-        public PlayScene(ContentManager content) : base(content)
-        {
-            player = new Player();
-            AddProtectedEntityImmediate(player);
-            AddProtectedEntityImmediate((backgroundMusic = new BackgroundMusic()));
-            AddProtectedEntityImmediate((Camera = new Camera(CoreUtils.GraphicsDevice.Viewport)));
-            AddProtectedEntityImmediate(new MouseEntity());
-            
-            Camera.SelectTarget("Player", this, -player.SpriteSize * player.Scale / 4);
-            Camera.Zoom = CAMERA_ZOOM;
-            Camera.Zoom *= CoreUtils.ScreenSize.X / (float)REFERENCE_WIDTH;
+		private Level loadedLevel;
+		private List<Entity> spawnedEntities;
+		private List<Entity> protectedEntities = new();
+		private readonly BackgroundMusic backgroundMusic;
+		private readonly Player player;
 
-            deathOverlay = new SpriteEntity("sprites/deathOverlay")
-            {
-                Depth = 9999, 
-                Alpha = 0
-            };
-            AddProtectedEntity(deathOverlay);
+		private int currentLevel = 1;
+		private bool LevelLoaded { get; set; }
+		private SpriteEntity deathOverlay;
 
-            player.DeadEvent += () =>
-            {
-                deathOverlay.Alpha = 1.0f;
-                deathOverlay.Position = Camera.Position;
-                deathOverlay.Scale = (float) CoreUtils.ScreenSize.X / REFERENCE_WIDTH / Camera.Zoom;
-            };
+		public PlayScene(ContentManager content) : base(content)
+		{
+			player = new Player();
+			AddProtectedEntityImmediate(player);
+			AddProtectedEntityImmediate((backgroundMusic = new BackgroundMusic()));
+			AddProtectedEntityImmediate((Camera = new Camera(CoreUtils.GraphicsDevice.Viewport)));
+			AddProtectedEntityImmediate(new MouseEntity());
 
-            var level = LevelLoader.LevelLoader.LoadLevel(CoreUtils.GraphicsDevice, "level1");
-            LoadLevel(level);
-        }
+			Camera.SelectTarget("Player", this, -player.SpriteSize * player.Scale / 4);
+			Camera.Zoom = CAMERA_ZOOM;
+			Camera.Zoom *= CoreUtils.ScreenSize.X / (float)REFERENCE_WIDTH;
 
-        public void AddProtectedEntityImmediate(Entity entity)
-        {
-            protectedEntities.Add(entity);
-            AddEntityImmediate(entity);
-        }
+			deathOverlay = new SpriteEntity("sprites/deathOverlay")
+			{
+				Depth = 9999,
+				Alpha = 0
+			};
+			AddProtectedEntity(deathOverlay);
 
-        public void AddProtectedEntity(Entity entity)
-        {
-            protectedEntities.Add(entity);
-            AddEntity(entity);
-        }
+			player.DeadEvent += () =>
+			{
+				deathOverlay.Alpha = 1.0f;
+				deathOverlay.Position = Camera.Position;
+				deathOverlay.Scale = (float)CoreUtils.ScreenSize.X / REFERENCE_WIDTH / Camera.Zoom;
+			};
 
-        public override void Initialize()
-        {
-            backgroundMusic.Start();
-            base.Initialize();
-        }
+			var level = LevelLoader.LevelLoader.LoadLevel(CoreUtils.GraphicsDevice, "level1");
+			LoadLevel(level);
+		}
 
-        public void LoadLevel(Level level)
-        {
-            if(LevelLoaded)
-            {
-                UnloadLevel();
-            }
+		public void AddProtectedEntityImmediate(Entity entity)
+		{
+			protectedEntities.Add(entity);
+			AddEntityImmediate(entity);
+		}
 
-            EnemyCount = 0;
-            loadedLevel = level;
-            spawnedEntities = new List<Entity>();
-            int width = level.Tiles.First().Texture.Width;
+		public void AddProtectedEntity(Entity entity)
+		{
+			protectedEntities.Add(entity);
+			AddEntity(entity);
+		}
 
-            foreach (var tile in level.Tiles)
-            {
-                var tileEntity = new Entities.Level.Tile(tile);
-                AddEntity(tileEntity);
-                spawnedEntities.Add(tileEntity);
-            }
+		public override void Initialize()
+		{
+			backgroundMusic.Start();
+			base.Initialize();
+		}
 
-            foreach(var entityType in level.Entities)
-            {
-                var entityTypeInstance = Activator.CreateInstance(entityType.EntityType, level, entityType.GridPosition);
-                if (entityTypeInstance == null) continue;
-                Entity entity = (Entity)entityTypeInstance;
-                entity.Position = new Microsoft.Xna.Framework.Vector2(
-                    entityType.GridPosition.X * width, 
-                    entityType.GridPosition.Y * width);
+		public void LoadLevel(Level level)
+		{
+			if (LevelLoaded)
+			{
+				UnloadLevel();
+			}
 
-                spawnedEntities.Add(entity);
-                AddEntity(entity);
-            }
+			EnemyCount = 0;
+			loadedLevel = level;
+			spawnedEntities = new List<Entity>();
+			int width = level.Tiles.First().Texture.Width;
 
-            player.Reset();
-            deathOverlay.Alpha = 0.0f;
-            Camera.Zoom = CAMERA_ZOOM;
-            Camera.Zoom *= CoreUtils.ScreenSize.X / (float)REFERENCE_WIDTH;
-            Camera.Angle = 0;
-            LevelLoaded = true;
-        }
+			foreach (var tile in level.Tiles)
+			{
+				var tileEntity = new Entities.Level.Tile(tile);
+				AddEntity(tileEntity);
+				spawnedEntities.Add(tileEntity);
+			}
 
-        public void ReloadLevel() => LoadLevel(loadedLevel);
+			foreach (var entityType in level.Entities)
+			{
+				var entityTypeInstance = Activator.CreateInstance(entityType.EntityType, level, entityType.GridPosition);
+				if (entityTypeInstance == null) continue;
+				Entity entity = (Entity)entityTypeInstance;
+				entity.Position = new Microsoft.Xna.Framework.Vector2(
+					entityType.GridPosition.X * width,
+					entityType.GridPosition.Y * width);
 
-        public void UnloadLevel()
-        {
-            foreach(var entity in entities)
-            {
-                if (protectedEntities.Contains(entity)) continue;
-                DeleteEntity(entity);
-            }
+				spawnedEntities.Add(entity);
+				AddEntity(entity);
+			}
 
-            spawnedEntities.Clear();
-            LevelLoaded = false;
-        }
+			player.Reset();
+			deathOverlay.Alpha = 0.0f;
+			Camera.Zoom = CAMERA_ZOOM;
+			Camera.Zoom *= CoreUtils.ScreenSize.X / (float)REFERENCE_WIDTH;
+			Camera.Angle = 0;
+			LevelLoaded = true;
+		}
 
-        public override void Update(Time time)
-        {
-            if (player.Dead)
-            {
-                float zoom = MathHelper.Lerp(Camera.Zoom, DEAD_CAMERA_ZOOM, time.deltaTime * ZOOM_SPEED);
-                
-                deathOverlay.Position = Camera.Position;
-                deathOverlay.Scale = (float) CoreUtils.ScreenSize.X / REFERENCE_WIDTH / Camera.Zoom;
-                Camera.Zoom = zoom;
+		public void ReloadLevel() => LoadLevel(loadedLevel);
 
-                if (Input.MouseLeftPressed)
-                {
-                    ReloadLevel();
-                }
-            }
+		public void UnloadLevel()
+		{
+			foreach (var entity in entities)
+			{
+				if (protectedEntities.Contains(entity)) continue;
+				DeleteEntity(entity);
+			}
 
-            if(!HitStun.UpdateStun(time.deltaTime)) base.Update(time);
-        }
+			spawnedEntities.Clear();
+			LevelLoaded = false;
+		}
 
-        public void LoadNextLevel()
-        {
-            if (LevelLoaded)
-            {
-                UnloadLevel();
-            }
-            
-            currentLevel++;
+		public override void Update(Time time)
+		{
+			if (player.Dead)
+			{
+				float zoom = MathHelper.Lerp(Camera.Zoom, DEAD_CAMERA_ZOOM, time.deltaTime * ZOOM_SPEED);
 
-            if (!LevelLoader.LevelLoader.DoesLevelExist("level" + currentLevel))
-            {
-                // TODO : switch to game win state instead.
-                return;
-            }
-            
-            var level = LevelLoader.LevelLoader.LoadLevel(Core.CoreUtils.GraphicsDevice, "level" + currentLevel);
-            LoadLevel(level);
-        }
-    }
+				deathOverlay.Position = Camera.Position;
+				deathOverlay.Scale = (float)CoreUtils.ScreenSize.X / REFERENCE_WIDTH / Camera.Zoom;
+				Camera.Zoom = zoom;
+
+				if (Input.MouseLeftPressed)
+				{
+					ReloadLevel();
+				}
+			}
+
+			if (!HitStun.UpdateStun(time.deltaTime))
+			{
+				base.Update(time);
+			} else {
+				Camera.Update(time);
+			}
+
+			Camera.offset = ScreenShake.UpdateShake(time.deltaTime);
+		}
+
+		public void LoadNextLevel()
+		{
+			if (LevelLoaded)
+			{
+				UnloadLevel();
+			}
+
+			currentLevel++;
+
+			if (!LevelLoader.LevelLoader.DoesLevelExist("level" + currentLevel))
+			{
+				// TODO : switch to game win state instead.
+				return;
+			}
+
+			var level = LevelLoader.LevelLoader.LoadLevel(Core.CoreUtils.GraphicsDevice, "level" + currentLevel);
+			LoadLevel(level);
+		}
+	}
 }
